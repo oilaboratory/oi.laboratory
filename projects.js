@@ -238,7 +238,7 @@ function autoplay(){
 // тексты меню и подвала на текущем языке (перерисовываются при смене языка)
 function chromeTexts(){
   const here = location.pathname.split('/').pop() || 'index.html';
-  const links = [['nav.projects','index.html#projects'],['nav.gallery','gallery.html'],['nav.about','about.html']]
+  const links = [['nav.projects','./#projects'],['nav.gallery','gallery.html'],['nav.about','about.html']]
     .map(([k,h]) => `<a href="${h}"${h === here ? ' aria-current="page"' : ''}>${t(k)}</a>`).join('') +
     `<a href="mailto:${EMAIL}" class="copy">${t('nav.contact')}</a>`;
   document.getElementById('nav').innerHTML = links;

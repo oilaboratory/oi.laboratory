@@ -165,7 +165,7 @@ dialog.card::backdrop{background:rgba(0,0,0,.1);-webkit-backdrop-filter:blur(10p
 </head>
 <body class="project">
 <header id="hdr">
-  <a class="logo" href="index.html" aria-label="Oi.Lab"><span class="mark"></span></a>
+  <a class="logo" href="./" aria-label="Oi.Lab"><span class="mark"></span></a>
   <nav id="nav"></nav>
   <span class="right"><span class="when" id="when"></span><span class="langs"></span></span>
   <div class="fade" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -276,7 +276,7 @@ function render(keepScroll){
     (C.lead ? `<div class="lead"><h1 class="sr">${esc(p.name)}</h1>${C.lead.map(x => `<p>${esc(x)}</p>`).join('')}</div>`
       : `<div class="intro"><h1>${esc(p.name)},</h1> <span>${esc(C.tagline)}</span></div>`) + `
     <div class="meta"><div><h2>${t('c.project')}</h2>${esc(p.name)}</div><div><h2>${t('c.year')}:</h2>${esc(C.year)}</div>
-      <div class="full"><h2>${t('c.services')}:</h2><span class="tags">${(p.tags||[]).map(g => `<a href="index.html#t-${tagSlug(g)}">${esc(tr(g))}</a>`).join('')}</span></div></div>
+      <div class="full"><h2>${t('c.services')}:</h2><span class="tags">${(p.tags||[]).map(g => `<a href="./#t-${tagSlug(g)}">${esc(tr(g))}</a>`).join('')}</span></div></div>
     <div class="rows">` +
     // intro: [файл, w, h] — первый кадр кейса вместо широкого фото (например, видео)
     (C.rows || (C.intro ? [[C.intro], ...LAYOUT.slice(1)] : LAYOUT)).map(row =>
@@ -294,7 +294,7 @@ function render(keepScroll){
   document.getElementById('info').innerHTML = `
     <div><h4>${t('c.info')}</h4><p>${esc(C.info)}</p></div>
     <div class="r">
-      <div><h4>${t('c.services')}</h4><div class="services">${(p.tags||[]).map(g => `<a href="index.html#t-${tagSlug(g)}">${esc(tr(g))}</a>`).join('')}</div></div>
+      <div><h4>${t('c.services')}</h4><div class="services">${(p.tags||[]).map(g => `<a href="./#t-${tagSlug(g)}">${esc(tr(g))}</a>`).join('')}</div></div>
       <div><h4>${t('c.year')}</h4><p>${esc(C.year)}</p></div>
     </div>`;
   document.querySelectorAll('.car').forEach(initCarousel);
