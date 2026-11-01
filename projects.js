@@ -237,9 +237,8 @@ function buddy(){
       if (!r.ok || j.success === 'false' || j.success === false) throw new Error(j.message || r.status);
       form.reset(); form.classList.add('sent'); note.textContent = t('b.sent');
     } catch (err) {
-      note.textContent = t('b.error');
-      const body = `${f.get('about')}\n\n— ${f.get('name')}\n${f.get('reach')}`;
-      location.href = `mailto:${EMAIL}?subject=${encodeURIComponent('Project — ' + f.get('name'))}&body=${encodeURIComponent(body)}`;
+      // не открываем почтовое приложение сами — показываем адрес, текст заявки остаётся в форме
+      note.innerHTML = `${t('b.error')} <a href="mailto:${EMAIL}">${EMAIL}</a>`;
     } finally { send.disabled = false; send.textContent = t('b.send'); }
   };
 
