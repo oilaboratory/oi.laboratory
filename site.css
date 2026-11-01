@@ -203,3 +203,7 @@ header nav a:active,.langs .lang-pill:active{transform:scale(.96)}
   header nav{gap:5px}
   header nav a{padding:0 9px}
 }
+
+.bd-form{position:relative}
+.bd-form.sent small{color:var(--ink)}
+.bd-send:disabled{opacity:.5;cursor:default}

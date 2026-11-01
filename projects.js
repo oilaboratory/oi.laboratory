@@ -201,6 +201,7 @@ function buddy(){
         <label><span data-i="b.name"></span><input name="name" autocomplete="name" required></label>
         <label><span data-i="b.reach"></span><input name="reach" autocomplete="email" required></label>
         <label><span data-i="b.about"></span><textarea name="about" rows="4" required></textarea></label>
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
         <button class="bd-send" type="submit" data-i="b.send"></button>
         <small data-i="b.note"></small>
       </form>
@@ -221,12 +222,27 @@ function buddy(){
   root.querySelector('.bd-x').onclick = () => { open(false); btn.focus(); };
   addEventListener('keydown', e => { if (e.key === 'Escape' && !win.hidden) { open(false); btn.focus(); } });
   document.addEventListener('pointerdown', e => { if (!win.hidden && !root.contains(e.target)) open(false); });
-  document.getElementById('bd-form').onsubmit = e => {
+  // заявка уходит прямо на почту через FormSubmit (без сервера); если сервис недоступен — открываем почтовое приложение
+  const form = document.getElementById('bd-form'), send = form.querySelector('.bd-send'), note = form.querySelector('small');
+  form.onsubmit = async e => {
     e.preventDefault();
-    const f = new FormData(e.target);
-    const body = `${f.get('about')}\n\n— ${f.get('name')}\n${f.get('reach')}`;
-    location.href = `mailto:${EMAIL}?subject=${encodeURIComponent('Project — ' + f.get('name'))}&body=${encodeURIComponent(body)}`;
+    const f = new FormData(form);
+    if (f.get('_honey')) return;   // ловушка для ботов
+    send.disabled = true; send.textContent = t('b.sending');
+    try {
+      const r = await fetch(`https://formsubmit.co/ajax/${EMAIL}`, {method: 'POST', headers: {'Content-Type': 'application/json', Accept: 'application/json'},
+        body: JSON.stringify({name: f.get('name'), contact: f.get('reach'), message: f.get('about'), page: location.href,
+          _subject: 'Заявка с сайта Oi.Lab — ' + f.get('name'), _replyto: /@/.test(f.get('reach')) ? f.get('reach') : undefined, _template: 'table', _captcha: 'false'})});
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok || j.success === 'false' || j.success === false) throw new Error(j.message || r.status);
+      form.reset(); form.classList.add('sent'); note.textContent = t('b.sent');
+    } catch (err) {
+      note.textContent = t('b.error');
+      const body = `${f.get('about')}\n\n— ${f.get('name')}\n${f.get('reach')}`;
+      location.href = `mailto:${EMAIL}?subject=${encodeURIComponent('Project — ' + f.get('name'))}&body=${encodeURIComponent(body)}`;
+    } finally { send.disabled = false; send.textContent = t('b.send'); }
   };
+
 }
 
 // Видео без звука должны играть сами. iPhone в режиме энергосбережения и некоторые встроенные браузеры
