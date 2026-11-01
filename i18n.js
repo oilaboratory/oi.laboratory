@@ -4,7 +4,7 @@ const I18N = {
   en: {
     'nav.projects': 'Projects', 'nav.gallery': 'Gallery', 'nav.about': 'About Us', 'nav.contact': 'Contact',
     'menu': 'Menu', 'close': 'Close', 'copied': 'Copied',
-    'hero': '{WM}is a design laboratory exploring and building <span class="nw">a {ART} new</span><br> visual identity for Central Asia. We create brands, visual systems and design for businesses, cultural projects and people with ideas.',
+    'hero': '{WM}is a design laboratory exploring and building <span class="nw">a {ART} new</span> visual<br class="hb"> identity for Central Asia. We create brands, visual systems and design for businesses, cultural<br class="hb"> projects and people with ideas.',
     'projects': 'Projects', 'viewAll': 'View all',
     'city': 'Almaty', 'cityKZ': 'Almaty, KZ',
     'f.links': 'Other Links:', 'f.question': 'Do you have a question?', 'f.write': 'Write us', 'f.rights': 'All rights reserved © 2026. Oi.Lab Design Studio',
