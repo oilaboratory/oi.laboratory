@@ -208,7 +208,7 @@ function buddy(){
     <button class="bd-btn" type="button" aria-expanded="false" aria-controls="bd-win"><span class="bd-tip" data-i="b.tip"></span><span class="mascot"><img src="img/mascot-c.png" alt="" width="150" height="150"><span class="eyes"><img class="eye" src="img/mascot-b-eye0.png" alt="" style="left:25.63%;top:38.39%;width:11.73%"><img class="eye" src="img/mascot-b-eye1.png" alt="" style="left:60.11%;top:38.39%;width:12.88%"></span></span><span class="sr" data-i="b.title"></span></button>
   </div>`);
   const root = document.getElementById('buddy'), win = document.getElementById('bd-win'), btn = root.querySelector('.bd-btn');
-  const open = on => { win.hidden = !on; root.classList.toggle('open', on); btn.setAttribute('aria-expanded', on); if (on) win.querySelector('input').focus(); };
+  const open = on => { win.hidden = !on; root.classList.toggle('open', on); btn.setAttribute('aria-expanded', on); document.querySelectorAll('.nav-contact').forEach(c => c.classList.toggle('is-on', on)); if (on) win.querySelector('input').focus(); };
   btn.onclick = () => open(win.hidden);
   window.openContact = () => { open(true); };
   document.addEventListener('click', e => { if (e.target.closest('.nav-contact')) { e.preventDefault(); open(true); } });
@@ -238,13 +238,24 @@ function autoplay(){
   document.addEventListener('visibilitychange', () => { if (!document.hidden) go(); });
 }
 // тексты меню и подвала на текущем языке (перерисовываются при смене языка)
+// плавный переход: сначала плашка становится активной, потом открывается страница
+document.addEventListener('click', e => {
+  const a = e.target.closest('header nav a:not(.nav-contact)');
+  if (!a || e.metaKey || e.ctrlKey || e.shiftKey || a.getAttribute('aria-current')) return;
+  e.preventDefault();
+  a.parentElement.querySelectorAll('a[aria-current]').forEach(x => x.removeAttribute('aria-current'));
+  a.setAttribute('aria-current', 'page');
+  setTimeout(() => { location.href = a.href; }, matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 320);   // navGo
+});
 function chromeTexts(){
   // активная вкладка: главная и кейсы → Projects; Contact открывает окно связи маскота
   const here = location.pathname.split('/').pop() || 'index.html';
   const cur = here === 'gallery.html' ? 'gallery.html' : here === 'about.html' ? 'about.html' : './#projects';
+  // у каждой плашки свой стикер; у активной он раскрывается в белом кружке
+  const ST = {'./#projects':'🗂️','gallery.html':'🖼️','about.html':'👋'};
   const links = [['nav.projects','./#projects'],['nav.gallery','gallery.html'],['nav.about','about.html']]
-    .map(([k,h]) => h === cur ? `<a href="${h}" aria-current="page"><i class="dot" aria-hidden="true"></i>${t(k)}</a>` : `<a href="${h}">${t(k)}</a>`).join('') +
-    `<a href="mailto:${EMAIL}" class="nav-contact">${t('nav.contact')}</a>`;
+    .map(([k,h]) => `<a href="${h}"${h === cur ? ' aria-current="page"' : ''}><i class="dot" aria-hidden="true">${ST[h]}</i><span>${t(k)}</span></a>`).join('') +
+    `<a href="mailto:${EMAIL}" class="nav-contact"><i class="dot" aria-hidden="true">✉️</i><span>${t('nav.contact')}</span></a>`;
   document.getElementById('nav').innerHTML = links;
   document.querySelector('#sheet nav').innerHTML = links;
   const btn = document.querySelector('.menu-btn');
