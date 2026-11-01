@@ -116,8 +116,9 @@ function applyI18n(){
   document.documentElement.lang = LANG;
   document.querySelectorAll('[data-i]').forEach(e => e.textContent = t(e.dataset.i));
   document.querySelectorAll('[data-ih]').forEach(e => e.innerHTML = t(e.dataset.ih));
-  document.querySelectorAll('.langs').forEach(el => el.innerHTML = LANGS.map(([k, l]) =>
-    `<button type="button" data-lang="${k}"${k === LANG ? ' aria-current="true"' : ''}>${l}</button>`).join(''));
+  // одна кнопка языка: показывает текущий, по нажатию переключает на следующий (EN → RU → KZ)
+  const li = LANGS.findIndex(([k]) => k === LANG), nx = LANGS[(li + 1) % LANGS.length][0];
+  document.querySelectorAll('.langs').forEach(el => el.innerHTML = `<button type="button" class="lang-pill" data-lang="${nx}" aria-label="Language">${LANGS[li][1]}</button>`);
 }
 function setLang(l){
   LANG = l; try { localStorage.setItem('oi-lang', l); } catch (e) {}

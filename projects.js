@@ -253,11 +253,22 @@ function autoplay(){
   document.addEventListener('visibilitychange', () => { if (!document.hidden) go(); });
 }
 // тексты меню и подвала на текущем языке (перерисовываются при смене языка)
+// плавный переход: сначала плашка становится активной, потом открывается страница
+document.addEventListener('click', e => {
+  const a = e.target.closest('header nav a:not(.nav-contact)');
+  if (!a || e.metaKey || e.ctrlKey || e.shiftKey || a.getAttribute('aria-current')) return;
+  e.preventDefault();
+  a.parentElement.querySelectorAll('a[aria-current]').forEach(x => x.removeAttribute('aria-current'));
+  a.setAttribute('aria-current', 'page');
+  setTimeout(() => { location.href = a.href; }, matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 320);   // navGo
+});
 function chromeTexts(){
+  // активная вкладка: главная и кейсы → Projects; Contact открывает окно связи маскота
   const here = location.pathname.split('/').pop() || 'index.html';
+  const cur = here === 'gallery.html' ? 'gallery.html' : here === 'about.html' ? 'about.html' : './#projects';
   const links = [['nav.projects','./#projects'],['nav.gallery','gallery.html'],['nav.about','about.html']]
-    .map(([k,h]) => `<a href="${h}"${h === here ? ' aria-current="page"' : ''}>${t(k)}</a>`).join('') +
-    `<a href="mailto:${EMAIL}" class="copy">${t('nav.contact')}</a>`;
+    .map(([k,h]) => `<a href="${h}"${h === cur ? ' aria-current="page"' : ''}><span>${t(k)}</span></a>`).join('') +
+    `<a href="mailto:${EMAIL}" class="nav-contact"><span>${t('nav.contact')}</span></a>`;
   document.getElementById('nav').innerHTML = links;
   document.querySelector('#sheet nav').innerHTML = links;
   const btn = document.querySelector('.menu-btn');
