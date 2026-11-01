@@ -171,3 +171,27 @@ video::-webkit-media-controls,video::-webkit-media-controls-start-playback-butto
 /* все кадры со скруглёнными углами 4px. clip-path, а не только border-radius: Safari не скругляет
    видео и прокручиваемые ленты (карусели) одним border-radius — углы у них остаются прямыми */
 .shot,.car,.card .media,.item img,.thumb img,.thumb .media{border-radius:4px;clip-path:inset(0 round 4px)}
+
+/* ——— навигация как у gaadesign.studio: знак по центру, под ним ряд плашек; активная — тёмнее, круглая, с точкой-знаком ——— */
+header{display:flex;flex-direction:column;align-items:center;gap:12px;padding-block:16px 14px;background:transparent}
+header::before{display:none}
+header .fade{top:0;bottom:auto;height:calc(100% + 36px);z-index:-1}
+header .logo{display:block}
+header .right{position:absolute;right:0;top:18px}
+header nav{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;font-size:12px;font-weight:500;letter-spacing:-.01em}
+header nav a{display:inline-flex;align-items:center;gap:8px;height:26px;padding:0 12px;border-radius:8px;background:#f6f6f6;color:#a0a0a0;transition:color .25s,background-color .25s,border-radius .3s}
+header nav a:hover{color:var(--ink)}
+header nav a[aria-current]{background:#d8d8d8;color:#000;border-radius:50px;padding:0 14px 0 3px}
+header nav .dot{width:20px;height:20px;border-radius:50%;background:#fff url(img/navmark.png) center/12px auto no-repeat;flex:none}
+header nav a:active{transform:scale(.97)}
+@media (max-width:767px){
+  header{padding:14px 0 12px;pointer-events:auto}
+  header > nav{display:flex}
+  header .menu-btn,.sheet{display:none!important}
+  header .logo{width:auto;height:auto;border-radius:0;background:none;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+  header .logo .mark{height:20px;background:var(--muted)}
+  header > .right{display:flex;top:14px}
+  header .right .when{display:none}
+  header nav{gap:5px}
+  header nav a{padding:0 10px}
+}

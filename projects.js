@@ -210,6 +210,8 @@ function buddy(){
   const root = document.getElementById('buddy'), win = document.getElementById('bd-win'), btn = root.querySelector('.bd-btn');
   const open = on => { win.hidden = !on; root.classList.toggle('open', on); btn.setAttribute('aria-expanded', on); if (on) win.querySelector('input').focus(); };
   btn.onclick = () => open(win.hidden);
+  window.openContact = () => { open(true); };
+  document.addEventListener('click', e => { if (e.target.closest('.nav-contact')) { e.preventDefault(); open(true); } });
   // глаза маскота смотрят на курсор (сдвиг до 4% размера кнопки)
   const eyes = root.querySelector('.eyes');
   if (matchMedia('(hover:hover)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) addEventListener('pointermove', e => {
@@ -237,10 +239,12 @@ function autoplay(){
 }
 // тексты меню и подвала на текущем языке (перерисовываются при смене языка)
 function chromeTexts(){
+  // активная вкладка: главная и кейсы → Projects; Contact открывает окно связи маскота
   const here = location.pathname.split('/').pop() || 'index.html';
+  const cur = here === 'gallery.html' ? 'gallery.html' : here === 'about.html' ? 'about.html' : './#projects';
   const links = [['nav.projects','./#projects'],['nav.gallery','gallery.html'],['nav.about','about.html']]
-    .map(([k,h]) => `<a href="${h}"${h === here ? ' aria-current="page"' : ''}>${t(k)}</a>`).join('') +
-    `<a href="mailto:${EMAIL}" class="copy">${t('nav.contact')}</a>`;
+    .map(([k,h]) => h === cur ? `<a href="${h}" aria-current="page"><i class="dot" aria-hidden="true"></i>${t(k)}</a>` : `<a href="${h}">${t(k)}</a>`).join('') +
+    `<a href="mailto:${EMAIL}" class="nav-contact">${t('nav.contact')}</a>`;
   document.getElementById('nav').innerHTML = links;
   document.querySelector('#sheet nav').innerHTML = links;
   const btn = document.querySelector('.menu-btn');
