@@ -177,7 +177,7 @@ function siteChrome(){
   const hdr = document.querySelector('header');
   hdr.insertAdjacentHTML('beforeend', `<button class="menu-btn" type="button" aria-expanded="false" aria-controls="sheet"><span></span> <i aria-hidden="true"></i></button>`);
   document.body.insertAdjacentHTML('beforeend', `<div class="sheet" id="sheet"><nav></nav>
-    <div class="meta"><a href="mailto:${EMAIL}" class="copy">${EMAIL}</a><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a><span data-i="cityKZ"></span><span class="langs"></span></div></div>`);
+    <div class="meta"><a href="mailto:${EMAIL}" class="copy">${EMAIL}</a><a href="https://www.instagram.com/oi.lab/" target="_blank" rel="noopener">Instagram</a><span data-i="cityKZ"></span><span class="langs"></span></div></div>`);
   const btn = hdr.querySelector('.menu-btn');
   const toggle = open => { document.body.classList.toggle('menu-open', open); btn.setAttribute('aria-expanded', open); btn.firstChild.textContent = t(open ? 'close' : 'menu'); };
   btn.onclick = () => toggle(!document.body.classList.contains('menu-open'));
@@ -196,7 +196,7 @@ function buddy(){
       <button class="bd-x" type="button" aria-label="Close">×</button>
       <h2 id="bd-t" data-i="b.title"></h2>
       <p class="bd-sub" data-i="b.sub"></p>
-      <div class="bd-links"><a href="mailto:${EMAIL}" class="bd-mail">${EMAIL}</a><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a></div>
+      <div class="bd-links"><a href="mailto:${EMAIL}" class="bd-mail">${EMAIL}</a><a href="https://www.instagram.com/oi.lab/" target="_blank" rel="noopener">Instagram</a></div>
       <form class="bd-form" id="bd-form">
         <label><span data-i="b.name"></span><input name="name" autocomplete="name" required></label>
         <label><span data-i="b.reach"></span><input name="reach" autocomplete="email" required></label>
@@ -247,7 +247,7 @@ function chromeTexts(){
   btn.firstChild.textContent = t(document.body.classList.contains('menu-open') ? 'close' : 'menu');
   document.getElementById('contact').innerHTML = `
     <div class="clocks" id="clocks"></div>
-    <div class="links"><span>${t('f.links')}</span><div><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a></div></div>
+    <div class="links"><span>${t('f.links')}</span><div><a href="https://www.instagram.com/oi.lab/" target="_blank" rel="noopener">Instagram</a></div></div>
     <div class="q">${t('f.question')} <a class="write copy" href="mailto:${EMAIL}">${t('f.write')}</a></div>
     <span>${t('f.rights')}</span>`;
   clockTick && clockTick(); whenTick && whenTick();
