@@ -17,7 +17,7 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Tinos&display=swap">
-<link rel="stylesheet" href="site.css?v=1793547088">
+<link rel="stylesheet" href="site.css?v=1793547203">
 <style>
 /* Главная: манифест и сетка проектов. Общие токены, шапка и футер — в site.css */
 
@@ -27,7 +27,9 @@
 .hero img,.hero video{display:inline-block;vertical-align:-0.15em}
 .hero .wm{height:1.25em;margin-right:.15em}
 .hero .nw{white-space:nowrap}
-.hero .ppl{display:inline-block;aspect-ratio:1901/1049;height:6.2em;vertical-align:middle;margin:0 .05em}   /* иллюстрация в строке манифеста, крупнее */
+.hero .ppl{display:block;float:right;aspect-ratio:1901/1049;height:6.2em;margin:-.3em 0 .2em 1em}   /* текст обтекает иллюстрацию */
+.hero #heroText{text-align:left;max-width:1180px;margin:0 auto;display:flow-root}   /* иллюстрация в строке манифеста, крупнее */
+.hero br{display:none}
 .hero .ppl > *{display:block;width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
 
 /* проекты */
@@ -111,8 +113,8 @@
 <div class="big" id="big" role="img" aria-label="Oilab"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js"></script>
-<script src="i18n.js?v=1793547088" charset="utf-8"></script>
-<script src="projects.js?v=1793547088" charset="utf-8"></script>
+<script src="i18n.js?v=1793547203" charset="utf-8"></script>
+<script src="projects.js?v=1793547203" charset="utf-8"></script>
 <script>
 // hover: вторая фотография проекта (или .mp4) — плавно сменяет обложку при наведении. Пример: {name:"Кайрат", img:"p01", hover:"img/p01-2.jpg", tags:[...]}
 const grid = document.getElementById('grid');
@@ -159,7 +161,8 @@ if (fromHash) { filter(fromHash); document.getElementById('projects').scrollInto
 const WM = '<img class="wm" src="img/wordmark.png" alt="Oilab">';
 const ART = '<span class="ppl" id="ppl" aria-hidden="true"><video src="img/hero-people.mp4" poster="img/hero-people-poster.jpg" autoplay muted loop playsinline></video></span>';
 window.pageRender = () => {
-  document.getElementById('heroText').innerHTML = t('hero').replace('{WM}', WM).replace('{ART}', ART);
+  // иллюстрация стоит в начале абзаца и плавает справа — текст обтекает её слева
+  document.getElementById('heroText').innerHTML = ART + t('hero').replace('{WM}', WM).replace('{ART}', '');
   document.querySelectorAll('.tag, .filter, .cat').forEach(b => b.firstChild.textContent = tr(b.dataset.tag));
 };
 pageRender();
