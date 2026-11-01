@@ -172,40 +172,34 @@ video::-webkit-media-controls,video::-webkit-media-controls-start-playback-butto
    видео и прокручиваемые ленты (карусели) одним border-radius — углы у них остаются прямыми */
 .shot,.car,.card .media,.item img,.thumb img,.thumb .media{border-radius:4px;clip-path:inset(0 round 4px)}
 
-/* ——— навигация как у gaadesign.studio: знак в круге слева, по центру ряд плашек со стикерами; активная раскрывается ——— */
+/* ——— навигация: знак в маленьком круге слева, по центру ряд плашек, справа одна плашка языка ——— */
 @view-transition{navigation:auto}
 ::view-transition-old(root),::view-transition-new(root){animation-duration:.35s}
 header nav{view-transition-name:site-nav}
 header .logo{view-transition-name:site-logo}
-header{display:flex;flex-direction:column;align-items:center;min-height:0;padding-block:19px;gap:0;background:transparent}
+header{display:flex;flex-direction:column;align-items:center;min-height:0;padding-block:16px;gap:0;background:transparent}
 header::before{display:none}
 header .fade{top:0;bottom:auto;height:calc(100% + 36px);z-index:-1}
-header .logo{position:absolute;left:0;top:10px;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;
-  background:rgba(240,243,244,.82);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 1px 6px rgba(35,55,70,.08);
-  transition:transform .25s cubic-bezier(.25,.46,.31,1.28)}
-header .logo .mark{height:16px;background:var(--ink)}
-header .logo:hover{transform:scale(1.06)}
+header .logo{position:absolute;left:0;top:16px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#f6f6f6;
+  transition:background-color .3s,transform .25s cubic-bezier(.25,.46,.31,1.28)}
+header .logo .mark{height:11px;background:#a0a0a0;transition:background-color .3s}
+header .logo:hover{background:#d8d8d8}
+header .logo:hover .mark{background:#000}
 header .logo:active{transform:scale(.92)}
-header .right{position:absolute;right:0;top:24px}
-header nav{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;font-size:12px;font-weight:500;letter-spacing:-.01em}
-header nav a{display:inline-flex;align-items:center;height:26px;padding:0 12px 0 12px;border-radius:13px;background:#f6f6f6;color:#a0a0a0;
-  transition:color .3s,background-color .35s,padding .45s cubic-bezier(.22,1,.36,1),transform .2s}
-header nav .dot{display:grid;place-items:center;width:0;height:20px;margin-right:0;border-radius:50%;background:#fff;font-style:normal;font-size:11px;line-height:1;
-  overflow:hidden;transform:scale(0);opacity:0;flex:none;transition:width .45s cubic-bezier(.22,1,.36,1),margin .45s cubic-bezier(.22,1,.36,1),transform .45s cubic-bezier(.34,1.56,.64,1),opacity .3s}
-header nav a:hover{color:var(--ink)}
-header nav a:hover .dot{width:20px;margin-right:6px;transform:scale(1);opacity:1}
-header nav a:hover{padding-left:3px}
-header nav a[aria-current],header nav a.is-on{background:#d8d8d8;color:#000;padding:0 14px 0 3px}
-header nav a[aria-current] .dot,header nav a.is-on .dot{width:20px;margin-right:8px;transform:scale(1);opacity:1}
-header nav a:active{transform:scale(.96)}
-@media (prefers-reduced-motion:reduce){header nav a,header nav .dot{transition:none}}
+header .right{position:absolute;right:0;top:16px;display:flex}
+header nav{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+header nav a,.langs .lang-pill{display:inline-flex;align-items:center;height:26px;padding:0 12px;border-radius:13px;border:0;background:#f6f6f6;color:#a0a0a0;
+  font:inherit;font-size:12px;font-weight:500;letter-spacing:-.01em;cursor:pointer;transition:color .35s,background-color .35s,transform .2s}
+header nav a:hover,.langs .lang-pill:hover{color:var(--ink);background:#ececec}
+header nav a[aria-current],header nav a.is-on{background:#d8d8d8;color:#000}
+header nav a:active,.langs .lang-pill:active{transform:scale(.96)}
+@media (prefers-reduced-motion:reduce){header nav a,.langs .lang-pill{transition:none}}
 @media (max-width:767px){
-  header{min-height:0;padding:16px 0 12px;pointer-events:auto}
-  header > nav{display:flex;margin-top:56px}
+  header{padding:14px 0 12px;pointer-events:auto}
+  header > nav{display:flex;margin-top:36px}
   header .menu-btn,.sheet{display:none!important}
-  header .logo{top:12px;left:0}
-  header > .right{display:flex;top:24px}
-  header .right .when{display:none}
+  header .logo{top:14px;left:0}
+  header > .right{display:flex;top:14px}
   header nav{gap:5px}
-  header nav a{padding:0 10px}
+  header nav a{padding:0 9px}
 }

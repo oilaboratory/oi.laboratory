@@ -251,11 +251,9 @@ function chromeTexts(){
   // активная вкладка: главная и кейсы → Projects; Contact открывает окно связи маскота
   const here = location.pathname.split('/').pop() || 'index.html';
   const cur = here === 'gallery.html' ? 'gallery.html' : here === 'about.html' ? 'about.html' : './#projects';
-  // у каждой плашки свой стикер; у активной он раскрывается в белом кружке
-  const ST = {'./#projects':'🗂️','gallery.html':'🖼️','about.html':'👋'};
   const links = [['nav.projects','./#projects'],['nav.gallery','gallery.html'],['nav.about','about.html']]
-    .map(([k,h]) => `<a href="${h}"${h === cur ? ' aria-current="page"' : ''}><i class="dot" aria-hidden="true">${ST[h]}</i><span>${t(k)}</span></a>`).join('') +
-    `<a href="mailto:${EMAIL}" class="nav-contact"><i class="dot" aria-hidden="true">✉️</i><span>${t('nav.contact')}</span></a>`;
+    .map(([k,h]) => `<a href="${h}"${h === cur ? ' aria-current="page"' : ''}><span>${t(k)}</span></a>`).join('') +
+    `<a href="mailto:${EMAIL}" class="nav-contact"><span>${t('nav.contact')}</span></a>`;
   document.getElementById('nav').innerHTML = links;
   document.querySelector('#sheet nav').innerHTML = links;
   const btn = document.querySelector('.menu-btn');
