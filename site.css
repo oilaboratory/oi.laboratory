@@ -172,37 +172,6 @@ video::-webkit-media-controls,video::-webkit-media-controls-start-playback-butto
    видео и прокручиваемые ленты (карусели) одним border-radius — углы у них остаются прямыми */
 .shot,.car,.card .media,.item img,.thumb img,.thumb .media{border-radius:4px;clip-path:inset(0 round 4px)}
 
-/* ——— навигация: знак в маленьком круге слева, по центру ряд плашек, справа одна плашка языка ——— */
-@view-transition{navigation:auto}
-::view-transition-old(root),::view-transition-new(root){animation-duration:.35s}
-header nav{view-transition-name:site-nav}
-header .logo{view-transition-name:site-logo}
-header{display:flex;flex-direction:column;align-items:center;min-height:0;padding-block:22px 16px;gap:0;background:transparent}
-header::before{display:none}
-header .fade{top:0;bottom:auto;left:-100vmax;right:-100vmax;height:calc(100% + 80px);z-index:-1}   /* размытие на всю ширину окна, а не только сетки */
-header .logo{position:absolute;left:calc(32px - var(--pad));top:22px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:rgba(240,243,244,.74);-webkit-backdrop-filter:blur(10px) saturate(1.4);backdrop-filter:blur(10px) saturate(1.4);
-  transition:background-color .3s,transform .25s cubic-bezier(.25,.46,.31,1.28)}
-header .logo .mark{height:14px;background:var(--muted);transition:background-color .3s}
-header .logo:hover{background:rgba(212,218,222,.82)}
-header .logo:hover .mark{background:var(--ink)}
-header .logo:active{transform:scale(.92)}
-header .right{position:absolute;right:calc(32px - var(--pad));top:22px;display:flex}
-header nav{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
-header nav a,.langs .lang-pill{display:inline-flex;align-items:center;height:26px;padding:0 12px;border-radius:13px;border:0;background:rgba(240,243,244,.74);-webkit-backdrop-filter:blur(10px) saturate(1.4);backdrop-filter:blur(10px) saturate(1.4);color:var(--muted);
-  font:inherit;font-size:12px;font-weight:500;letter-spacing:-.01em;cursor:pointer;transition:color .35s,background-color .35s,transform .2s}
-header nav a:hover,.langs .lang-pill:hover{color:var(--ink);background:rgba(228,232,234,.84)}
-header nav a[aria-current],header nav a.is-on{background:rgba(212,218,222,.84);color:var(--ink)}
-header nav a:active,.langs .lang-pill:active{transform:scale(.96)}
-@media (prefers-reduced-motion:reduce){header nav a,.langs .lang-pill{transition:none}}
-/* телефон: как раньше — знак в круге слева и кнопка Menu справа, меню открывается полноэкранным слоем */
-@media (max-width:767px){
-  header{flex-direction:row;justify-content:space-between;align-items:center;padding:16px 12px;pointer-events:none}
-  header > nav,header > .right{display:none}
-  header .logo{position:static;width:44px;height:44px;background:rgba(240,243,244,.82);box-shadow:0 1px 6px rgba(35,55,70,.08);pointer-events:auto}
-  header .logo .mark{height:16px;background:var(--ink)}
-  header .fade{height:calc(100% + 40px)}
-}
-
 .bd-form{position:relative}
 .bd-form.sent small{color:var(--ink)}
 .bd-send:disabled{opacity:.5;cursor:default}
