@@ -17,7 +17,7 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Tinos&display=swap">
-<link rel="stylesheet" href="site.css?v=1793545757">
+<link rel="stylesheet" href="site.css?v=1793545981">
 <style>
 /* Главная: манифест и сетка проектов. Общие токены, шапка и футер — в site.css */
 
@@ -27,7 +27,7 @@
 .hero img,.hero video{display:inline-block;vertical-align:-0.15em}
 .hero .wm{height:1.25em;margin-right:.15em}
 .hero .nw{white-space:nowrap}
-.hero .ppl{display:inline-block;aspect-ratio:1901/1049;height:3.2em;vertical-align:-.12em;margin:0}
+.hero .ppl{display:inline-block;aspect-ratio:1901/1049;height:4.6em;vertical-align:-.12em;margin:0}   /* иллюстрация в строке манифеста, крупнее */
 .hero .ppl > *{display:block;width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
 
 /* проекты */
@@ -71,10 +71,7 @@
 
 
 @media (max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}.head{grid-template-columns:1fr 1fr}.head h2,.head .side{grid-column:auto}}
-.hero-art{display:block;width:min(100%,744px);margin:0 auto clamp(28px,4vw,56px)}   /* иллюстрация почти во всю ширину, текст под ней */
-.hero-art video{display:block;width:100%;aspect-ratio:900/484;mix-blend-mode:multiply}
-.hero .ppl,.hero br{display:none}
-.hero{padding-block:clamp(24px,5vw,72px) clamp(80px,12vw,180px)}
+.hero-art{display:none}
 @media (max-width:767px){
   .hero{padding-block:48px 72px;text-align:left;font-size:24px;line-height:1.18}
   .hero-art{display:block;margin:0 -8px 28px}
@@ -114,8 +111,8 @@
 <div class="big" id="big" role="img" aria-label="Oilab"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js"></script>
-<script src="i18n.js?v=1793545757" charset="utf-8"></script>
-<script src="projects.js?v=1793545757" charset="utf-8"></script>
+<script src="i18n.js?v=1793545981" charset="utf-8"></script>
+<script src="projects.js?v=1793545981" charset="utf-8"></script>
 <script>
 // hover: вторая фотография проекта (или .mp4) — плавно сменяет обложку при наведении. Пример: {name:"Кайрат", img:"p01", hover:"img/p01-2.jpg", tags:[...]}
 const grid = document.getElementById('grid');
