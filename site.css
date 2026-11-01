@@ -177,16 +177,16 @@ video::-webkit-media-controls,video::-webkit-media-controls-start-playback-butto
 ::view-transition-old(root),::view-transition-new(root){animation-duration:.35s}
 header nav{view-transition-name:site-nav}
 header .logo{view-transition-name:site-logo}
-header{display:flex;flex-direction:column;align-items:center;min-height:0;padding-block:28px 16px;gap:0;background:transparent}
+header{display:flex;flex-direction:column;align-items:center;min-height:0;padding-block:22px 16px;gap:0;background:transparent}
 header::before{display:none}
 header .fade{top:0;bottom:auto;left:-100vmax;right:-100vmax;height:calc(100% + 36px);z-index:-1}   /* размытие на всю ширину окна, а не только сетки */
-header .logo{position:absolute;left:calc(16px - var(--pad));top:28px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:rgba(246,246,246,.72);-webkit-backdrop-filter:blur(10px) saturate(1.4);backdrop-filter:blur(10px) saturate(1.4);
+header .logo{position:absolute;left:calc(32px - var(--pad));top:22px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:rgba(246,246,246,.72);-webkit-backdrop-filter:blur(10px) saturate(1.4);backdrop-filter:blur(10px) saturate(1.4);
   transition:background-color .3s,transform .25s cubic-bezier(.25,.46,.31,1.28)}
 header .logo .mark{height:14px;background:#a0a0a0;transition:background-color .3s}
 header .logo:hover{background:rgba(216,216,216,.8)}
 header .logo:hover .mark{background:#000}
 header .logo:active{transform:scale(.92)}
-header .right{position:absolute;right:calc(16px - var(--pad));top:28px;display:flex}
+header .right{position:absolute;right:calc(32px - var(--pad));top:22px;display:flex}
 header nav{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
 header nav a,.langs .lang-pill{display:inline-flex;align-items:center;height:26px;padding:0 12px;border-radius:13px;border:0;background:rgba(246,246,246,.72);-webkit-backdrop-filter:blur(10px) saturate(1.4);backdrop-filter:blur(10px) saturate(1.4);color:#a0a0a0;
   font:inherit;font-size:12px;font-weight:500;letter-spacing:-.01em;cursor:pointer;transition:color .35s,background-color .35s,transform .2s}
@@ -198,8 +198,8 @@ header nav a:active,.langs .lang-pill:active{transform:scale(.96)}
   header{padding:16px 0 12px;pointer-events:auto}
   header > nav{display:flex;margin-top:36px}
   header .menu-btn,.sheet{display:none!important}
-  header .logo{top:16px;left:calc(12px - var(--pad))}
-  header > .right{display:flex;top:16px;right:calc(12px - var(--pad))}
+  header .logo{top:16px;left:calc(14px - var(--pad))}
+  header > .right{display:flex;top:16px;right:calc(14px - var(--pad))}
   header nav{gap:5px}
   header nav a{padding:0 9px}
 }
