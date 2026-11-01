@@ -194,14 +194,13 @@ header nav a:hover,.langs .lang-pill:hover{color:var(--ink);background:rgba(228,
 header nav a[aria-current],header nav a.is-on{background:rgba(212,218,222,.84);color:var(--ink)}
 header nav a:active,.langs .lang-pill:active{transform:scale(.96)}
 @media (prefers-reduced-motion:reduce){header nav a,.langs .lang-pill{transition:none}}
+/* телефон: как раньше — знак в круге слева и кнопка Menu справа, меню открывается полноэкранным слоем */
 @media (max-width:767px){
-  header{padding:16px 0 12px;pointer-events:auto}
-  header > nav{display:flex;margin-top:36px}
-  header .menu-btn,.sheet{display:none!important}
-  header .logo{top:16px;left:calc(14px - var(--pad))}
-  header > .right{display:flex;top:16px;right:calc(14px - var(--pad))}
-  header nav{gap:5px}
-  header nav a{padding:0 9px}
+  header{flex-direction:row;justify-content:space-between;align-items:center;padding:16px 12px;pointer-events:none}
+  header > nav,header > .right{display:none}
+  header .logo{position:static;width:44px;height:44px;background:rgba(240,243,244,.82);box-shadow:0 1px 6px rgba(35,55,70,.08);pointer-events:auto}
+  header .logo .mark{height:16px;background:var(--ink)}
+  header .fade{height:calc(100% + 40px)}
 }
 
 .bd-form{position:relative}
