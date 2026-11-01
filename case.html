@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Oi.Lab — Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600&family=Tinos&display=swap">
+<link rel="stylesheet" href="site.css">
+<style>
+/* Страница проекта: начало и карусель — из варианта «История» (по мотивам mouthwash.studio),
+   мелкие кадры, мелкий текст, навигация и низ — из варианта «Галерея» (по макету OI.LAB.pdf / gaadesign.studio).
+   Шапка и полоса проекта всегда наверху, под ними прогрессивное размытие. */
+:root{--c-black:var(--ink);--c-gray:var(--muted);--c-light:var(--faint);--c-pill:var(--chip);--c-ph:var(--chip);--ease:cubic-bezier(.23,1,.32,1)}
+html{scroll-padding-top:90px}
+main,.bar,.bottom-nav,.info{font-weight:500;letter-spacing:-.01em;color:var(--c-black)}
+
+/* полоса проекта в начале страницы (прокручивается вместе с ней). Колонки как в макете: «Project» слева, год с середины, место с третьей трети, кнопки справа */
+.bar{display:grid;grid-template-columns:706fr 240fr 458fr;align-items:center;font-size:12px;margin-top:16px}
+.bar .l{display:flex;gap:16px;min-width:0}
+.bar .r{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.bar .muted{color:var(--c-gray)} .bar .light{color:var(--c-light)}
+.nav{display:flex;gap:6px;justify-self:end}
+.pill{font-size:12px;background:var(--c-pill);color:var(--c-gray);border-radius:8px;padding:6px 10px;transition:color .25s}
+.pill:hover{color:var(--c-black)}
+.pill:active{transform:scale(.97)}
+
+/* начало: крупный заголовок «Название, фраза» и горизонтальное фото во всю ширину */
+.intro{font-size:clamp(40px,4.8vw,72px);line-height:1;letter-spacing:-.035em;font-weight:400;margin:70px 0 60px;max-width:1100px;text-wrap:balance}
+.intro h1{font:inherit;display:inline;margin:0}
+.intro span{color:var(--c-gray)}
+/* вариант «текстом» (поле lead): вместо крупного заголовка — две строки о проекте, как в макете OI.LAB.pdf */
+.lead{margin:40px 0;font-size:clamp(16px,1.35vw,20px);line-height:1.2;font-weight:500;letter-spacing:-.01em;color:var(--c-black);max-width:1340px}
+.lead p{margin:0}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.goal-box{padding:0;font-size:clamp(14px,1.15vw,17px);line-height:1.2;font-weight:500;color:var(--c-gray)}
+.goal-box h3{font:inherit;margin:0 0 1.4em}
+.goal-box p{margin:0}
+.note{font-size:clamp(14px,1.15vw,17px);line-height:1.2;font-weight:500;color:var(--c-gray)}
+main.v2 .statement p{font-weight:600;font-size:clamp(30px,4vw,60px);line-height:1;max-width:11em;color:color-mix(in srgb,var(--c-gray) 62%,#fff)}
+
+.rows{display:grid;gap:8px}
+.row{display:grid;gap:8px;align-items:start}
+.row.c1{grid-template-columns:1fr} .row.c2{grid-template-columns:1fr 1fr} .row.c3{grid-template-columns:repeat(3,1fr)}
+.shot{display:block;width:100%;height:auto;max-width:100%;object-fit:cover;border-radius:4px;background:var(--c-ph)}
+.ph{display:grid;place-items:center;font-size:12px;color:var(--c-gray);text-align:center;line-height:1.4}
+
+/* крупная серая фраза + кнопка «+», раскрывающаяся в «Read More +» */
+.statement{text-align:center;padding-block:clamp(80px,11vw,180px)}
+.statement p{font-size:clamp(32px,4.6vw,68px);line-height:.92;letter-spacing:-.03em;color:var(--c-gray);max-width:1264px;margin:0 auto 32px;text-wrap:balance}
+.more{appearance:none;border:0;font:inherit;font-size:14px;background:var(--c-pill);color:var(--c-gray);border-radius:100px;padding:11px 14px;
+  display:inline-flex;align-items:center;cursor:pointer;transition:color .25s,background-color .25s,transform .25s cubic-bezier(.25,.46,.31,1.28)}
+.more .t{display:inline-block;max-width:0;overflow:hidden;white-space:nowrap;transition:max-width .35s var(--ease)}
+.more .t span{display:inline-block;opacity:0;transform:translateX(.5em);padding-right:.4em;transition:opacity .35s,transform .35s var(--ease)}
+.more svg{width:11px;height:11px;flex:none}
+.more:hover,.more:focus-visible{color:var(--c-black)}
+.more:hover .t,.more:focus-visible .t{max-width:8em}
+.more:hover .t span,.more:focus-visible .t span{opacity:1;transform:none;transition-delay:.1s}
+.more:active{transform:scale(.95)}
+
+/* карусель: листается кликом по половинам, точками или свайпом */
+.car{position:relative;overflow:hidden;border-radius:4px}
+.car .track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.car .track::-webkit-scrollbar{display:none}
+.car .track > *{flex:0 0 100%;scroll-snap-align:start;border-radius:0}
+.car .dots{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);display:flex;gap:6px;background:rgba(0,0,0,.25);padding:6px 8px;border-radius:20px}
+.car .dots button{appearance:none;border:0;width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.5);padding:0;cursor:pointer}
+.car .dots button[aria-current]{background:#fff}
+.car .arr{position:absolute;inset:0 auto 0 0;width:50%;border:0;background:none;cursor:w-resize}
+.car .arr.r{left:auto;right:0;cursor:e-resize}
+.car .count{position:absolute;left:14px;top:12px;font-size:12px;color:var(--c-gray);margin:0}
+@media (hover:none){.car .arr{display:none}}   /* на телефоне половины-кнопки перекрывали ленту и мешали свайпу */
+/* ряд-карусель ({swipe:[…]} в rows): на компьютере обычный ряд, на телефоне листается свайпом */
+.swipe .track{display:grid;overflow:visible;gap:8px}
+.swipe .track > *{border-radius:4px}
+.swipe .dots{display:none}
+
+.goal{padding:28px 0 0 8px;min-width:0}
+.goal h3{font-size:18px;font-weight:500;margin:0 0 30px}
+.goal p{font-size:22px;line-height:1.09;color:var(--c-gray);margin:0 0 1.09em;max-width:650px}
+
+/* карточка Read More поверх размытой страницы */
+dialog.card{border:0;padding:0;width:min(480px,100%);max-height:calc(100dvh - 100px);border-radius:24px;overflow:auto;color:var(--c-black);
+  opacity:0;transform:scale(.98) translateY(8px);transition:opacity .3s,transform .35s var(--ease),overlay .35s allow-discrete,display .35s allow-discrete}
+dialog.card[open]{opacity:1;transform:none}
+@starting-style{dialog.card[open]{opacity:0;transform:scale(.98) translateY(8px)}}
+dialog.card::backdrop{background:rgba(0,0,0,.1);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.card .in{padding:40px 30px}
+.card .lbl{font-size:14px;color:var(--c-gray);margin:0 0 14px}
+.card h4{font-size:22px;line-height:1.09;font-weight:500;margin:0}
+.card .ph{aspect-ratio:1;margin-top:32px;border-radius:8px;background:var(--c-ph)}
+.card .body{font-size:15px;font-weight:400;line-height:1.4;margin-top:32px}
+.card .body p{margin:0 0 1em}
+.x{position:sticky;top:16px;float:right;margin:16px 16px 0 0;appearance:none;border:0;width:36px;height:36px;border-radius:50%;background:var(--c-pill);cursor:pointer;display:grid;place-items:center}
+.x svg{width:12px;height:12px;transform:rotate(45deg)}
+
+/* низ из «Галереи» */
+.bottom-nav{display:flex;justify-content:center;gap:24px;margin:120px 0 110px}
+.info{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:14px;line-height:1.1}
+.info h4{font-size:14px;font-weight:500;margin:0 0 18px}
+.info p{margin:0;color:var(--c-light);max-width:692px}
+.info .r{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.services{display:grid;grid-template-columns:1fr 1fr;gap:2px 24px;color:var(--c-light)}
+.services a{transition:color .25s}
+.services a:hover{color:var(--c-black)}
+
+/* паспорт под заголовком и подписи соседних проектов — только в мобильной версии */
+.meta,.bottom-nav .n{display:none}
+
+@media (max-width:800px){
+  .row.c2,.row.c3,.info,.info .r{grid-template-columns:1fr!important}  /* перебивает пропорции колонок из разметки */
+  .goal{padding:24px 0 0}
+  dialog.card{width:100%;max-width:100%;margin:auto 0 0;border-radius:24px 24px 0 0;max-height:70dvh}
+  dialog.card::backdrop{background:rgba(0,0,0,.4);backdrop-filter:none}
+}
+
+/* Мобильная версия по mouthwash.studio/project/questrade: заголовок → линия → паспорт (проект, год, услуги) →
+   кадры в одну колонку → крупные фразы с «Read More +» → описание → «Назад: / Дальше:» с названиями проектов */
+@media (max-width:767px){
+  .sp{display:none}
+  .bar{display:none}
+  .intro{font-size:34px;line-height:1;margin:96px 0 0}
+  .lead{margin:96px 0 0;font-size:18px}
+  .meta{display:grid;grid-template-columns:1fr 1fr;gap:24px 8px;border-top:1px solid var(--c-light);margin:56px 0 48px;padding-top:16px;font-size:16px;line-height:1}
+  .meta h2{font:inherit;color:var(--c-gray);margin:0 0 2px}
+  .meta .full{grid-column:1/-1}
+  .meta .tags a{transition:color .25s}
+  .meta .tags a:not(:last-child)::after{content:', '}
+  .rows,.row{gap:10px}
+  .statement{padding-block:140px}
+  .statement p{font-size:42px;line-height:.92;margin-bottom:28px}
+  .more{color:var(--c-black)}
+  .more .t{max-width:8em}
+  .more .t span{opacity:1;transform:none}
+  .car .count{display:none}
+  .swipe .track{display:flex!important;overflow-x:auto;gap:0}
+  .swipe .track > *{border-radius:0}
+  .swipe .dots{display:flex}
+  .car .dots{background:rgba(255,255,255,.7);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+  .car .dots button{background:rgba(0,0,0,.25);transition:width .3s var(--ease)}
+  .car .dots button[aria-current]{background:var(--c-black);width:18px;border-radius:3px}
+  .goal h3{margin-bottom:16px}
+  .goal p{font-size:20px}
+  .info{margin-top:140px;gap:0}
+  .info h4{font-size:28px;font-weight:400;letter-spacing:-.03em;margin-bottom:16px}
+  .info p{font-size:16px;line-height:1.25;color:var(--c-black)}
+  .info .r{display:none}
+  .end{display:flex;flex-direction:column}
+  .bottom-nav{order:1;justify-content:space-between;margin:96px 0 0;font-size:24px;line-height:1}
+  .bottom-nav .pill{background:none;padding:0;border-radius:0;color:var(--c-black);font-size:inherit;display:flex;flex-direction:column}
+  .bottom-nav .pill:last-child{text-align:right}
+  .bottom-nav .d::after{content:':'}
+  .bottom-nav .n{display:block;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px}
+}
+</style>
+</head>
+<body class="project">
+<header id="hdr">
+  <a class="logo" href="index.html" aria-label="Oi.Lab"><span class="mark"></span></a>
+  <nav id="nav"></nav>
+  <span class="right"><span class="when" id="when"></span><span class="langs"></span></span>
+  <div class="fade" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+</header>
+
+  <div class="bar">
+  <div class="l"><span data-i="c.project">Project:</span><span class="muted" id="name"></span></div>
+  <span class="light" id="year"></span>
+  <div class="r"><span class="light" id="place"></span>
+    <span class="nav"><a class="pill" id="prev" data-i="c.prev">Previous</a><a class="pill" id="next" data-i="c.next">Next</a></span></div>
+</div>
+
+
+<main id="case"></main>
+
+<div class="end">
+<div class="bottom-nav"><a class="pill" id="prev2"><span class="d" data-i="c.prev">Previous</span><span class="n"></span></a><a class="pill" id="next2"><span class="d" data-i="c.next">Next</span><span class="n"></span></a></div>
+<section class="info" id="info"></section>
+</div>
+
+<dialog class="card" id="card" aria-labelledby="card-h">
+  <button class="x" type="button" aria-label="Закрыть" onclick="this.closest('dialog').close()"><svg viewBox="0 0 13 13"><path d="M6.5 0v13M0 6.5h13" stroke="#000" stroke-width="1.3"/></svg></button>
+  <div class="in"><p class="lbl" id="card-l"></p><h4 id="card-h"></h4><div class="ph"><span data-i="c.photoText"></span><br>1200 × 1200</div><div class="body" id="card-b"></div></div>
+</dialog>
+
+<footer id="contact"></footer>
+<div class="big" id="big" role="img" aria-label="Oilab"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js"></script>
+<script src="i18n.js" charset="utf-8"></script>
+<script src="projects.js" charset="utf-8"></script>
+<script>
+// Раскладка: размеры ячеек в пикселях макета при экране 1500px. Фото проекта (case.images) встают по порядку,
+// первая ячейка — обложка с главной; пустые ячейки показывают нужный размер фото.
+const LAYOUT = [
+  [[1404,660]],                         // горизонтальное фото под заголовком
+  [[698,873],[698,873]],
+  [[463,578],[463,578],[463,578]],
+  'statement',
+  'carousel',                           // карусель слева, «The goal» справа
+  [[1404,776]],
+  [[698,558],[698,873]],
+  [[463,578],[463,578],[463,578]],
+  [[698,873],[698,873]],
+];
+const CAROUSEL = {count:5, size:[698,873]};
+
+// Тексты-заглушки на текущем языке (i18n.js, ключи c.*). Настоящие тексты проекта — полем case:{...} в projects.js.
+const defaultCase = () => ({
+  year: '2025', place: t('cityKZ'), tagline: t('c.tagline'), statement: t('c.statement'),
+  more: t('c.moreText'), goal: t('c.goalText'), info: t('c.infoText'),
+});
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const px = n => Math.round(n*2/10)*10;   // нужный размер фото с запасом под ретину
+const tagSlug = t => t.toLowerCase().replace(/[^a-z0-9]+/g,'-');
+const PLUS = '<svg viewBox="0 0 13 13"><path d="M6.5 0v13M0 6.5h13" stroke="currentColor" stroke-width="1.3"/></svg>';
+let C;
+
+function render(keepScroll){
+  const LIST = PROJECTS.filter(p => p.case);   // незаполненные проекты не открываются
+  const i0 = Math.max(0, LIST.findIndex(p => slug(p) === location.hash.slice(1)));
+  const p = LIST[i0];
+  // поля проекта могут быть строкой или {en, ru, kk}
+  const L = v => (v && typeof v === 'object' && !Array.isArray(v)) ? (v[LANG] || v.en) : v;
+  C = {...defaultCase()};
+  for (const [k, v] of Object.entries(p.case || {})) C[k] = L(v);
+  const imgs = [`img/${p.img}.jpg`, ...(C.images||[])];
+  const prev = LIST[(i0 - 1 + LIST.length) % LIST.length], next = LIST[(i0 + 1) % LIST.length];
+  document.title = `${p.name} — Oi.Lab`;
+  document.getElementById('name').textContent = p.name;
+  document.getElementById('year').textContent = C.year;
+  document.getElementById('place').textContent = C.place;
+  for (const [id, q] of [['prev',prev],['prev2',prev],['next',next],['next2',next]]) document.getElementById(id).href = '#' + slug(q);
+  document.querySelector('#prev2 .n').textContent = prev.name;
+  document.querySelector('#next2 .n').textContent = next.name;
+
+  let k = 0, sizes = '100vw';   // ширина кадра на экране — по числу кадров в ряду; на телефоне «300px» — чтобы даже экран 3x брал версию 900px
+  // ячейка: [w,h] — заглушка/фото по порядку; [src,w,h] — конкретная картинка проекта
+  const cell = c => {
+    if (c === null) return '<div class="sp" aria-hidden="true"></div>';   // пустое место в ряду (по макету)
+    if (c && c.note) return `<div class="note">${esc(L(c.note))}</div>`;   // подпись в ряду вместо кадра
+    if (c === 'goal') return `<div class="goal-box"><h3>${t('c.goal')}</h3>${C.goal.map(x => `<p>${esc(x)}</p>`).join('')}</div>`;
+    if (c.length === 3 && /\.(mp4|webm)$/.test(c[0]))   // видео: играет само, без звука, по кругу
+      return `<video class="shot" src="${esc(c[0])}" poster="${esc(c[0].replace(/\.(mp4|webm)$/, '.jpg'))}" width="${c[1]}" height="${c[2]}" style="aspect-ratio:${c[1]}/${c[2]}" autoplay muted loop playsinline preload="metadata"></video>`;
+    // телефону хватает версии 900px (-m.jpg), компьютер берёт полную
+    if (c.length === 3 && /\.svg$/.test(c[0]))   // анимированный SVG: один файл на все экраны
+      return `<img class="shot" src="${esc(c[0])}" alt="${esc(p.name)}" width="${c[1]}" height="${c[2]}" style="aspect-ratio:${c[1]}/${c[2]}" loading="lazy">`;
+    if (c.length === 3) return `<img class="shot" src="${esc(c[0])}" srcset="${esc(c[0].replace(/\.jpg$/, '-m.jpg'))} 900w, ${esc(c[0])} ${c[1]}w" sizes="${sizes}" alt="${esc(p.name)}" width="${c[1]}" height="${c[2]}" style="aspect-ratio:${c[1]}/${c[2]}" loading="lazy" decoding="async">`;
+    const [w,h] = c;
+    const src = imgs[k++], n = k;
+    return src
+      ? `<img class="shot" src="${esc(src)}" alt="${esc(p.name)}" style="aspect-ratio:${w}/${h}" loading="lazy">`
+      : `<div class="shot ph" style="aspect-ratio:${w}/${h}">${t('c.photo')} ${n}<br>${px(w)} × ${px(h)}</div>`;
+  };
+  const dotsHtml = list => `<div class="dots">${list.map((_, j) => `<button type="button" aria-label="Слайд ${j+1}"${j ? '' : ' aria-current="true"'}></button>`).join('')}</div>`;
+  const cols = row => `grid-template-columns:${row.map(c => `minmax(0,${(c[1]/c[2]*100).toFixed(2)}fr)`).join(' ')}`;
+  const carousel = () => {
+    const list = C.carousel || Array.from({length:CAROUSEL.count}, () => CAROUSEL.size);
+    const slides = list.map(cell).join('');
+    return `<div class="car"><div class="track">${slides}</div>
+      <button class="arr" type="button" aria-label="Предыдущий слайд"></button><button class="arr r" type="button" aria-label="Следующий слайд"></button>
+      <p class="count">1 / ${list.length}</p>
+      ${dotsHtml(list)}</div>`;
+  };
+  document.getElementById('case').classList.toggle('v2', !!C.lead);
+  document.getElementById('case').innerHTML =
+    (C.lead ? `<div class="lead"><h1 class="sr">${esc(p.name)}</h1>${C.lead.map(x => `<p>${esc(x)}</p>`).join('')}</div>`
+      : `<div class="intro"><h1>${esc(p.name)},</h1> <span>${esc(C.tagline)}</span></div>`) + `
+    <div class="meta"><div><h2>${t('c.project')}</h2>${esc(p.name)}</div><div><h2>${t('c.year')}:</h2>${esc(C.year)}</div>
+      <div class="full"><h2>${t('c.services')}:</h2><span class="tags">${(p.tags||[]).map(g => `<a href="index.html#t-${tagSlug(g)}">${esc(tr(g))}</a>`).join('')}</span></div></div>
+    <div class="rows">` +
+    // intro: [файл, w, h] — первый кадр кейса вместо широкого фото (например, видео)
+    (C.rows || (C.intro ? [[C.intro], ...LAYOUT.slice(1)] : LAYOUT)).map(row =>
+      row === 'statement' ? `<section class="statement"><p>${esc(C.statement)}</p>
+        ${C.lead ? '' : `<button class="more" type="button" aria-haspopup="dialog"><span class="t"><span>${t('c.more')}</span></span>${PLUS}</button>`}</section>`
+      : (sizes = `(max-width:767px) 300px, ${Math.round(100 / ((row.swipe || row.eq || row).length || 1))}vw`, row.swipe) ? `<div class="car swipe"><div class="track" style="${cols(row.swipe)}">${row.swipe.map(cell).join('')}</div>${dotsHtml(row.swipe)}</div>`
+      // {eq:[…], fr?:[…]} — кадры равной (или заданной fr) ширины, выровнены по верху (высота у каждого своя)
+      : row.eq ? `<div class="row c${row.eq.length}" style="grid-template-columns:${row.fr ? row.fr.map(f => `minmax(0,${f}fr)`).join(' ') : `repeat(${row.eq.length},minmax(0,1fr))`}">${row.eq.map(cell).join('')}</div>`
+      : row === 'carousel' ? `<div class="row c2">${(sizes = '(max-width:767px) 300px, 50vw', carousel())}<div class="goal"><h3>${t('c.goal')}</h3>${C.goal.map(t => `<p>${esc(t)}</p>`).join('')}</div></div>`
+      : row[0].length === 3   // свои картинки: ширины колонок по пропорциям — фото одного ряда одной высоты
+        ? `<div class="row c${row.length}" style="${cols(row)}">${row.map(cell).join('')}</div>`
+        : `<div class="row c${row.length}">${row.map(cell).join('')}</div>`
+    ).join('') + '</div>';
+
+  document.getElementById('info').innerHTML = `
+    <div><h4>${t('c.info')}</h4><p>${esc(C.info)}</p></div>
+    <div class="r">
+      <div><h4>${t('c.services')}</h4><div class="services">${(p.tags||[]).map(g => `<a href="index.html#t-${tagSlug(g)}">${esc(tr(g))}</a>`).join('')}</div></div>
+      <div><h4>${t('c.year')}</h4><p>${esc(C.year)}</p></div>
+    </div>`;
+  document.querySelectorAll('.car').forEach(initCarousel);
+  if (!keepScroll) scrollTo(0, 0);
+}
+
+function initCarousel(c){
+  const track = c.querySelector('.track'), dots = [...c.querySelectorAll('.dots button')], count = c.querySelector('.count');
+  const cur = () => Math.round(track.scrollLeft / track.clientWidth);
+  const go = j => track.scrollTo({left: track.clientWidth * j, behavior: 'smooth'});
+  dots.forEach((d, j) => d.onclick = () => go(j));
+  const [a, b] = c.querySelectorAll('.arr');
+  if (a) a.onclick = () => go(Math.max(0, cur() - 1));
+  if (b) b.onclick = () => go(Math.min(dots.length - 1, cur() + 1));
+  track.addEventListener('scroll', () => {
+    const j = cur(); dots.forEach((d, i) => i === j ? d.setAttribute('aria-current','true') : d.removeAttribute('aria-current'));
+    if (count) count.textContent = `${j + 1} / ${dots.length}`;
+  }, {passive: true});
+}
+
+// Read More → карточка; клик по размытому фону закрывает
+const card = document.getElementById('card');
+document.addEventListener('click', e => {
+  if (!e.target.closest('.more')) return;
+  document.getElementById('card-l').textContent = document.getElementById('name').textContent;
+  document.getElementById('card-h').textContent = C.statement;
+  document.getElementById('card-b').innerHTML = C.more.map(t => `<p>${esc(t)}</p>`).join('');
+  card.showModal(); card.scrollTop = 0;
+});
+card.addEventListener('click', e => { if (e.target === card) card.close(); });
+
+addEventListener('hashchange', () => render());
+window.pageRender = () => render(true);
+render();
+
+siteChrome();
+playLottie('big', 'img/footer-logo.json', 'img/footer-logo.png');
+</script>
+</body>
+</html>

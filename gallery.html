@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Gallery — Oi.Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Tinos&display=swap">
+<link rel="stylesheet" href="site.css">
+<style>
+/* Gallery по макету Frame 20: свободная раскладка крупных кадров (позиции и размеры — из макета, в долях ширины 1390px),
+   подписи «проект / услуги», внизу лента всех проектов */
+.title{font-family:var(--serif);font-weight:400;font-size:clamp(28px,2.4vw,36px);color:var(--ink);text-align:center;margin:clamp(100px,22vw,330px) 0 18px}
+.shuffle{display:block;margin:0 auto clamp(80px,20vw,300px);appearance:none;border:0;font:inherit;font-size:13px;background:var(--chip);color:var(--muted);border-radius:8px;padding:6px 12px;cursor:pointer;transition:color .25s}
+.shuffle:hover{color:var(--ink)}
+.shuffle:active{transform:scale(.97)}
+.row{display:flex;align-items:flex-start;margin-top:40px}
+.item{display:block;flex:none;min-width:0}
+.item img{display:block;width:100%;height:auto;border-radius:4px;background:var(--chip)}
+/* подпись как у карточек в Projects на главной: название 12px Medium и теги-плашки 9px */
+.cap{margin-top:11px}
+.cap b{display:block;font-size:12px;line-height:1.2;font-weight:500;letter-spacing:-.03em;color:var(--muted);transition:color .25s}
+.cap .tags{display:flex;flex-wrap:wrap;gap:2px;margin-top:5px}
+.cap .tag{border-radius:4px;font-size:9px;line-height:11px;letter-spacing:-.03em;padding:4px 5.4px;background:var(--chip);color:var(--muted)}
+@media (hover:hover){.item:hover b,.thumb:hover b{color:var(--ink)}}
+
+.all{margin-top:130px}
+.all h2{font-size:clamp(22px,2vw,28px);font-weight:500;letter-spacing:-.03em;color:var(--ink);margin:0 0 30px}
+.strip{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 40px) / 5);gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px}
+.strip::-webkit-scrollbar{display:none}
+.thumb{scroll-snap-align:start;min-width:0}
+.thumb img{display:block;width:100%;aspect-ratio:339/386;object-fit:cover;border-radius:4px}
+
+@media (max-width:767px){
+  .row{flex-direction:column;gap:32px;margin-top:32px}
+  .item{width:100%!important;margin-left:0!important}
+  .strip{grid-auto-columns:42%}
+}
+</style>
+</head>
+<body class="project">
+<header id="hdr">
+  <a class="logo" href="index.html" aria-label="Oi.Lab"><span class="mark"></span></a>
+  <nav id="nav"></nav>
+  <span class="right"><span class="when" id="when"></span><span class="langs"></span></span>
+  <div class="fade" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+</header>
+
+<main>
+  <h1 class="title" data-i="g.title">Gallery</h1>
+  <button class="shuffle" type="button" id="shuffle" data-i="g.shuffle">Shuffle</button>
+  <div id="rows"></div>
+  <section class="all"><h2 data-i="g.all">All Projects</h2><div class="strip" id="strip"></div></section>
+</main>
+
+<footer id="contact"></footer>
+<div class="big" id="big" role="img" aria-label="Oilab"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js"></script>
+<script src="i18n.js" charset="utf-8"></script>
+<script src="projects.js" charset="utf-8"></script>
+<script>
+// Галерея собирается заново при каждом открытии: случайные кадры упакованных проектов
+// раскладываются по шаблонам рядов из макета Frame 20 (позиции и ширины — в пикселях макета шириной 1390).
+const W = 1390;
+const TEMPLATES = [
+  [[0,799],[809,571]],
+  [[115,1150]],
+  [[0,457],[467,913]],
+  [[230,920]],
+];
+// зеркальные варианты, чтобы ритм не повторялся
+TEMPLATES.push(...TEMPLATES.map(r => r.map(([x,w]) => [W-x-w, w]).reverse()));
+// кадры, которые не подходят для галереи: склейки из нескольких мокапов и текстовые плашки
+const SKIP = /\/(1135\/d0[3789]|1135\/d1[0-2]|1135\/d07b|1135\/d03b|1135\/d11t|ta\/t07|ft\/day|ft\/steppr|sezim2\/z03b|sezim2\/z11|tau\/u02|tau\/u10|tau\/u16|tau\/u18|tau\/u22)/;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const bySlug = s => PROJECTS.find(p => slug(p) === s);
+const cap = p => `<div class="cap"><b>${esc(p.name)}</b>${p.tags ? `<span class="tags">${p.tags.map(g => `<span class="tag">${esc(tr(g))}</span>`).join('')}</span>` : ''}</div>`;
+
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
+function pool(){
+  const out = [];
+  for (const p of PROJECTS) {
+    const c = p.case; if (!c || !c.rows || p.name === 'Тастамашы Ана') continue;
+    const add = e => { if (Array.isArray(e) && e.length === 3 && /\.jpg$/.test(e[0]) && !SKIP.test(e[0])) out.push({p, src: e[0], w: e[1], h: e[2]}); };
+    for (const r of c.rows) (Array.isArray(r) ? r : (r.eq || r.swipe || [])).forEach(add);
+    (c.carousel || []).forEach(add);
+  }
+  // по очереди из каждого проекта, чтобы один кейс не занимал полгалереи
+  const by = new Map(); for (const m of shuffle(out)) (by.get(m.p) || by.set(m.p, []).get(m.p)).push(m);
+  const groups = shuffle([...by.values()]), mixed = [];
+  while (groups.some(g => g.length)) for (const g of groups) if (g.length) mixed.push(g.shift());
+  return mixed;
+}
+let ROWS = [];
+function compose(){
+  const imgs = pool(), rows = [];
+  let prevT = -1;
+  while (imgs.length && rows.length < 9) {
+    // соседние ряды всегда разные: не два одиночных горизонтальных кадра подряд и не те же пропорции (зеркало тоже считается)
+    const sig = i => TEMPLATES[i].map(s => s[1]).sort().join();
+    const ok = i => prevT < 0 || (sig(i) !== sig(prevT) && !(TEMPLATES[i].length === 1 && TEMPLATES[prevT].length === 1));
+    const opts = TEMPLATES.map((_, i) => i).filter(ok);
+    const t = opts[Math.random() * opts.length | 0];
+    prevT = t;
+    const row = [];
+    for (const [x, w] of TEMPLATES[t]) {
+      // широкое место — горизонтальный кадр, узкое — вертикальный; два кадра одного проекта в ряд не ставим
+      const wide = w > 800;
+      let k = imgs.findIndex(m => (m.w / m.h > 1.15) === wide && !row.some(r => r.p === m.p));
+      if (k < 0) k = imgs.findIndex(m => !row.some(r => r.p === m.p));
+      if (k < 0) break;
+      row.push({...imgs.splice(k, 1)[0], x, sw: w});
+    }
+    if (row.length === TEMPLATES[t].length) rows.push(row);
+    else break;
+  }
+  ROWS = rows;
+}
+window.pageRender = () => {
+document.getElementById('rows').innerHTML = ROWS.map(row => {
+  let right = 0;
+  return `<div class="row">${row.map(m => {
+    const ml = (m.x - right) / W * 100; right = m.x + m.sw;
+    return `<a class="item" href="case.html#${slug(m.p)}" style="margin-left:${ml}%;width:${m.sw / W * 100}%">
+      <img src="${m.src}" srcset="${m.src.replace(/\.jpg$/, '-m.jpg')} 900w, ${m.src} ${m.w}w" sizes="(max-width:767px) 300px, ${Math.round(m.sw / W * 100)}vw" alt="${esc(m.p.name)}" width="${m.w}" height="${m.h}" loading="lazy" decoding="async">${cap(m.p)}</a>`;
+  }).join('')}</div>`;
+}).join('');
+document.getElementById('strip').innerHTML = PROJECTS.filter(p => p.name !== 'Тастамашы Ана').map(p =>
+  p.case ? `<a class="thumb" href="case.html#${slug(p)}"><img src="img/${p.img}.jpg" alt="${esc(p.name)}" loading="lazy">${cap(p)}</a>`
+    : `<a class="thumb soon" tabindex="0"><span class="media"><img src="img/${p.img}.jpg" alt="${esc(p.name)}" loading="lazy"><span class="soon-pill">${t('soon')}</span></span>${cap(p)}</a>`).join('');
+};
+compose();
+pageRender();
+document.getElementById('shuffle').onclick = () => { compose(); pageRender(); };
+
+siteChrome();
+playLottie('big', 'img/footer-logo.json', 'img/footer-logo.png');
+</script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+/* Общие стили сайта Oi.Lab: токены, шапка, футер. Подключаются на всех страницах. */
+:root{
+  /* цвета сняты с первого макета: тёмный текст, серый меню, светлый серый футера, плашки */
+  --bg:#ffffff; --ink:#233746; --muted:#93a0a8; --faint:#d4dade; --chip:#f0f3f4; --dot:#2bd46b; --hero:#233746; --chip-hover:#e4e8ea;
+  --serif:"Times New Roman","Tinos",Times,serif; /* Tinos — тот же Times по метрикам, для телефонов без Times New Roman */
+  --sans:"Onest",-apple-system,"Helvetica Neue",Arial,sans-serif;
+  color-scheme:light;
+}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  --pad:clamp(16px,3.2vw,48px);padding-left:max(var(--pad),env(safe-area-inset-left,0px));padding-right:max(var(--pad),env(safe-area-inset-right,0px))}
+/* одна сетка на всех страницах: поля 16–48px от края окна */
+a{color:inherit;text-decoration:none}
+a:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+
+/* шапка */
+/* шапка — отдельный белый слой: всегда наверху, фон растянут на всю ширину окна, под ней прогрессивное размытие (.fade) */
+header{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding-block:14px;
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--bg)}
+header::before{content:"";position:absolute;inset:0 -100vmax;background:var(--bg);z-index:-1}
+html,body{overflow-x:clip}
+section,footer{scroll-margin-top:70px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--bg)}
+/* знак в шапке: серый, при наведении тёмный — красится через маску */
+header .logo .mark{display:block;height:22px;aspect-ratio:110/64;background:var(--muted);transition:background-color .25s;
+  -webkit-mask:url(img/logo-mask.png) center/contain no-repeat;mask:url(img/logo-mask.png) center/contain no-repeat}
+header .logo:hover .mark,header .logo:focus-visible .mark{background:var(--ink)}
+nav{display:flex;gap:20px;font-size:13px;color:var(--muted)}
+nav a:hover,.lang:hover{color:var(--ink)}
+.lang{justify-self:end;font-size:13px;color:var(--muted)}
+
+/* футер */
+/* подвал на сетке проектов: 4 колонки, всё в одну линию */
+footer{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;align-items:center;padding-block:140px 72px;font-size:13px;color:var(--faint)}
+.clocks,.links{align-content:start}
+.clocks{display:grid;grid-template-columns:1fr auto;gap:4px 24px;font-variant-numeric:tabular-nums}
+.links{display:grid;grid-template-columns:auto 1fr;gap:4px 50px}
+.links div{display:grid;gap:8px}
+.links a:hover{color:var(--ink)}
+.q{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-family:var(--serif);font-size:22px;color:var(--ink)}
+.write{font-family:var(--sans);font-size:12.5px;font-weight:500;background:var(--chip);padding:6px 14px;border-radius:8px;display:inline-flex;gap:8px;align-items:center}
+.write::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--dot)}
+.write:hover{background:var(--chip-hover)}
+/* логотип в подвале — на всю ширину окна с отступом 8px по краям */
+.big{aspect-ratio:3490/1352;margin:0 calc(8px - var(--pad)) 8px}
+.big > *{display:block;width:100%;height:100%;object-fit:contain}
+
+@media (max-width:1000px){
+  footer{grid-template-columns:1fr 1fr;row-gap:24px}
+}
+@media (max-width:600px){
+  footer{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ——— страница проекта (case.html): поля 48px, дата справа ——— */
+
+.when{justify-self:end;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* прогрессивное размытие под шапкой, как у GAA: слои с нарастающим blur, каждый виден только в своей полосе */
+.fade{position:absolute;top:100%;left:0;right:0;height:64px;pointer-events:none;opacity:0;transition:opacity .2s}
+body.scrolled .fade{opacity:1}
+.fade i{position:absolute;inset:0}
+.fade i:nth-child(1){backdrop-filter:blur(.08px);mask:linear-gradient(to top,transparent 0%,#000 12.5%,#000 25%,transparent 37.5%)}
+.fade i:nth-child(2){backdrop-filter:blur(.16px);mask:linear-gradient(to top,transparent 12.5%,#000 25%,#000 37.5%,transparent 50%)}
+.fade i:nth-child(3){backdrop-filter:blur(.31px);mask:linear-gradient(to top,transparent 25%,#000 37.5%,#000 50%,transparent 62.5%)}
+.fade i:nth-child(4){backdrop-filter:blur(.63px);mask:linear-gradient(to top,transparent 37.5%,#000 50%,#000 62.5%,transparent 75%)}
+.fade i:nth-child(5){backdrop-filter:blur(1.25px);mask:linear-gradient(to top,transparent 50%,#000 62.5%,#000 75%,transparent 87.5%)}
+.fade i:nth-child(6){backdrop-filter:blur(2.5px);mask:linear-gradient(to top,transparent 62.5%,#000 75%,#000 87.5%,transparent 100%)}
+.fade i:nth-child(7){backdrop-filter:blur(5px);mask:linear-gradient(to top,transparent 75%,#000 87.5%,#000 100%)}
+.fade i:nth-child(8){backdrop-filter:blur(10px);mask:linear-gradient(to top,transparent 87.5%,#000 100%)}
+
+nav a[aria-current]{color:var(--ink)}
+/* правый край шапки: дата (на страницах проектов) и переключатель языка */
+header .right{justify-self:end;display:flex;align-items:center;gap:20px;font-size:13px;color:var(--muted)}
+.langs{display:flex;gap:8px}
+.langs button{appearance:none;border:0;background:none;padding:0;font:inherit;color:var(--muted);cursor:pointer;transition:color .25s}
+.langs button:hover,.langs button[aria-current]{color:var(--ink)}
+
+/* ——— телефон: шапки-полосы нет — над экраном парят две кнопки: круглый знак слева и «Menu» справа;
+   меню открывается отдельным полноэкранным слоем (по мотивам mouthwash.studio) ——— */
+.menu-btn,.sheet{display:none}
+@media (max-width:767px){
+  header{grid-template-columns:1fr auto;background:transparent;padding-block:16px;padding-inline:12px;pointer-events:none}  /* кнопки чуть внутрь от краёв карточек */
+  header::before{display:none}
+  /* размытие сверху экрана под парящими кнопками: сильнее у края, плавно сходит на нет */
+  header .fade{top:0;bottom:auto;height:calc(100% + 40px);z-index:-1}
+  header > nav,header > .right{display:none}
+  header .logo,.menu-btn{pointer-events:auto;background:rgba(240,243,244,.82);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+    box-shadow:0 1px 6px rgba(35,55,70,.08);transition:transform .25s cubic-bezier(.25,.46,.31,1.28)}
+  header .logo{width:44px;height:44px;border-radius:50%;display:grid;place-items:center}
+  header .logo .mark{height:16px;background:var(--ink)}
+  header .logo:active,.menu-btn:active{transform:scale(.92)}
+  .menu-btn{display:inline-flex;align-items:center;gap:10px;justify-self:end;appearance:none;border:0;font:inherit;font-size:14px;color:var(--ink);
+    height:44px;border-radius:100px;padding:0 18px;cursor:pointer;position:relative;z-index:2}
+  .menu-btn i{position:relative;width:14px;height:8px;display:block}
+  .menu-btn i::before,.menu-btn i::after{content:"";position:absolute;left:0;right:0;height:1.5px;background:currentColor;transition:transform .35s cubic-bezier(.23,1,.32,1),top .35s}
+  .menu-btn i::before{top:0} .menu-btn i::after{top:6.5px}
+  body.menu-open .menu-btn i::before{top:3.25px;transform:rotate(45deg)}
+  body.menu-open .menu-btn i::after{top:3.25px;transform:rotate(-45deg)}
+  html:has(body.menu-open){overflow:hidden}  /* блокируем прокрутку на html: на body это ломает «липкую» шапку */
+
+  .sheet{display:flex;flex-direction:column;justify-content:space-between;position:fixed;inset:0;z-index:49;background:var(--bg);
+    padding:calc(96px + env(safe-area-inset-top,0px)) max(var(--pad),env(safe-area-inset-right,0px)) calc(28px + env(safe-area-inset-bottom,0px)) max(var(--pad),env(safe-area-inset-left,0px));
+    opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s .3s}
+  body.menu-open .sheet{opacity:1;visibility:visible;transition:opacity .3s}
+  .sheet nav{display:flex;flex-direction:column;gap:2px;font-size:44px;line-height:1.05;letter-spacing:-.035em;color:var(--ink)}
+  .sheet nav a{opacity:0;transform:translateY(12px);transition:opacity .35s,transform .45s cubic-bezier(.23,1,.32,1)}
+  .sheet nav a[aria-current]{color:var(--muted)}
+  body.menu-open .sheet nav a{opacity:1;transform:none}
+  body.menu-open .sheet nav a:nth-child(2){transition-delay:.04s} body.menu-open .sheet nav a:nth-child(3){transition-delay:.08s} body.menu-open .sheet nav a:nth-child(4){transition-delay:.12s}
+  .sheet .meta{display:grid;gap:6px;font-size:13px;color:var(--muted)}
+  .sheet .meta a{color:var(--ink)}
+  .sheet .langs{gap:16px;margin-top:10px;font-size:15px}
+  footer{grid-template-columns:1fr;row-gap:20px;padding-block:96px 48px}
+  .big{margin-inline:calc(4px - var(--pad))}
+}
+
+/* без кнопки «плей» поверх видео-иллюстраций (iOS рисует её, когда autoplay заблокирован) */
+video::-webkit-media-controls,video::-webkit-media-controls-start-playback-button,video::-webkit-media-controls-overlay-play-button{display:none!important;-webkit-appearance:none}
+
+/* незаполненный проект: при наведении обложка размывается и появляется плашка «Coming soon» */
+.soon .media{position:relative;display:block;overflow:hidden;border-radius:4px}
+.soon .media img,.card.soon .media .cover{transition:filter .5s ease,transform .5s ease}
+.soon .soon-pill{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.96);opacity:0;transition:opacity .35s ease,transform .35s ease;
+  font-size:12px;letter-spacing:-.03em;background:rgba(255,255,255,.85);color:var(--ink);border-radius:8px;padding:6px 10px;white-space:nowrap;pointer-events:none;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.soon:hover .media img,.soon:focus-within .media img{filter:blur(14px);transform:scale(1.06)}
+.soon:hover .soon-pill,.soon:focus-within .soon-pill{opacity:1;transform:translate(-50%,-50%)}
+.soon a{cursor:default}
+
+/* персонаж в правом нижнем углу и окно «расскажите о проекте» */
+.buddy{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:40;display:flex;flex-direction:column;align-items:flex-end;transition:transform .5s cubic-bezier(.23,1,.32,1),opacity .3s}
+.buddy.away{transform:translateY(110%);opacity:0;pointer-events:none}
+.bd-btn{appearance:none;border:0;padding:0;cursor:pointer;position:relative;display:block;line-height:0;width:44px;height:44px;border-radius:50%;background:none;
+  filter:drop-shadow(0 4px 10px rgba(35,55,70,.18));transition:transform .35s cubic-bezier(.25,.46,.31,1.28),filter .25s}
+.mascot{position:relative;display:block;width:100%;height:100%}
+.mascot > img{width:100%;height:100%;display:block}
+.eyes{position:absolute;inset:0;transition:transform .25s ease-out}
+.eye{position:absolute;height:auto;transform-origin:50% 60%;animation:blink 5s infinite}
+@keyframes blink{0%,94%,100%{transform:none}96%{transform:scaleY(.1)}}
+.bd-btn:hover,.buddy.open .bd-btn{transform:translateY(-2px) rotate(-6deg);filter:drop-shadow(0 8px 16px rgba(35,55,70,.22))}
+.bd-btn:active{transform:scale(.94)}
+.bd-btn:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.bd-tip{position:absolute;right:calc(100% + 10px);top:50%;margin-top:-13px;line-height:1.2;font-size:12px;letter-spacing:-.03em;white-space:nowrap;color:var(--ink);background:var(--chip);
+  border-radius:8px;padding:6px 10px;opacity:0;transform:translateX(4px);transition:opacity .25s,transform .25s;pointer-events:none}
+.bd-btn:hover .bd-tip{opacity:1;transform:none}
+.buddy.open .bd-tip{display:none}
+.bd-win{width:min(360px,calc(100vw - 32px));margin-bottom:10px;background:var(--bg);border-radius:12px;padding:22px 20px 20px;position:relative;
+  box-shadow:0 2px 6px rgba(35,55,70,.06),0 18px 50px rgba(35,55,70,.16);transform-origin:90% 100%;animation:bd-in .35s cubic-bezier(.23,1,.32,1)}
+.bd-win[hidden]{display:none}
+@keyframes bd-in{from{opacity:0;transform:translateY(8px) scale(.97)}}
+.bd-win h2{margin:0 28px 6px 0;font-size:20px;line-height:1.15;font-weight:500;letter-spacing:-.03em;color:var(--ink)}
+.bd-sub{margin:0 0 14px;font-size:13px;line-height:1.35;color:var(--muted)}
+.bd-x{position:absolute;top:12px;right:12px;width:28px;height:28px;border:0;border-radius:50%;background:var(--chip);color:var(--muted);font-size:17px;line-height:1;cursor:pointer;transition:color .25s}
+.bd-x:hover{color:var(--ink)}
+.bd-links{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.bd-links a{font-size:12.5px;background:var(--chip);color:var(--ink);border-radius:8px;padding:6px 10px;transition:background-color .25s}
+.bd-links a:hover{background:var(--chip-hover)}
+.bd-form{display:grid;gap:10px}
+.bd-form label{display:grid;gap:4px;font-size:12px;color:var(--muted)}
+.bd-form input,.bd-form textarea{font:inherit;font-size:16px;color:var(--ink);background:var(--chip);border:1px solid transparent;border-radius:8px;padding:8px 10px;resize:vertical;outline:none;transition:border-color .2s}
+.bd-form input:focus,.bd-form textarea:focus{border-color:var(--faint)}
+.bd-send{justify-self:start;appearance:none;border:0;font:inherit;font-size:13px;font-weight:500;background:var(--ink);color:#fff;border-radius:8px;padding:8px 16px;cursor:pointer;transition:opacity .25s}
+.bd-send:hover{opacity:.85}
+.bd-send:active{transform:scale(.97)}
+.bd-form small{font-size:11px;color:var(--muted)}
+.buddy .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (max-width:767px){
+  .bd-win{max-height:calc(100dvh - 150px);overflow:auto}
+}
+
+/* все кадры со скруглёнными углами 4px. clip-path, а не только border-radius: Safari не скругляет
+   видео и прокручиваемые ленты (карусели) одним border-radius — углы у них остаются прямыми */
+.shot,.car,.card .media,.item img,.thumb img,.thumb .media{border-radius:4px;clip-path:inset(0 round 4px)}

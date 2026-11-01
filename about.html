@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>About Us — Oi.Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Tinos&display=swap">
+<link rel="stylesheet" href="site.css">
+<style>
+/* About по структуре gaadesign.studio/info/about: студия → основатель → принципы (раскрываются) → услуги → клиенты → признание → контакт.
+   Сетка сайта: подпись раздела в первой колонке из 4, содержание — в колонках 2–4 */
+.sec{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding-block:28px 64px;border-top:1px solid var(--chip)}
+.sec > h2{font-size:13px;font-weight:400;color:var(--muted);margin:0}
+.sec > .body{grid-column:2/-1;min-width:0}
+.lead{font-family:var(--serif);font-size:clamp(22px,2.17vw,32.5px);line-height:1.23;color:var(--hero);margin:0;max-width:30em;text-wrap:pretty}
+.intro{padding-block:clamp(80px,14vw,200px) clamp(60px,8vw,120px);border-top:0}
+.text{font-size:18px;line-height:1.35;color:var(--ink);margin:0 0 1em;max-width:40em}
+.muted{color:var(--muted)}
+.photos{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr);gap:8px;margin-top:32px}
+.ph{background:var(--chip);border-radius:4px;display:grid;place-items:center;color:var(--muted);font-size:12px;text-align:center;line-height:1.4;aspect-ratio:4/5}
+.ph.wide{aspect-ratio:auto}
+
+/* принципы: строка раскрывается по клику, «+» поворачивается в «×» */
+.pr{border-bottom:1px solid var(--chip)}
+.pr summary{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:16px;cursor:pointer;font-size:18px;color:var(--ink)}
+.pr summary::-webkit-details-marker{display:none}
+.pr summary i{font-style:normal;color:var(--muted);transition:transform .35s cubic-bezier(.23,1,.32,1),color .25s}
+.pr[open] summary i{transform:rotate(45deg)}
+.pr summary:hover i{color:var(--ink)}
+.pr p{margin:0 0 20px;font-size:16px;line-height:1.4;color:var(--muted);max-width:40em}
+.pr:first-child summary{padding-top:0}
+
+.list{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 8px;font-size:18px;color:var(--ink)}
+.list span small{color:var(--muted);font-size:13px;margin-left:6px}
+.mail{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:18px;color:var(--ink)}
+
+@media (max-width:767px){
+  .sec{grid-template-columns:1fr;gap:16px}
+  .sec > .body{grid-column:1}
+  .list{grid-template-columns:1fr 1fr}
+  .photos{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .photos .ph:first-child{grid-column:1/-1}
+}
+</style>
+</head>
+<body class="project">
+<header id="hdr">
+  <a class="logo" href="index.html" aria-label="Oi.Lab"><span class="mark"></span></a>
+  <nav id="nav"></nav>
+  <span class="right"><span class="when" id="when"></span><span class="langs"></span></span>
+  <div class="fade" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+</header>
+
+<main>
+  <section class="sec intro">
+    <h2 data-i="a.studio"></h2>
+    <div class="body"><p class="lead" data-i="a.studioText"></p></div>
+  </section>
+
+  <section class="sec">
+    <h2 data-i="a.founder"></h2>
+    <div class="body">
+      <p class="text" data-i="a.founderText"></p>
+      <p class="text muted" data-i="a.founderNote"></p>
+      <div class="photos"><div class="ph"><span data-i="a.portrait"></span><br>1200 × 1500</div><div class="ph"><span data-i="a.studioPh"></span><br>800 × 1000</div><div class="ph"><span data-i="a.process"></span><br>800 × 1000</div></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <h2 data-i="a.principles"></h2>
+    <div class="body" id="principles"></div>
+  </section>
+
+  <section class="sec">
+    <h2 data-i="a.services"></h2>
+    <div class="body list" id="services"></div>
+  </section>
+
+  <section class="sec">
+    <h2 data-i="a.clients"></h2>
+    <div class="body list" id="clients"></div>
+  </section>
+
+  <section class="sec">
+    <h2 data-i="a.recognition"></h2>
+    <div class="body"><p class="text muted" data-i="a.recognitionText"></p></div>
+  </section>
+
+  <section class="sec">
+    <h2 data-i="a.contact"></h2>
+    <div class="body mail"><span id="email"></span><a class="write copy" href="#" data-i="a.copy"></a></div>
+  </section>
+</main>
+
+<footer id="contact"></footer>
+<div class="big" id="big" role="img" aria-label="Oilab"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js"></script>
+<script src="i18n.js" charset="utf-8"></script>
+<script src="projects.js" charset="utf-8"></script>
+<script>
+// Тексты страницы — в i18n.js (ключи a.*)
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+window.pageRender = () => {
+  document.getElementById('principles').innerHTML = t('a.principleList').map(([h, d]) =>
+    `<details class="pr"><summary>${esc(h)}<i aria-hidden="true">+</i></summary><p>${esc(d)}</p></details>`).join('');
+  document.getElementById('services').innerHTML = t('a.serviceList').map(x => `<span>${esc(x)}</span>`).join('');
+};
+pageRender();
+document.getElementById('clients').innerHTML = PROJECTS.filter(p => !/^Проект/.test(p.name))
+  .map(p => p.case ? `<a href="case.html#${slug(p)}">${esc(p.name)}</a>` : `<span>${esc(p.name)}</span>`).join('');
+document.getElementById('email').textContent = EMAIL;
+
+siteChrome();
+playLottie('big', 'img/footer-logo.json', 'img/footer-logo.png');
+</script>
+</body>
+</html>
