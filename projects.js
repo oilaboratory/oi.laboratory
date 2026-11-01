@@ -126,8 +126,8 @@ const PROJECTS = [
   {name:"1135", cat:["Identity"], img:"p22c", hover:"img/1135/hover2.jpg", case: D1135_CASE, tags:["Visual Identity","Graphic Design","Strategy"]},
   {name:"Кайрат", img:"p01", case:{intro:["img/kairat/intro.mp4",1920,1080]}, tags:["Digital Design","Technology","Strategy"]},
   {name:"Тастамашы Ана", cat:["Film"], img:"p25b", hover:"img/ta/hover2.jpg", case: TA_CASE, tags:["Creative Direction","Motion Design","Graphic Design"]},
-  {hidden:true, name:"Straight Shift", cat:["Identity"], img:"p13", hover:"img/straight-shift/ss01.jpg", case: SS_CASE, tags:["Visual Identity","Strategy","Graphic Design"]},
-  {hidden:true, name:"bülbül", cat:["Identity"], img:"p02", hover:"img/bulbul/hover.jpg", tags:["Visual Identity","Graphic Design","Creative Direction"], case: BULBUL_CASE},
+  {soon:true, name:"Straight Shift", cat:["Identity"], img:"p13", hover:"img/straight-shift/ss01.jpg", case: SS_CASE, tags:["Visual Identity","Strategy","Graphic Design"]},
+  {soon:true, name:"bülbül", cat:["Identity"], img:"p02", hover:"img/bulbul/hover.jpg", tags:["Visual Identity","Graphic Design","Creative Direction"], case: BULBUL_CASE},
   {name:"14 Music Label", cat:["Music"], img:"p03", tags:["Strategy","Creative Direction","Visual Identity"]},
   {name:"ushiro", img:"p06", tags:["Strategy","Narrative","Creative Direction"]},
   {name:"allfolk", img:"p08", tags:["Motion Design","Creative Direction","Visual Identity"]},
@@ -142,7 +142,7 @@ const PROJECTS = [
   {name:"Plan B Films", cat:["Film"], img:"p18", tags:T.kindred},
   {name:"Қарақшы", img:"p19", tags:T.nike},
   {name:"Älem Comedy Fest", img:"p24", tags:T.kindred},
-].filter(p => !p.hidden);   // hidden:true — проект скрыт с сайта
+].filter(p => !p.hidden).map(p => p.soon ? {...p, case: undefined} : p);   // hidden:true — скрыт с сайта; soon:true — виден, но закрыт («Coming soon»), кейс сохранён
 
 // адрес страницы кейса: латинское имя → «ushiro», «bulbul», «7-20»; кириллица → номер картинки («p01»)
 function slug(p){
