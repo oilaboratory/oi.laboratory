@@ -230,7 +230,7 @@ function buddy(){
     if (f.get('_honey')) return;   // ловушка для ботов
     send.disabled = true; send.textContent = t('b.sending');
     try {
-      const r = await fetch(`https://formsubmit.co/ajax/${EMAIL}`, {signal: AbortSignal.timeout(15000), method: 'POST', headers: {'Content-Type': 'application/json', Accept: 'application/json'},
+      const r = await fetch(`https://formsubmit.co/ajax/b767abc441ae779010df1e16cc8fae82`, {signal: AbortSignal.timeout(15000), method: 'POST', headers: {'Content-Type': 'application/json', Accept: 'application/json'},
         body: JSON.stringify({name: f.get('name'), contact: f.get('reach'), message: f.get('about'), page: location.href,
           _subject: 'Заявка с сайта Oi.Lab — ' + f.get('name'), _replyto: /@/.test(f.get('reach')) ? f.get('reach') : undefined, _template: 'table', _captcha: 'false'})});
       const j = await r.json().catch(() => ({}));
