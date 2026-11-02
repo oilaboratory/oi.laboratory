@@ -3,7 +3,7 @@
   /* цвета сняты с первого макета: тёмный текст, серый меню, светлый серый футера, плашки */
   --bg:#ffffff; --ink:#233746; --muted:#93a0a8; --faint:#d4dade; --chip:#f0f3f4; --dot:#2bd46b; --hero:#233746; --chip-hover:#e4e8ea;
   --serif:"Times New Roman","Tinos",Times,serif; /* Tinos — тот же Times по метрикам, для телефонов без Times New Roman */
-  --sans:"Onest",-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --sans:"Helvetica Neue",Helvetica,Arial,sans-serif; /* как у gaadesign.studio; на Mac и iPhone — настоящий Helvetica Neue, на остальных Arial */
   color-scheme:light;
 }
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
@@ -209,7 +209,10 @@ header nav a:active,.langs .lang-pill:active{transform:scale(.96)}
 
 /* заставка при входе (как у gaadesign.studio): серое название, буквы проявляются из размытия слева направо */
 #intro{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:var(--bg);transition:opacity .6s ease,visibility .6s}
-#intro span{font:500 24px/1 "Helvetica Neue","Helvetica Neue Medium",Helvetica,Arial,sans-serif;letter-spacing:-.02em;color:#d8d8d8;white-space:nowrap}
+#intro span{font:500 48px/1.1 var(--sans);letter-spacing:-.02em;color:#d8d8d8;white-space:nowrap}
 #intro i{display:inline-block;font-style:normal;opacity:0;filter:blur(10px);animation:introL .6s ease-out forwards}
 #intro.out{opacity:0;visibility:hidden}
 @keyframes introL{to{opacity:1;filter:blur(0)}}
+@media (max-width:1599px){#intro span{font-size:44px}}   /* размеры как у gaa: 48 / 44 / 32 / 24 */
+@media (max-width:1199px){#intro span{font-size:32px}}
+@media (max-width:809px){#intro span{font-size:24px}}
