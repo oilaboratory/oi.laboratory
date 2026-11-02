@@ -17,7 +17,7 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Tinos&display=swap">
-<link rel="stylesheet" href="site.css?v=1793607111">
+<link rel="stylesheet" href="site.css?v=1793607607">
 <style>
 /* Главная: манифест и сетка проектов. Общие токены, шапка и футер — в site.css */
 
@@ -89,6 +89,15 @@
 
 </head>
 <body>
+<!-- заставка при входе: название проявляется по буквам из размытия, потом страница; раз за сессию -->
+<div id="intro" aria-hidden="true"></div>
+<script>(function(){
+  var el = document.getElementById('intro'), seen = false;
+  try { seen = sessionStorage.getItem('oi-intro'); sessionStorage.setItem('oi-intro', 1); } catch (e) {}
+  if (seen || matchMedia('(prefers-reduced-motion: reduce)').matches) { el.remove(); return; }
+  el.innerHTML = '<span>' + 'Oi.Laboratory'.split('').map(function(c, i){ return '<i style="animation-delay:' + (0.15 + i * 0.06).toFixed(2) + 's">' + c + '</i>'; }).join('') + '</span>';
+  setTimeout(function(){ el.classList.add('out'); setTimeout(function(){ el.remove(); }, 700); }, 2100);
+})();</script>
 <header>
   <a class="logo" href="./" aria-label="Oi.Lab"><span class="mark"></span></a>
   <nav id="nav"></nav>
@@ -113,8 +122,8 @@
 <div class="big" id="big" role="img" aria-label="Oilab"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js"></script>
-<script src="i18n.js?v=1793607111" charset="utf-8"></script>
-<script src="projects.js?v=1793607111" charset="utf-8"></script>
+<script src="i18n.js?v=1793607607" charset="utf-8"></script>
+<script src="projects.js?v=1793607607" charset="utf-8"></script>
 <script>
 // hover: вторая фотография проекта (или .mp4) — плавно сменяет обложку при наведении. Пример: {name:"Кайрат", img:"p01", hover:"img/p01-2.jpg", tags:[...]}
 const grid = document.getElementById('grid');

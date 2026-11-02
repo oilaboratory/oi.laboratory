@@ -206,3 +206,10 @@ header nav a:active,.langs .lang-pill:active{transform:scale(.96)}
 .bd-form{position:relative}
 .bd-form.sent small{color:var(--ink)}
 .bd-send:disabled{opacity:.5;cursor:default}
+
+/* заставка при входе (как у gaadesign.studio): серое название, буквы проявляются из размытия слева направо */
+#intro{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:var(--bg);transition:opacity .6s ease,visibility .6s}
+#intro span{font:500 24px/1 "Helvetica Neue","Helvetica Neue Medium",Helvetica,Arial,sans-serif;letter-spacing:-.02em;color:#d8d8d8;white-space:nowrap}
+#intro i{display:inline-block;font-style:normal;opacity:0;filter:blur(10px);animation:introL .6s ease-out forwards}
+#intro.out{opacity:0;visibility:hidden}
+@keyframes introL{to{opacity:1;filter:blur(0)}}
