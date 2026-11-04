@@ -1,9 +1,16 @@
 /* Общие стили сайта Oi.Lab: токены, шапка, футер. Подключаются на всех страницах. */
+/* шрифт сайта — Favorit */
+@font-face{font-family:"Favorit";src:url(fonts/FavoritLightC.woff2) format("woff2");font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:"Favorit";src:url(fonts/FavoritBookC.woff2) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Favorit";src:url(fonts/FavoritC.woff2) format("woff2");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:"Favorit";src:url(fonts/FavoritC-Bold.woff2) format("woff2");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Favorit";src:url(fonts/FavoritBookC-Italic.woff2) format("woff2");font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:"Favorit";src:url(fonts/FavoritC-Italic.woff2) format("woff2");font-weight:500;font-style:italic;font-display:swap}
 :root{
   /* цвета сняты с первого макета: тёмный текст, серый меню, светлый серый футера, плашки */
   --bg:#ffffff; --ink:#233746; --muted:#93a0a8; --faint:#d4dade; --chip:#f0f3f4; --dot:#2bd46b; --hero:#233746; --chip-hover:#e4e8ea;
   --serif:"Times New Roman","Tinos",Times,serif; /* Tinos — тот же Times по метрикам, для телефонов без Times New Roman */
-  --sans:"Helvetica Neue",Helvetica,Arial,sans-serif; /* как у gaadesign.studio; на Mac и iPhone — настоящий Helvetica Neue, на остальных Arial */
+  --sans:"Favorit","Helvetica Neue",Helvetica,Arial,sans-serif; /* Favorit (Dinamo, кириллица); казахских букв и ó в нём нет — их браузер берёт из Helvetica Neue / Arial */
   color-scheme:light;
 }
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
