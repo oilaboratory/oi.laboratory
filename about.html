@@ -16,7 +16,7 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos&display=swap">
-<link rel="stylesheet" href="site.css?v=1793819318">
+<link rel="stylesheet" href="site.css?v=1793819706">
 <style>
 /* About по структуре gaadesign.studio/info/about: студия → основатель → принципы (раскрываются) → услуги → клиенты → признание → контакт.
    Сетка сайта: подпись раздела в первой колонке из 4, содержание — в колонках 2–4 */
@@ -32,18 +32,18 @@
 .team h3 b{font-weight:500;color:var(--ink)}
 .team img{display:block;width:100%;height:auto;aspect-ratio:900/1205;object-fit:cover;border-radius:4px;background:var(--chip)}
 .team p{margin:12px 0 0;font-size:14px;line-height:1.35;color:var(--ink);max-width:26em}
-.pr summary .em{display:inline-block;width:1.6em;font-style:normal}
 
-/* принципы: строка раскрывается по клику, «+» поворачивается в «×» */
-.pr{border-bottom:1px solid var(--chip)}
-.pr summary{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:16px;cursor:pointer;font-size:18px;color:var(--ink)}
-.pr summary::-webkit-details-marker{display:none}
-.pr summary i{font-style:normal;color:var(--muted);transition:transform .35s cubic-bezier(.23,1,.32,1),color .25s}
-.pr[open] summary i{transform:rotate(45deg)}
-.pr summary:hover i{color:var(--ink)}
-.pr p{margin:0 0 20px;font-size:16px;line-height:1.4;color:var(--muted);max-width:40em}
-.pr:first-child summary{padding-top:0}
-
+/* принципы как у gaadesign.studio/info/about: открыт один, остальные бледные; описание справа от заголовка */
+.pr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:0 8px;align-items:start}   /* описание с 3-й колонки сетки, как у GAA */
+.pr-h{appearance:none;border:0;background:none;padding:0 0 22px;margin:0;white-space:nowrap;font:inherit;font-size:clamp(24px,2.2vw,32px);font-weight:500;line-height:1;letter-spacing:-.5px;text-align:left;
+  color:var(--faint);cursor:pointer;transition:color .4s cubic-bezier(.23,1,.32,1)}
+.pr-h .em{display:inline-block;width:1.45em;filter:grayscale(1);opacity:.45;transition:filter .4s,opacity .4s}
+.pr-h:hover,.pr.open .pr-h{color:var(--ink)}
+.pr.open .pr-h .em,.pr-h:hover .em{filter:none;opacity:1}
+.pr-d{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .5s cubic-bezier(.23,1,.32,1),opacity .35s}
+.pr-d > p{overflow:hidden;margin:0;font-size:clamp(17px,1.55vw,22px);line-height:1.1;letter-spacing:-.5px;color:var(--ink);max-width:30em}
+.pr.open .pr-d{grid-template-rows:1fr;opacity:1;transition:grid-template-rows .5s cubic-bezier(.23,1,.32,1),opacity .5s .1s}
+.pr.open .pr-d > p{padding-bottom:36px}
 .list{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 8px;font-size:18px;color:var(--ink)}
 .list span small{color:var(--muted);font-size:13px;margin-left:6px}
 .mail{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:18px;color:var(--ink)}
@@ -53,6 +53,9 @@
   .sec > .body{grid-column:1}
   .list{grid-template-columns:1fr 1fr}
   .team{grid-template-columns:minmax(0,1fr) minmax(0,1fr);margin-top:8px}
+  .pr{grid-template-columns:1fr}
+  .pr-h{padding-bottom:16px}
+  .pr.open .pr-d > p{padding-bottom:24px}
 }
 </style>
 </head>
@@ -108,22 +111,28 @@
 <div class="big" id="big" role="img" aria-label="Oilab"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js"></script>
-<script src="i18n.js?v=1793819318" charset="utf-8"></script>
-<script src="projects.js?v=1793819318" charset="utf-8"></script>
+<script src="i18n.js?v=1793819706" charset="utf-8"></script>
+<script src="projects.js?v=1793819706" charset="utf-8"></script>
 <script>
 // Тексты страницы — в i18n.js (ключи a.*)
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 window.pageRender = () => {
   const EMOJI = ['🔬', '🌎', '📐', '🔎', '💍', '💙'];
-  document.getElementById('principles').innerHTML = t('a.principleList').map(([h, d], i) =>
-    `<details class="pr"><summary><span><span class="em" aria-hidden="true">${EMOJI[i] || ''}</span>${esc(h)}</span><i aria-hidden="true">+</i></summary><p>${esc(d)}</p></details>`).join('');
-  const PHOTO = ['tolegen', 'aibyn', 'konstantin', 'raim'];
+  const box = document.getElementById('principles'), cur = box.querySelector('.pr.open'), on = cur ? [...box.children].indexOf(cur) : 0;
+  box.innerHTML = t('a.principleList').map(([h, d], i) =>
+    `<div class="pr${i === on ? ' open' : ''}"><button class="pr-h" type="button" aria-expanded="${i === on}"><span class="em" aria-hidden="true">${EMOJI[i] || ''}</span>${esc(h)}</button><div class="pr-d"><p>${esc(d)}</p></div></div>`).join('');
+  const PHOTO = ['aibyn', 'konstantin', 'raim', 'tolegen'];
   document.getElementById('team').innerHTML = t('a.team').map(([n, r, d], i) =>
     `<figure style="margin:0"><h3><b>${esc(n)}</b> ${esc(r)}</h3><img src="img/team/${PHOTO[i]}.jpg" alt="${esc(n)}" width="900" height="1205" loading="lazy"><p>${esc(d)}</p></figure>`).join('');
   document.getElementById('services').innerHTML = t('a.serviceList').map(x => `<span>${esc(x)}</span>`).join('');
 };
 pageRender();
+// принципы: нажатие открывает пункт, остальные закрываются
+document.getElementById('principles').addEventListener('click', e => {
+  const h = e.target.closest('.pr-h'); if (!h) return;
+  document.querySelectorAll('#principles .pr').forEach(p => { const on = p === h.parentElement; p.classList.toggle('open', on); p.querySelector('.pr-h').setAttribute('aria-expanded', on); });
+});
 document.getElementById('clients').innerHTML = PROJECTS.filter(p => !/^Проект/.test(p.name))
   .map(p => p.case ? `<a href="case.html#${slug(p)}">${esc(p.name)}</a>` : `<span>${esc(p.name)}</span>`).join('');
 document.getElementById('email').textContent = EMAIL;

@@ -149,43 +149,42 @@ video::-webkit-media-controls,video::-webkit-media-controls-start-playback-butto
   border-radius:8px;padding:6px 10px;opacity:0;transform:translateX(4px);transition:opacity .25s,transform .25s;pointer-events:none}
 .bd-btn:hover .bd-tip{opacity:1;transform:none}
 .buddy.open .bd-tip{display:none}
-/* окно «Связаться с нами»: полноэкранный слой в стиле сайта — слева заголовок и контакты, справа форма */
-.bd-win{position:fixed;inset:0;z-index:100;overflow:auto;overscroll-behavior:contain;background:var(--bg);
-  padding:clamp(88px,12vh,140px) var(--pad) 48px;animation:bd-in .4s cubic-bezier(.23,1,.32,1)}
+/* окно «Связаться с нами» как у gaadesign.studio: карточка поверх размытого сайта, вырастает из нажатой кнопки (анимация в projects.js) */
+.bd-win{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:24px;overflow:auto;overscroll-behavior:contain;
+  background:rgba(255,255,255,.3);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
 .bd-win[hidden]{display:none}
-@keyframes bd-in{from{opacity:0}}
 html.bd-lock{overflow:hidden}
 .buddy.open{opacity:0;pointer-events:none}
-.bd-in{max-width:1344px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:48px 8px;align-items:start;animation:bd-up .5s cubic-bezier(.23,1,.32,1)}
-@keyframes bd-up{from{opacity:0;transform:translateY(14px)}}
-.bd-head{grid-column:1/3;max-width:560px}
-.bd-win h2{margin:0 0 18px;font-family:var(--serif);font-weight:400;font-size:clamp(30px,3.3vw,48px);line-height:1.05;letter-spacing:-.01em;color:var(--ink)}
-.bd-sub{margin:0 0 24px;font-size:15px;line-height:1.35;color:var(--muted);max-width:30em}
-.bd-x{position:fixed;top:20px;right:32px;display:inline-flex;align-items:center;gap:8px;height:30px;padding:0 14px;border:0;border-radius:15px;background:var(--chip);color:var(--ink);font:inherit;font-size:13px;font-weight:500;cursor:pointer;z-index:1;transition:background-color .25s}
+.bd-card{width:min(720px,100%);background:#f7f8f9;border:1px solid var(--chip);border-radius:24px;padding:16px;box-shadow:0 30px 80px rgba(35,55,70,.12);transform-origin:50% 50%;will-change:transform}
+.bd-top{display:flex;align-items:center;gap:10px;background:var(--bg);border-radius:12px;padding:12px 12px 12px 16px}
+.bd-dot{width:7px;height:7px;border-radius:50%;background:var(--dot);flex:none;box-shadow:0 0 0 0 rgba(43,212,107,.5);animation:bd-pulse 2s infinite}
+@keyframes bd-pulse{70%{box-shadow:0 0 0 7px rgba(43,212,107,0)}100%{box-shadow:0 0 0 0 rgba(43,212,107,0)}}
+.bd-win h2{flex:1;margin:0;font-size:15px;font-weight:500;line-height:1.2;letter-spacing:-.01em;color:var(--ink)}
+.bd-in{padding:20px 4px 4px}
+.bd-sub{margin:0 0 14px;font-size:14px;line-height:1.35;color:var(--muted);max-width:34em}
+body .bd-x{width:26px;padding:0;justify-content:center;background:var(--chip)}
 .bd-x i{position:relative;width:10px;height:10px}
 .bd-x i::before,.bd-x i::after{content:"";position:absolute;left:0;top:4.5px;width:10px;height:1.3px;background:currentColor;transform:rotate(45deg)}
 .bd-x i::after{transform:rotate(-45deg)}
-.bd-x:hover{background:var(--chip-hover)}
-.bd-links{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
-.bd-links .bd-mail{font-size:13px;background:var(--chip);color:var(--ink);border-radius:8px;padding:7px 12px;transition:background-color .25s}
-.bd-links .bd-mail:hover{background:var(--chip-hover)}
-.bd-links .social{gap:4px}
-.bd-links .social a{width:32px;height:32px;border-radius:8px;background:var(--chip);color:var(--ink)}
-.bd-links .social a:hover{background:var(--chip-hover)}
-.bd-form{grid-column:3/5;display:grid;gap:16px;position:relative}
-.bd-form label{display:grid;gap:6px;font-size:13px;color:var(--muted)}
-.bd-form input,.bd-form textarea{font:inherit;font-size:16px;color:var(--ink);background:var(--chip);border:1px solid transparent;border-radius:8px;padding:12px 14px;resize:vertical;outline:none;transition:border-color .2s}
-.bd-form textarea{min-height:160px}
+.bd-links{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-bottom:18px}
+body .bd-links .bd-mail,body .bd-links .social a{background:var(--bg)}
+body .bd-links .bd-mail:hover,body .bd-links .social a:hover{background:var(--chip-hover)}
+.bd-links .social{gap:6px}
+.bd-form{display:grid;grid-template-columns:1fr 1fr;gap:12px 8px;position:relative}
+.bd-form .wide{grid-column:1/-1}
+.bd-form label{display:grid;gap:6px;font-size:12px;color:var(--muted)}
+.bd-form input,.bd-form textarea{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid transparent;border-radius:12px;padding:11px 14px;resize:vertical;outline:none;transition:border-color .2s}
+.bd-form textarea{min-height:120px}
 .bd-form input:focus,.bd-form textarea:focus{border-color:var(--faint)}
-.bd-send{justify-self:start;appearance:none;border:0;font:inherit;font-size:14px;font-weight:500;background:var(--ink);color:#fff;border-radius:8px;padding:11px 22px;cursor:pointer;transition:opacity .25s}
-.bd-send:hover{opacity:.85}
-.bd-send:active{transform:scale(.97)}
-.bd-form small{font-size:12px;color:var(--muted)}
+.bd-foot{display:flex;flex-direction:column;align-items:center;gap:8px;padding-top:6px}
+.bd-send{appearance:none;border:0;font:inherit;font-size:13px;font-weight:500;background:var(--bg);color:var(--ink);cursor:pointer;transition:background-color .25s,transform .2s}
+.bd-send:hover{background:var(--chip-hover)}
+.bd-send:active{transform:scale(.96)}
+.bd-form small{font-size:11px;color:var(--muted);text-align:center}
 @media (max-width:767px){
-  .bd-win{padding:84px 16px 40px}
-  .bd-x{top:16px;right:12px}
-  .bd-in{grid-template-columns:1fr;gap:32px}
-  .bd-head,.bd-form{grid-column:1}
+  .bd-win{padding:12px;align-items:end}
+  .bd-card{border-radius:20px}
+  .bd-form{grid-template-columns:1fr}
 }
 
 .buddy .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -247,7 +246,7 @@ body :is(.pill,.shuffle,.filter,.write,.bd-mail,.bd-x):hover{background:var(--ch
 body :is(.pill,.shuffle,.filter,.write,.bd-mail,.bd-x):active{transform:scale(.96)}
 body .write{color:var(--ink)}   /* «Написать нам» — главный призыв: тёмный текст и зелёная точка */
 body .shuffle{display:flex;width:max-content}
-body .bd-send{border-radius:17px;height:34px;padding:0 20px}
-body .bd-links .social a{width:26px;height:26px;border-radius:13px;color:var(--muted);transition:color .25s,background-color .25s}
+body .bd-send{border-radius:17px;height:34px;padding:0 22px}
+body .bd-links .social a{width:26px;height:26px;border-radius:13px;color:var(--muted);transition:color .25s,background-color .25s;display:inline-grid;place-items:center}
 body .bd-links .social a:hover{color:var(--ink)}
 body .tag{border-radius:10px;padding:4px 7px}

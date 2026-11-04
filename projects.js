@@ -276,29 +276,47 @@ function siteChrome(){
 function buddy(){
   document.body.insertAdjacentHTML('beforeend', `
   <section class="bd-win" id="bd-win" role="dialog" aria-modal="true" aria-labelledby="bd-t" hidden>
-    <button class="bd-x" type="button" aria-label="Close"><span data-i="close"></span> <i aria-hidden="true"></i></button>
-    <div class="bd-in">
-      <div class="bd-head"><h2 id="bd-t" data-i="b.title"></h2>
-      <p class="bd-sub" data-i="b.sub"></p>
-      <div class="bd-links"><a href="mailto:${EMAIL}" class="bd-mail">${EMAIL}</a>${socialHtml()}</div></div>
-      <form class="bd-form" id="bd-form">
-        <label><span data-i="b.name"></span><input name="name" autocomplete="name" required></label>
-        <label><span data-i="b.reach"></span><input name="reach" autocomplete="email" required></label>
-        <label><span data-i="b.about"></span><textarea name="about" rows="4" required></textarea></label>
-        <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
-        <button class="bd-send" type="submit" data-i="b.send"></button>
-        <small data-i="b.note"></small>
-      </form>
+    <div class="bd-card">
+      <div class="bd-top"><i class="bd-dot" aria-hidden="true"></i><h2 id="bd-t" data-i="b.title"></h2><button class="bd-x" type="button" aria-label="Close"><i aria-hidden="true"></i></button></div>
+      <div class="bd-in">
+        <p class="bd-sub" data-i="b.sub"></p>
+        <div class="bd-links"><a href="mailto:${EMAIL}" class="bd-mail">${EMAIL}</a>${socialHtml()}</div>
+        <form class="bd-form" id="bd-form">
+          <label><span data-i="b.name"></span><input name="name" autocomplete="name" required></label>
+          <label><span data-i="b.reach"></span><input name="reach" autocomplete="email" required></label>
+          <label class="wide"><span data-i="b.about"></span><textarea name="about" rows="4" required></textarea></label>
+          <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
+          <div class="bd-foot wide"><button class="bd-send" type="submit" data-i="b.send"></button><small data-i="b.note"></small></div>
+        </form>
+      </div>
     </div>
   </section>
   <div class="buddy" id="buddy">
     <button class="bd-btn" type="button" aria-expanded="false" aria-controls="bd-win"><span class="bd-tip" data-i="b.tip"></span><span class="mascot"><img src="img/mascot-c.png" alt="" width="150" height="150"><span class="eyes"><img class="eye" src="img/mascot-b-eye0.png" alt="" style="left:25.63%;top:38.39%;width:11.73%"><img class="eye" src="img/mascot-b-eye1.png" alt="" style="left:60.11%;top:38.39%;width:12.88%"></span></span><span class="sr" data-i="b.title"></span></button>
   </div>`);
   const root = document.getElementById('buddy'), win = document.getElementById('bd-win'), btn = root.querySelector('.bd-btn');
-  const open = on => { win.hidden = !on; root.classList.toggle('open', on); document.documentElement.classList.toggle('bd-lock', on); btn.setAttribute('aria-expanded', on); document.querySelectorAll('.nav-contact').forEach(c => c.classList.toggle('is-on', on)); if (on) win.querySelector('input').focus(); };
-  btn.onclick = () => open(win.hidden);
+  // окно вырастает из кнопки, которая его открыла (маскот или «Связаться с нами»), и сворачивается обратно в неё — как у gaadesign.studio
+  const card = win.querySelector('.bd-card'), still = matchMedia('(prefers-reduced-motion: reduce)');
+  let from = btn, anim = null;
+  const fromRect = () => { const a = from.getBoundingClientRect(), b = card.getBoundingClientRect();
+    return `translate(${(a.left + a.width / 2) - (b.left + b.width / 2)}px, ${(a.top + a.height / 2) - (b.top + b.height / 2)}px) scale(${Math.max(a.width / b.width, .08)}, ${Math.max(a.height / b.height, .04)})`; };
+  const open = on => {
+    if (on === !win.hidden && !anim) return;
+    root.classList.toggle('open', on); document.documentElement.classList.toggle('bd-lock', on); btn.setAttribute('aria-expanded', on);
+    document.querySelectorAll('.nav-contact').forEach(c => c.classList.toggle('is-on', on));
+    if (anim) anim.cancel();
+    if (on) win.hidden = false;
+    if (still.matches) { win.hidden = !on; if (on) win.querySelector('input').focus(); return; }
+    const kf = [{transform: fromRect(), borderRadius: '40px', opacity: 0}, {transform: 'none', borderRadius: '24px', opacity: 1}];
+    win.animate([{opacity: 0}, {opacity: 1}], {duration: 420, easing: 'ease', direction: on ? 'normal' : 'reverse', fill: 'both'});
+    anim = card.animate(kf, {duration: on ? 560 : 420, easing: on ? 'cubic-bezier(.22,1.12,.36,1)' : 'cubic-bezier(.4,0,.6,1)', direction: on ? 'normal' : 'reverse', fill: 'both'});
+    card.querySelector('.bd-in').animate([{opacity: 0}, {opacity: 1}], {duration: on ? 360 : 160, delay: on ? 180 : 0, easing: 'ease', direction: on ? 'normal' : 'reverse', fill: 'both'});
+    anim.onfinish = () => { anim = null; if (!on) { win.hidden = true; win.getAnimations({subtree: true}).forEach(a => a.cancel()); } else win.querySelector('input').focus({preventScroll: true}); };
+  };
+  btn.onclick = () => { from = btn; open(win.hidden); };
   window.openContact = () => { open(true); };
-  document.addEventListener('click', e => { if (e.target.closest('.nav-contact')) { e.preventDefault(); open(true); } });
+  document.addEventListener('click', e => { const c = e.target.closest('.nav-contact'); if (c) { e.preventDefault(); from = c.offsetParent ? c : btn; open(true); } });
+  win.addEventListener('click', e => { if (!card.contains(e.target)) open(false); });   // клик мимо окна закрывает
   // глаза маскота смотрят на курсор (сдвиг до 4% размера кнопки)
   const eyes = root.querySelector('.eyes');
   if (matchMedia('(hover:hover)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) addEventListener('pointermove', e => {
