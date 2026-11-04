@@ -238,3 +238,16 @@ header nav a:active,.langs .lang-pill:active{transform:scale(.96)}
 @media (max-width:1599px){#intro span{font-size:44px}}   /* размеры как у gaa: 48 / 44 / 32 / 24 */
 @media (max-width:1199px){#intro span{font-size:32px}}
 @media (max-width:809px){#intro span{font-size:24px}}
+
+/* ——— единая кнопка-плашка сайта: та же форма, размер и цвета, что у плашек меню ——— */
+body :is(.pill,.shuffle,.filter,.write,.bd-mail,.bd-x){display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 12px;border:0;border-radius:13px;
+  font-family:var(--sans);font-size:12px;font-weight:500;letter-spacing:-.01em;line-height:1;background:var(--chip);color:var(--muted);cursor:pointer;
+  transition:color .25s,background-color .25s,transform .2s}
+body :is(.pill,.shuffle,.filter,.write,.bd-mail,.bd-x):hover{background:var(--chip-hover);color:var(--ink)}
+body :is(.pill,.shuffle,.filter,.write,.bd-mail,.bd-x):active{transform:scale(.96)}
+body .write{color:var(--ink)}   /* «Написать нам» — главный призыв: тёмный текст и зелёная точка */
+body .shuffle{display:flex;width:max-content}
+body .bd-send{border-radius:17px;height:34px;padding:0 20px}
+body .bd-links .social a{width:26px;height:26px;border-radius:13px;color:var(--muted);transition:color .25s,background-color .25s}
+body .bd-links .social a:hover{color:var(--ink)}
+body .tag{border-radius:10px;padding:4px 7px}
