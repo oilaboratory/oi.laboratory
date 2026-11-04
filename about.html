@@ -16,7 +16,7 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos&display=swap">
-<link rel="stylesheet" href="site.css?v=1793800906">
+<link rel="stylesheet" href="site.css?v=1793810172">
 <style>
 /* About по структуре gaadesign.studio/info/about: студия → основатель → принципы (раскрываются) → услуги → клиенты → признание → контакт.
    Сетка сайта: подпись раздела в первой колонке из 4, содержание — в колонках 2–4 */
@@ -27,9 +27,12 @@
 .intro{padding-block:clamp(80px,14vw,200px) clamp(60px,8vw,120px);border-top:0}
 .text{font-size:18px;line-height:1.35;color:var(--ink);margin:0 0 1em;max-width:40em}
 .muted{color:var(--muted)}
-.photos{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr);gap:8px;margin-top:32px}
-.ph{background:var(--chip);border-radius:4px;display:grid;place-items:center;color:var(--muted);font-size:12px;text-align:center;line-height:1.4;aspect-ratio:4/5}
-.ph.wide{aspect-ratio:auto}
+.team{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:40px 8px;margin-top:40px}
+.team h3{margin:0 0 10px;font-size:13px;font-weight:400;line-height:1.3;color:var(--muted)}
+.team h3 b{font-weight:500;color:var(--ink)}
+.team img{display:block;width:100%;height:auto;aspect-ratio:900/1205;object-fit:cover;border-radius:4px;background:var(--chip)}
+.team p{margin:12px 0 0;font-size:14px;line-height:1.35;color:var(--ink);max-width:26em}
+.pr summary .em{display:inline-block;width:1.6em;font-style:normal}
 
 /* принципы: строка раскрывается по клику, «+» поворачивается в «×» */
 .pr{border-bottom:1px solid var(--chip)}
@@ -49,8 +52,7 @@
   .sec{grid-template-columns:1fr;gap:16px}
   .sec > .body{grid-column:1}
   .list{grid-template-columns:1fr 1fr}
-  .photos{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
-  .photos .ph:first-child{grid-column:1/-1}
+  .team{grid-template-columns:minmax(0,1fr) minmax(0,1fr);margin-top:8px}
 }
 </style>
 </head>
@@ -71,10 +73,9 @@
   <section class="sec">
     <h2 data-i="a.founder"></h2>
     <div class="body">
-      <p class="text" data-i="a.founderText"></p>
-      <p class="text muted" data-i="a.founderNote"></p>
-      <div class="photos"><div class="ph"><span data-i="a.portrait"></span><br>1200 × 1500</div><div class="ph"><span data-i="a.studioPh"></span><br>800 × 1000</div><div class="ph"><span data-i="a.process"></span><br>800 × 1000</div></div>
+      <p class="lead" data-i="a.teamTitle"></p>
     </div>
+    <div class="team" id="team"></div>
   </section>
 
   <section class="sec">
@@ -107,15 +108,19 @@
 <div class="big" id="big" role="img" aria-label="Oilab"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js"></script>
-<script src="i18n.js?v=1793800906" charset="utf-8"></script>
-<script src="projects.js?v=1793800906" charset="utf-8"></script>
+<script src="i18n.js?v=1793810172" charset="utf-8"></script>
+<script src="projects.js?v=1793810172" charset="utf-8"></script>
 <script>
 // Тексты страницы — в i18n.js (ключи a.*)
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 window.pageRender = () => {
-  document.getElementById('principles').innerHTML = t('a.principleList').map(([h, d]) =>
-    `<details class="pr"><summary>${esc(h)}<i aria-hidden="true">+</i></summary><p>${esc(d)}</p></details>`).join('');
+  const EMOJI = ['🔬', '🌎', '📐', '🔎', '💍', '💙'];
+  document.getElementById('principles').innerHTML = t('a.principleList').map(([h, d], i) =>
+    `<details class="pr"><summary><span><span class="em" aria-hidden="true">${EMOJI[i] || ''}</span>${esc(h)}</span><i aria-hidden="true">+</i></summary><p>${esc(d)}</p></details>`).join('');
+  const PHOTO = ['tolegen', 'aibyn', 'konstantin', 'raim'];
+  document.getElementById('team').innerHTML = t('a.team').map(([n, r, d], i) =>
+    `<figure style="margin:0"><h3><b>${esc(n)}</b> ${esc(r)}</h3><img src="img/team/${PHOTO[i]}.jpg" alt="${esc(n)}" width="900" height="1205" loading="lazy"><p>${esc(d)}</p></figure>`).join('');
   document.getElementById('services').innerHTML = t('a.serviceList').map(x => `<span>${esc(x)}</span>`).join('');
 };
 pageRender();

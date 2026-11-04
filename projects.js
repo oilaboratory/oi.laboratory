@@ -1,10 +1,9 @@
 // Данные проектов — общие для главной и страниц кейсов.
-// Чтобы добавить проект: новая строка { name, img, tags }. cat — сферы для списка на главной: Identity, Music, Film, Fashion. Порядок строк = порядок на сайте.
-// Теги пока скопированы с макета как заглушки — заменить на настоящие.
+// Чтобы добавить проект: новая строка { name, img, tags }. Теги — ключи из TAG_COLS (i18n.js), по ним работает фильтр на главной.
 const T = {
-  nike:["Graphic Design","Motion Design","Creative Direction"],
-  base:["Motion Design","Creative Direction"],
-  kindred:["Strategy","Narrative","Creative Direction","Visual Identity"],
+  nike:["Key Visual", "Motion & 3D", "Art Direction"],
+  base:["Motion & 3D", "Art Direction"],
+  kindred:["Positioning", "Art Direction", "Branding"],
 };
 // ——— кейс bülbül по схеме GAA: живые кадры, без слайдов брендбука. Тексты — черновик по слайдам брендбука, проверить.
 const BULBUL_CASE = {
@@ -59,7 +58,7 @@ const KUN_CASE = {
   more: {"en":["In Kazakh kün means “sun”. The letter U in the wordmark turned into rising rays, and the twelve-ray star became the sign and the bullet point of every text.","Warm yellow against cool grey, TT Hoves Expand for headlines: an identity that is as loud as an unconventional approach requires, and as precise as a strategy should be."],"ru":["Күн по-казахски — «солнце». Буква U в логотипе превратилась в восходящие лучи, а двенадцатилучевая звезда стала знаком и буллетом в каждом тексте.","Тёплый жёлтый против холодного серого, TT Hoves Expand в заголовках: айдентика звучит так громко, как требует нестандартный подход, и так точно, как требует стратегия."],"kk":["Күн — аспандағы күн. Логотиптегі U әрпі шығып келе жатқан сәулелерге айналды, ал он екі сәулелі жұлдыз белгі мен әр мәтіндегі буллетке айналды.","Суық сұрға қарсы жылы сары, тақырыптарда TT Hoves Expand: айдентика стандарттан тыс тәсіл талап еткендей батыл, стратегия талап еткендей нақты."]},
   goal: {"en":["Create an identity for a marketing agency that goes towards challenges and gets ahead of trends.","Build a system — wordmark, sign, colour and type — that works from presentations and social media to merch."],"ru":["Создать айдентику маркетингового агентства, которое идёт навстречу вызовам и опережает тренды.","Собрать систему — логотип, знак, цвет и шрифт, — которая работает от презентаций и соцсетей до мерча."],"kk":["Сын-қатерлерге қарсы жүретін және трендтерден озатын маркетинг агенттігіне айдентика жасау.","Презентациялар мен әлеуметтік желілерден бастап мерчке дейін жұмыс істейтін жүйе құру — логотип, белгі, түс және қаріп."]},
   info: {"en":"Brand identity: wordmark and descriptor lockups, twelve-ray sign, bullet points, colour palette (yellow, grey, black, white), TT Hoves and TT Hoves Expand typography, presentation layouts, social media posts, posters, tote bags.","ru":"Айдентика бренда: логотип и связки с дескриптором, двенадцатилучевой знак, буллеты, палитра (жёлтый, серый, чёрный, белый), шрифты TT Hoves и TT Hoves Expand, макеты презентаций, посты для соцсетей, постеры, шопперы.","kk":"Бренд айдентикасы: логотип пен дескриптор тіркестері, он екі сәулелі белгі, буллеттер, палитра (сары, сұр, қара, ақ), TT Hoves және TT Hoves Expand қаріптері, презентация макеттері, әлеуметтік желі посттары, постерлер, шопперлер."},
-  rows: [[["img/kun/n01.jpg",2800,1641]],{eq:[["img/kun/n02.mp4",1070,1504],["img/kun/n03.jpg",1700,1275]]},{eq:[["img/kun/n04.jpg",1700,1773],["img/kun/n05.jpg",1700,1776]]},[["img/kun/n06.jpg",1728,1013]],{eq:[["img/kun/n07.jpg",1200,1500],["img/kun/n08.jpg",1200,1499],["img/kun/n09.jpg",1200,1500]]},{eq:[["img/kun/n10.jpg",1700,2125],["img/kun/n11.jpg",1700,2125]]}],
+  rows: [[["img/kun/n01.jpg",2800,1641]],{eq:[["img/kun/n02.mp4",1070,1504],["img/kun/n03.jpg",1700,1275]]},{eq:[["img/kun/n04.jpg",1700,1773],["img/kun/n05.jpg",1700,1776]]},[["img/kun/n06.jpg",1728,1013]],"statement",{"eq":[null,"goal"]},{eq:[["img/kun/n07.jpg",1200,1500],["img/kun/n08.jpg",1200,1499],["img/kun/n09.jpg",1200,1500]]},{eq:[["img/kun/n10.jpg",1700,2125],["img/kun/n11.jpg",1700,2125]]}],
   carousel: [],
 };
 
@@ -115,34 +114,111 @@ const TA_CASE = {
 
 const FT_CASE = {"year": "2026", "lead": {"en": ["Title calligraphy and graphics for the nomadic fashion film «Fading Tales» by Yernur Bashpay.", "A film about the steppe as a living memory: grain, horses, eagles and the people who carry the old stories. We wrote each chapter title by hand in a flowing calligraphy and let it breathe over the footage, like wind over grass."], "ru": ["Каллиграфия титров и графика для номадического фэшн-фильма «Fading Tales» Ернура Башпая.", "Фильм о степи как о живой памяти: зерно, кони, беркуты и люди, которые хранят старые истории. Названия глав мы написали от руки текучей каллиграфией и дали им дышать поверх кадра, как ветер над травой."], "kk": ["Ернұр Башпайдың «Fading Tales» көшпелі фэшн-фильміне арналған титр каллиграфиясы мен графикасы.", "Дала туралы тірі жад ретіндегі фильм: дән, жылқы, бүркіт және ескі әңгімелерді сақтайтын адамдар. Тараулардың атауларын қолмен ағынды каллиграфиямен жазып, оларды кадрдың үстінде желдей еркін қалдырдық."]}, "tagline": {"en": "title calligraphy for a nomadic fashion film.", "ru": "каллиграфия титров для фэшн-фильма.", "kk": "фэшн-фильмге арналған титр каллиграфиясы."}, "statement": {"en": "The Grain of the Steppe", "ru": "Зерно степи", "kk": "Даланың дәні"}, "more": {"en": [""], "ru": [""], "kk": [""]}, "goal": {"en": ["The goal was to give each chapter of the film its own handwritten title — soft, uneven and alive, so the lettering feels like part of the landscape rather than a layer on top of it."], "ru": ["Задача — дать каждой главе фильма свой рукописный титр: мягкий, неровный и живой, чтобы надпись ощущалась частью пейзажа, а не слоем поверх него."], "kk": ["Мақсат — фильмнің әр тарауына өз қолжазба титрін беру: жұмсақ, біркелкі емес және тірі, жазу пейзаждың үстіндегі қабат емес, оның бір бөлігі болып сезілуі үшін."]}, "info": {"en": "Film titles: hand calligraphy for the main title and chapters, animated title cards, colour treatment of lettering, end credits.", "ru": "Титры фильма: рукописная каллиграфия названия и глав, анимированные титровые карточки, цвет надписей, финальные титры.", "kk": "Фильм титрлері: атау мен тараулардың қолжазба каллиграфиясы, анимацияланған титр карточкалары, жазулардың түсі, соңғы титрлер."}, "rows": [[["img/ft/grain.mp4", 1600, 1066]], {"eq": [["img/ft/refs2.mp4", 900, 900], "goal"]}, [["img/ft/day.jpg", 2800, 1359]], {"eq": [["img/ft/fading2.mp4", 1080, 748], ["img/ft/horse.jpg", 1700, 1133]], "fr": [524, 172]}, [["img/ft/steppe.mp4", 1600, 1066]], {"eq": [["img/ft/drink.jpg", 1700, 1133], ["img/ft/steppr.jpg", 1700, 1133]]}, "statement", [["img/ft/heritage.mp4", 1600, 1066]], [["img/ft/credits.mp4", 1600, 1066]]], "carousel": []};
 
-const TAU_CASE = {"year": "2026", "lead": {"en": ["Identity for TAU, an interior and furniture design studio from Almaty.", "Tau means “mountain” in Kazakh. The sign grows out of the letters T and A drawn as a peak, and the whole system is built on warm wood, deep brick red and calm, architectural type — for the studio, its home store, exhibitions and print."], "ru": ["Айдентика для TAU — студии дизайна интерьера и мебели из Алматы.", "Тау по-казахски — «гора». Знак вырастает из букв T и A, нарисованных как вершина, а вся система построена на тёплом дереве, глубоком кирпично-красном и спокойной архитектурной типографике — для студии, её шоурума, выставок и печати."], "kk": ["Алматыдағы интерьер және жиһаз дизайны студиясы TAU үшін айдентика.", "Тау — тау. Белгі шың ретінде салынған T және A әріптерінен өседі, ал бүкіл жүйе жылы ағашқа, терең кірпіш-қызыл түске және сабырлы сәулеттік типографикаға құрылған — студияға, оның шоурумына, көрмелер мен баспаға арналған."]}, "tagline": {"en": "identity for an interior and furniture design studio.", "ru": "айдентика студии дизайна интерьера и мебели.", "kk": "интерьер және жиһаз дизайны студиясының айдентикасы."}, "statement": {"en": "A mountain drawn in two letters.", "ru": "Гора, нарисованная двумя буквами.", "kk": "Екі әріппен салынған тау."}, "more": {"en": [""], "ru": [""], "kk": [""]}, "goal": {"en": ["Give the studio a sign as solid and calm as its furniture, and a system that works from a wax seal to a store front."], "ru": ["Дать студии знак — такой же основательный и спокойный, как её мебель, — и систему, которая работает от сургучной печати до вывески шоурума."], "kk": ["Студияға оның жиһазы сияқты берік әрі сабырлы белгі және сүргіш мөрден шоурум маңдайшасына дейін жұмыс істейтін жүйе беру."]}, "info": {"en": "Identity: sign and wordmark, colour palette, typography, business cards, wax seals, exhibition and event posters, catalogues, social media, store signage and interior navigation.", "ru": "Айдентика: знак и логотип, цветовая палитра, типографика, визитки, сургучные печати, постеры выставок и событий, каталоги, соцсети, вывеска шоурума и навигация в интерьере.", "kk": "Айдентика: белгі мен логотип, түстер палитрасы, типографика, визиткалар, сүргіш мөрлер, көрме мен іс-шара постерлері, каталогтар, әлеуметтік желілер, шоурум маңдайшасы және интерьердегі навигация."}, "rows": [[["img/tau/u01.jpg", 1413, 789]], {"eq": [["img/tau/u02.jpg", 698, 980], null], "fr": [698, 706]}, {"eq": [["img/tau/u03.jpg", 698, 679], ["img/tau/u04.jpg", 698, 679]]}, [["img/tau/u05.jpg", 1404, 822]], {"eq": [["img/tau/u06.jpg", 463, 578], ["img/tau/u07.jpg", 463, 578], ["img/tau/u08.jpg", 463, 578]]}, {"eq": [["img/tau/u09.jpg", 702, 878], ["img/tau/u10.jpg", 694, 867]]}, "statement", {"eq": [["img/tau/u11.jpg", 698, 872], ["img/tau/u12.jpg", 698, 872]]}, [["img/tau/u13.jpg", 1404, 775]], {"eq": [["img/tau/u14.jpg", 921, 1140], ["img/tau/u15.jpg", 475, 577]], "fr": [921, 475]}, [["img/tau/u16.jpg", 1404, 775]], {"eq": [["img/tau/u17.jpg", 698, 872], ["img/tau/u18.jpg", 698, 873]]}, {"eq": [["img/tau/u19.jpg", 698, 558], ["img/tau/u20.jpg", 698, 872]]}, {"eq": [["img/tau/u21.jpg", 698, 872], ["img/tau/u22.jpg", 698, 872]]}, [["img/tau/u23.jpg", 1404, 980]]], "carousel": []};
+const TAU_CASE = {"year": "2026", "lead": {"en": ["Identity for TAU, an interior and furniture design studio from Almaty.", "Tau means “mountain” in Kazakh. The sign grows out of the letters T and A drawn as a peak, and the whole system is built on warm wood, deep brick red and calm, architectural type — for the studio, its home store, exhibitions and print."], "ru": ["Айдентика для TAU — студии дизайна интерьера и мебели из Алматы.", "Тау по-казахски — «гора». Знак вырастает из букв T и A, нарисованных как вершина, а вся система построена на тёплом дереве, глубоком кирпично-красном и спокойной архитектурной типографике — для студии, её шоурума, выставок и печати."], "kk": ["Алматыдағы интерьер және жиһаз дизайны студиясы TAU үшін айдентика.", "Тау — тау. Белгі шың ретінде салынған T және A әріптерінен өседі, ал бүкіл жүйе жылы ағашқа, терең кірпіш-қызыл түске және сабырлы сәулеттік типографикаға құрылған — студияға, оның шоурумына, көрмелер мен баспаға арналған."]}, "tagline": {"en": "identity for an interior and furniture design studio.", "ru": "айдентика студии дизайна интерьера и мебели.", "kk": "интерьер және жиһаз дизайны студиясының айдентикасы."}, "statement": {"en": "A mountain drawn in two letters.", "ru": "Гора, нарисованная двумя буквами.", "kk": "Екі әріппен салынған тау."}, "more": {"en": [""], "ru": [""], "kk": [""]}, "goal": {"en": ["Give the studio a sign as solid and calm as its furniture, and a system that works from a wax seal to a store front."], "ru": ["Дать студии знак — такой же основательный и спокойный, как её мебель, — и систему, которая работает от сургучной печати до вывески шоурума."], "kk": ["Студияға оның жиһазы сияқты берік әрі сабырлы белгі және сүргіш мөрден шоурум маңдайшасына дейін жұмыс істейтін жүйе беру."]}, "info": {"en": "Identity: sign and wordmark, colour palette, typography, business cards, wax seals, exhibition and event posters, catalogues, social media, store signage and interior navigation.", "ru": "Айдентика: знак и логотип, цветовая палитра, типографика, визитки, сургучные печати, постеры выставок и событий, каталоги, соцсети, вывеска шоурума и навигация в интерьере.", "kk": "Айдентика: белгі мен логотип, түстер палитрасы, типографика, визиткалар, сүргіш мөрлер, көрме мен іс-шара постерлері, каталогтар, әлеуметтік желілер, шоурум маңдайшасы және интерьердегі навигация."}, "rows": [[["img/tau/u01.jpg", 1413, 789]], {"eq": [["img/tau/u02.jpg", 698, 980], "goal"], "fr": [698, 706]}, {"eq": [["img/tau/u03.jpg", 698, 679], ["img/tau/u04.jpg", 698, 679]]}, [["img/tau/u05.jpg", 1404, 822]], {"eq": [["img/tau/u06.jpg", 463, 578], ["img/tau/u07.jpg", 463, 578], ["img/tau/u08.jpg", 463, 578]]}, {"eq": [["img/tau/u09.jpg", 702, 878], ["img/tau/u10.jpg", 694, 867]]}, "statement", {"eq": [["img/tau/u11.jpg", 698, 872], ["img/tau/u12.jpg", 698, 872]]}, [["img/tau/u13.jpg", 1404, 775]], {"eq": [["img/tau/u14.jpg", 921, 1140], ["img/tau/u15.jpg", 475, 577]], "fr": [921, 475]}, [["img/tau/u16.jpg", 1404, 775]], {"eq": [["img/tau/u17.jpg", 698, 872], ["img/tau/u18.jpg", 698, 873]]}, {"eq": [["img/tau/u19.jpg", 698, 558], ["img/tau/u20.jpg", 698, 872]]}, {"eq": [["img/tau/u21.jpg", 698, 872], ["img/tau/u22.jpg", 698, 872]]}, [["img/tau/u23.jpg", 1404, 980]]], "carousel": []};
+
+// ——— тексты кейсов из таблицы «Проекты» (ноябрь 2026): оглавление → lead, манифест → statement, доп. текст → goal («Подход») ———
+const CASE_TEXT = {
+  '7:20': {
+    lead: {ru: ['Бренд одежды для мужчин, которые живут в динамике современного мегаполиса, но сами задают свой ритм и не привязывают себя к одному месту. Обновляя стратегию и айдентику, мы искали визуальную идею, способную передать эту внутреннюю свободу и дисциплину.'],
+      en: ['A clothing brand for men who live in the dynamics of a modern metropolis yet set their own rhythm and don’t tie themselves to one place. Updating the strategy and identity, we looked for a visual idea that could convey this inner freedom and discipline.'],
+      kk: ['Заманауи мегаполис динамикасында өмір сүретін, бірақ өз ырғағын өзі белгілейтін және бір орынға байланып қалмайтын ерлерге арналған киім бренді. Стратегия мен айдентиканы жаңарта отырып, біз осы ішкі еркіндік пен тәртіпті жеткізетін визуалды идеяны іздедік.']},
+    statement: {ru: 'Для мужчин, которые управляют своим временем.', en: 'For men who manage their own time.', kk: 'Өз уақытын өзі басқаратын ерлерге.'},
+    goal: {ru: ['В поиске метафоры мы обратились к самому названию бренда и увидели в нём ритм времени: циферблат, движение стрелок, точность и выверенность каждого шага. Этот образ стал базой графической системы, связав городскую мобильность с контролем над собственным временем. Фирменный стиль нашел продолжение в дизайне одежды, моушн-графике и SMM-коммуникации.'],
+      en: ['Searching for a metaphor, we turned to the brand’s name itself and saw the rhythm of time in it: a clock face, the movement of the hands, the precision and measure of every step. This image became the basis of the graphic system, linking urban mobility with control over one’s own time. The identity continued into clothing design, motion graphics and SMM communication.'],
+      kk: ['Метафора іздеп, біз брендтің атауының өзіне жүгініп, одан уақыт ырғағын көрдік: циферблат, тілдердің қозғалысы, әр қадамның дәлдігі мен өлшемділігі. Бұл бейне графикалық жүйенің негізіне айналып, қалалық ұтқырлықты өз уақытыңды басқарумен байланыстырды. Фирмалық стиль киім дизайнында, моушн-графикада және SMM-коммуникацияда жалғасын тапты.']},
+  },
+  'TAU': {
+    lead: {ru: ['Создание айдентики для бюро интерьера и мебели TAU, работающего на рынках Европы и Евразии. Главной задачей было переосмыслить национальный культурный код Казахстана и сделать его органичной частью современного международного бренда.'],
+      en: ['Identity for TAU, an interior and furniture bureau working in the markets of Europe and Eurasia. The main task was to rethink Kazakhstan’s national cultural code and make it an organic part of a contemporary international brand.'],
+      kk: ['Еуропа мен Еуразия нарықтарында жұмыс істейтін TAU интерьер және жиһаз бюросына арналған айдентика. Басты міндет — Қазақстанның ұлттық мәдени кодын қайта пайымдап, оны заманауи халықаралық брендтің табиғи бөлігіне айналдыру.']},
+    statement: {ru: 'Для тех, для кого мастерство — это путь на вершину.', en: 'For those for whom mastery is the path to the summit.', kk: 'Шеберлікті шыңға апарар жол деп білетіндерге.'},
+    goal: {ru: ['В основу графического языка мы заложили пластику древних рун, соединив их с природными текстурами дерева и неровностями камня. В процессе работы абстрактные графические элементы трансформировались в лаконичные силуэты мебели. Тёплая природная палитра и глубокие фактуры подчеркнули натуральность материалов и философию авторского мастерства.'],
+      en: ['We built the graphic language on the plasticity of ancient runes, combining them with the natural textures of wood and the roughness of stone. As the work progressed, abstract graphic elements turned into laconic silhouettes of furniture. A warm natural palette and deep textures emphasise the naturalness of the materials and the philosophy of craftsmanship.'],
+      kk: ['Графикалық тілдің негізіне ежелгі руналардың пластикасын алып, оны ағаштың табиғи текстураларымен және тастың бұдырлығымен біріктірдік. Жұмыс барысында абстрактілі графикалық элементтер жиһаздың лаконикалық силуэттеріне айналды. Жылы табиғи палитра мен терең фактуралар материалдардың табиғилығы мен авторлық шеберлік философиясын көрсетті.']},
+  },
+  'Fading Tales': {
+    lead: {ru: ['Кастомная каллиграфия титров и визуальное сопровождение для номадического фэшн-фильма «Fading Tales» Ернура Башпая. Картина обращается к степи как к хранителю времени и семейных историй, передающихся из поколения в поколение.'],
+      en: ['Custom title calligraphy and visual accompaniment for Yernur Bashpay’s nomadic fashion film «Fading Tales». The film turns to the steppe as a keeper of time and of family stories passed down from generation to generation.'],
+      kk: ['Ернұр Башпайдың «Fading Tales» номадтық фэшн-фильміне арналған титрлердің кастом каллиграфиясы мен визуалды сүйемелдеуі. Фильм даланы уақыттың және ұрпақтан ұрпаққа берілетін отбасылық әңгімелердің сақтаушысы ретінде көрсетеді.']},
+    statement: {ru: 'Степь как живая память, запечатленная в движении.', en: 'The steppe as living memory, captured in motion.', kk: 'Дала — қозғалыста бейнеленген тірі жад.'},
+    goal: {ru: ['Вдохновившись образом степного ветра, мы разработали текучую ручную каллиграфию для названий глав и заглавных титров. Графика накладывается непосредственно на кинокадры, мягко взаимодействуя с движением коней, беркутов и ковыля, превращая шрифтовые элементы в неразрывную часть видеоповествования.'],
+      en: ['Inspired by the image of the steppe wind, we developed a flowing hand calligraphy for the chapter names and opening titles. The lettering is laid directly over the film frames, gently interacting with the movement of horses, golden eagles and feather grass, and turning type into an inseparable part of the visual story.'],
+      kk: ['Дала желінің бейнесінен шабыт алып, тараулар атауы мен басты титрлерге арналған ағынды қолжазба каллиграфиясын жасадық. Графика тікелей кинокадрлардың үстіне түсіп, жылқы, бүркіт және қау қозғалысымен жұмсақ үйлеседі де, қаріп элементтерін бейнебаянның ажырамас бөлігіне айналдырады.']},
+  },
+  'Sezim': {
+    lead: {ru: ['Бренд одежды, посвященный человеческим отношениям и тихим чувствам, которые сложно выразить словами. Ключевая метафора бренда воплощена в самой конструкции одежды — на её внутренней стороне затаилось личное послание близкому человеку.'],
+      en: ['A clothing brand dedicated to human relationships and quiet feelings that are hard to put into words. The brand’s key metaphor is built into the garment itself — a personal message for a loved one is hidden on its inner side.'],
+      kk: ['Адами қарым-қатынасқа және сөзбен жеткізу қиын тыныш сезімдерге арналған киім бренді. Брендтің негізгі метафорасы киімнің өз құрылымында: оның ішкі жағында жақын адамға арналған жеке жолдау жасырылған.']},
+    statement: {ru: 'Sezim. Kózge kórinbeitin — деликатность, скрытая внутри.', en: 'Sezim. Kózge kórinbeitin — delicacy hidden inside.', kk: 'Sezim. Kózge kórinbeitin — ішке жасырылған нәзіктік.'},
+    goal: {ru: ['Чтобы передать эту деликатность, мы построили айдентику на принципах прозрачности, мягкости и визуальной чистоты. Утонченная форма буквы S, сдержанная серая гамма и душевный фотостиль сформировали цельный образ. Графическая система последовательно развернута в дизайне упаковки, бирок, текстильных элементов и социальных сетей.'],
+      en: ['To convey this delicacy, we built the identity on the principles of transparency, softness and visual purity. The refined form of the letter S, a restrained grey palette and a heartfelt photographic style shaped a coherent image. The graphic system unfolds consistently across packaging, labels, textile elements and social media.'],
+      kk: ['Осы нәзіктікті жеткізу үшін айдентиканы мөлдірлік, жұмсақтық және визуалды тазалық қағидаттарына құрдық. S әрпінің нәзік пішіні, ұстамды сұр гамма және жылы фотостиль тұтас бейне қалыптастырды. Графикалық жүйе қаптама, жапсырма, тоқыма элементтері мен әлеуметтік желілер дизайнында бірізді жалғасады.']},
+  },
+  'KUN': {
+    lead: {ru: ['Разработка айдентики для агентства полного цикла Kүн, совмещающего стратегический маркетинг с реализацией креативных PR, SMM и BTL-кампаний. Бренд транслирует смелость, прозрачность и глубокую экспертизу.'],
+      en: ['Identity for Kүн, a full-cycle agency that combines strategic marketing with creative PR, SMM and BTL campaigns. The brand conveys boldness, transparency and deep expertise.'],
+      kk: ['Стратегиялық маркетингті креативті PR, SMM және BTL науқандарымен ұштастыратын толық циклді Күн агенттігіне арналған айдентика. Бренд батылдықты, ашықтықты және терең сараптаманы білдіреді.']},
+    statement: {ru: 'Ваш бренд — под ярким светом.', en: 'Your brand — in the spotlight.', kk: 'Сіздің брендіңіз — жарқын жарықта.'},
+    goal: {ru: ['Название Kүн («солнце» на казахском) подсказало визуальную концепцию: латинская буква U преобразилась в знак восходящих солнечных лучей. Контраст солнечного жёлтого и глубокого серого передает энергию агентства, его системный подход и способность выводить бренды в центр внимания аудитории.'],
+      en: ['The name Kүн («sun» in Kazakh) suggested the visual concept: the Latin letter U became a sign of rising sun rays. The contrast of sunny yellow and deep grey conveys the agency’s energy, its systematic approach and its ability to bring brands into the centre of the audience’s attention.'],
+      kk: ['Күн атауы визуалды тұжырымды өзі ұсынды: латынның U әрпі күннің шығып келе жатқан шуағының белгісіне айналды. Күн сарысы мен терең сұр түстің контрасты агенттіктің қуатын, жүйелі тәсілін және брендтерді аудитория назарының ортасына шығара алатынын жеткізеді.']},
+  },
+  '1135': {
+    lead: {ru: ['Комплексный брендинг премиального автосервиса из Твери с индивидуальным подходом и высочайшим стандартом обслуживания. Визуальный стиль должен был объединить историческую локальность с культурой ухода за автомобилями.'],
+      en: ['Complete branding for a premium car-care studio in Tver with an individual approach and the highest standard of service. The visual style had to unite historical locality with the culture of car care.'],
+      kk: ['Тверьдегі жеке тәсілі мен ең жоғары қызмет стандарты бар премиум автосервиске арналған кешенді брендинг. Визуалды стиль тарихи жергілікті болмысты автокөлік күтімі мәдениетімен біріктіруі керек еді.']},
+    statement: {ru: 'Эстетика точности и безупречного блеска.', en: 'The aesthetics of precision and flawless shine.', kk: 'Дәлдік пен мінсіз жылтырдың эстетикасы.'},
+    goal: {ru: ['Исследовав архитектуру и старинные вывески Твери, мы нашли форму для логотипа, а само число 1135 разложили на графические метафоры: единицы стали динамичными линиями скорости, а цифра 3 — образом вращающегося колеса. Строгий монохромный стиль, скошенные рамки и глянцевые фактуры отражают эстетику чистого кузова. Айдентику последовательно перенесли в оформление пространства, бейджи сотрудников, мерч, упаковку и фирменный автопарк.'],
+      en: ['Studying Tver’s architecture and old signage, we found the shape of the logo and broke the number 1135 down into graphic metaphors: the ones became dynamic speed lines and the 3 the image of a spinning wheel. A strict monochrome style, bevelled frames and glossy textures reflect the aesthetics of a clean car body. The identity was carried consistently into the space, staff badges, merch, packaging and the branded fleet.'],
+      kk: ['Тверь сәулеті мен ескі маңдайшаларын зерттей келе, логотиптің пішінін таптық, ал 1135 санының өзін графикалық метафораларға бөлдік: бірліктер жылдамдықтың серпінді сызықтарына, ал 3 цифры айналып тұрған дөңгелек бейнесіне айналды. Қатаң монохром стиль, қиғаш рамкалар және жылтыр фактуралар таза кузов эстетикасын бейнелейді. Айдентика кеңістік безендіруіне, қызметкерлер бейджіне, мерчке, қаптамаға және фирмалық автопаркке бірізді көшірілді.']},
+  },
+  'Кайрат': {
+    lead: {ru: ['Шрифтовая система, графический стиль и серия кинопостеров для документального фильма о футбольном клубе «Кайрат», приуроченного к его историческому выходу в Лигу чемпионов.'],
+      en: ['Type system, graphic style and a series of film posters for a documentary about FC Kairat, timed to the club’s historic qualification for the Champions League.'],
+      kk: ['«Қайрат» футбол клубы туралы деректі фильмге арналған қаріп жүйесі, графикалық стиль және кинопостерлер сериясы — клубтың Чемпиондар лигасына тарихи шығуына орай.']},
+    statement: {ru: 'Наследие побед, запечатленное в спортивной типографике.', en: 'A legacy of victories, captured in sports typography.', kk: 'Спорттық типографикада бейнеленген жеңістер мұрасы.'},
+    goal: {ru: ['Мы изучили архивное наследие клуба — старые афиши, газетные вырезки и советскую спортивную графику, переосмыслив её в современном ключе. Основой стала кастомная ленточная антиква, дополненная строгими техническими начертаниями. Шрифтовая система стала сквозным элементом титров и серии промо-постеров, соединив истории прошлого с эмоциональными кадрами современных матчей.'],
+      en: ['We studied the club’s archive — old posters, newspaper clippings and Soviet sports graphics — and reinterpreted it in a contemporary way. The basis became a custom ribbon serif, complemented by strict technical styles. The type system became a through-line in the titles and the series of promo posters, connecting the stories of the past with the emotional footage of today’s matches.'],
+      kk: ['Клубтың архивтік мұрасын — ескі афишаларды, газет қиындыларын және кеңестік спорттық графиканы зерттеп, оны заманауи тұрғыда қайта пайымдадық. Негізге қатаң техникалық сызбалармен толықтырылған кастом таспалы антиква алынды. Қаріп жүйесі титрлер мен промо-постерлер сериясының өзекті элементіне айналып, өткеннің тарихын бүгінгі матчтардың эмоционалды кадрларымен байланыстырды.']},
+  },
+  'Тастамашы Ана': {
+    lead: {ru: ['Арт-дирекшн, дизайн титров и промо-материалов для драматического фильма «Тасташы Ана». История показана сквозь призму восприятия мальчика, чьё детство сталкивается с жесткой и непонятной реальностью взрослых.'],
+      en: ['Art direction, title design and promo materials for the drama film «Tastamashy, Ana!». The story is told through the eyes of a boy whose childhood collides with the harsh and incomprehensible reality of adults.'],
+      kk: ['«Тастамашы, Ана!» драмалық фильміне арналған арт-дирекшн, титрлер дизайны және промо-материалдар. Оқиға балалық шағы ересектердің қатал әрі түсініксіз шындығымен соқтығысқан баланың көзімен көрсетіледі.']},
+    statement: {ru: 'Ребенок в чужом мире взрослых.', en: 'A child in the alien world of adults.', kk: 'Ересектердің бөтен әлеміндегі бала.'},
+    goal: {ru: ['Драматический контраст передает шрифтовое решение: грубый трафаретный шрифт, ассоциирующийся с запрещающими знаками, дополнен искренними детскими рукописными подчёркиваниями. В серии кинопостеров ставка сделана на эмоции героя — крупный план мальчика со слезой без лишнего визуального шума передает всю глубину сюжетной драмы.'],
+      en: ['The dramatic contrast is carried by the type solution: a rough stencil typeface associated with prohibition signs is complemented by sincere, childlike handwritten underlines. The poster series focuses on the hero’s emotions — a close-up of the boy with a tear, free of visual noise, conveys the full depth of the drama.'],
+      kk: ['Драмалық контрастты қаріптік шешім жеткізеді: тыйым белгілерін еске түсіретін дөрекі трафарет қаріп баланың шынайы қолжазба сызықтарымен толықтырылған. Кинопостерлер сериясында басты назар кейіпкердің эмоциясына аударылған — көз жасы бар баланың ірі жоспары артық визуалды шусыз сюжеттің бүкіл тереңдігін жеткізеді.']},
+  },
+};
 
 const PROJECTS = [
-  {name:"7:20", cat:["Identity", "Fashion"], img:"p07", hover:"img/720/hover2.jpg", case: T720_CASE, tags:["Strategy","Verbal Identity","Visual Identity"]},
-  {name:"TAU", cat:["Identity"], img:"p05", hover:"img/tau/hover.jpg", case: TAU_CASE, tags:["Visual Identity","Graphic Design","Strategy"]},
-  {name:"Fading Tales", cat:["Film", "Fashion"], img:"p20c", hover:"img/ft/hover2.jpg", case: FT_CASE, tags:["Creative Direction","Motion Design","Graphic Design"]},
-  {name:"Sezim", cat:["Identity", "Fashion"], img:"p04", hover:"img/sezim/s01.jpg", case: SEZIM_CASE, tags:["Visual Identity","Narrative","Strategy"]},
-  {name:"KUN", cat:["Identity"], img:"p21", hover:"img/kun/n05.jpg", case: KUN_CASE, tags:["Visual Identity","Graphic Design","Strategy"]},
-  {name:"1135", cat:["Identity"], img:"p22c", hover:"img/1135/hover2.jpg", case: D1135_CASE, tags:["Visual Identity","Graphic Design","Strategy"]},
-  {name:"Кайрат", img:"p01", case:{intro:["img/kairat/intro.mp4",1920,1080]}, tags:["Digital Design","Technology","Strategy"]},
-  {name:"Тастамашы Ана", cat:["Film"], img:"p25b", hover:"img/ta/hover2.jpg", case: TA_CASE, tags:["Creative Direction","Motion Design","Graphic Design"]},
-  {soon:true, name:"Straight Shift", cat:["Identity"], img:"p13", hover:"img/straight-shift/ss01.jpg", case: SS_CASE, tags:["Visual Identity","Strategy","Graphic Design"]},
-  {soon:true, name:"bülbül", cat:["Identity"], img:"p02", hover:"img/bulbul/hover.jpg", tags:["Visual Identity","Graphic Design","Creative Direction"], case: BULBUL_CASE},
-  {name:"14 Music Label", cat:["Music"], img:"p03", tags:["Strategy","Creative Direction","Visual Identity"]},
-  {name:"ushiro", img:"p06", tags:["Strategy","Narrative","Creative Direction"]},
-  {name:"allfolk", img:"p08", tags:["Motion Design","Creative Direction","Visual Identity"]},
-  {name:"Проект 09", img:"p09", tags:["Creative Direction","Strategy"]},
-  {name:"SAZY", img:"p10", tags:["Motion Design","Creative Direction","Digital Design"]},
-  {name:"Special Thanks", img:"p11", tags:["Creative Direction","Digital Design"]},
-  {name:"muni", img:"p12", tags:["Narrative","Strategy","Verbal Identity","Creative Direction","Graphic Design"]},
+  {name:"7:20", img:"p07", hover:"img/720/hover2.jpg", case: T720_CASE, tags:["Branding", "Positioning", "SMM Visuals", "Merch & Apparel", "Print"]},
+  {name:"TAU", img:"p05", hover:"img/tau/hover.jpg", case: TAU_CASE, tags:["Branding", "Positioning", "SMM Visuals", "Presentations"]},
+  {name:"Fading Tales", img:"p20c", hover:"img/ft/hover2.jpg", case: FT_CASE, tags:["Art Direction", "Film Posters & Key Art", "Titles & Typography", "Motion & 3D"]},
+  {name:"Sezim", img:"p04", hover:"img/sezim/s01.jpg", case: SEZIM_CASE, tags:["Branding", "Positioning", "SMM Visuals", "Merch & Apparel", "Print"]},
+  {name:"KUN", img:"p21", hover:"img/kun/n05.jpg", case: KUN_CASE, tags:["Branding", "Positioning", "SMM Visuals", "Presentations"]},
+  {name:"1135", img:"p22c", hover:"img/1135/hover2.jpg", case: D1135_CASE, tags:["Branding", "Positioning", "SMM Visuals", "Merch & Apparel", "Print"]},
+  {name:"Кайрат", img:"p01", case:{intro:["img/kairat/intro.mp4",1920,1080]}, tags:["Titles & Typography", "Film Posters & Key Art"]},
+  {name:"Тастамашы Ана", img:"p25b", hover:"img/ta/hover2.jpg", case: TA_CASE, tags:["Art Direction", "Film Posters & Key Art", "Titles & Typography"]},
+  {soon:true, name:"Straight Shift", img:"p13", hover:"img/straight-shift/ss01.jpg", case: SS_CASE, tags:["Branding", "Positioning", "Key Visual"]},
+  {soon:true, name:"bülbül", img:"p02", hover:"img/bulbul/hover.jpg", tags:["Branding", "Key Visual", "Art Direction"], case: BULBUL_CASE},
+  {name:"14 Music Label", img:"p03", tags:["Positioning", "Art Direction", "Branding"]},
+  {name:"ushiro", img:"p06", tags:["Positioning", "Art Direction"]},
+  {name:"allfolk", img:"p08", tags:["Motion & 3D", "Art Direction", "Branding"]},
+  {name:"Проект 09", img:"p09", tags:["Art Direction", "Positioning"]},
+  {name:"SAZY", img:"p10", tags:["Motion & 3D", "Art Direction", "Websites & UX/UI"]},
+  {name:"Special Thanks", img:"p11", tags:["Art Direction", "Websites & UX/UI"]},
+  {name:"muni", img:"p12", tags:["Positioning", "Naming", "Art Direction", "Key Visual"]},
   {name:"Kira D'Archi", img:"p14", tags:T.base},
   {name:"Pro Coffee", img:"p15", tags:T.kindred},
   {name:"Проект 16", img:"p16", tags:T.nike},
   {name:"Сетка", img:"p17", tags:T.base},
-  {name:"Plan B Films", cat:["Film"], img:"p18", tags:T.kindred},
+  {name:"Plan B Films", img:"p18", tags:T.kindred},
   {name:"Қарақшы", img:"p19", tags:T.nike},
   {name:"Älem Comedy Fest", img:"p24", tags:T.kindred},
-].filter(p => !p.hidden).map(p => p.soon ? {...p, case: undefined} : p);   // hidden:true — скрыт с сайта; soon:true — виден, но закрыт («Coming soon»), кейс сохранён
+].filter(p => !p.hidden).map(p => p.soon ? {...p, case: undefined} : p);
+PROJECTS.forEach(p => p.case && CASE_TEXT[p.name] && Object.assign(p.case, CASE_TEXT[p.name]));   // hidden:true — скрыт с сайта; soon:true — виден, но закрыт («Coming soon»), кейс сохранён
 
 // адрес страницы кейса: латинское имя → «ushiro», «bulbul», «7-20»; кириллица → номер картинки («p01»)
 function slug(p){
@@ -172,12 +248,20 @@ function playLottie(id, path, fallbackImg){
 
 // ——— общие для всех страниц: меню, подвал, копирование почты, язык ———
 const EMAIL = 'oi.lab.team@proton.me';
+// соцсети иконками: подвал, меню телефона и окно связи
+const SOCIAL = [
+  ['WhatsApp', 'https://wa.me/77767387264', '<path d="M4.5 19.5l1.2-3.6A8 8 0 1 1 8.3 18.4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9.3 8.2c-.4 2.6 3 6.2 5.6 5.9l.8-1.3-1.9-1-.9.7c-.9-.4-1.8-1.3-2.2-2.2l.7-.9-1-1.9z" fill="currentColor"/>'],
+  ['Instagram', 'https://www.instagram.com/oi.lab/', '<rect x="3.75" y="3.75" width="16.5" height="16.5" rx="5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3.9" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="16.9" cy="7.1" r="1.05" fill="currentColor"/>'],
+  ['Telegram', 'https://t.me/o10eye', '<path d="M20.5 4.5L3.5 11.2l5.6 2 2 5.9 3.1-3.6 4.6 3.4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9.1 13.2l11.4-8.7" stroke="currentColor" stroke-width="1.5"/>'],
+];
+const socialHtml = () => `<span class="social">${SOCIAL.map(([n, h, d]) =>
+  `<a href="${h}" target="_blank" rel="noopener" aria-label="${n}" title="${n}"><svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg></a>`).join('')}</span>`;
 function siteChrome(){
   // телефон: кнопка Menu + полноэкранный слой с тем же меню (создаются один раз)
   const hdr = document.querySelector('header');
   hdr.insertAdjacentHTML('beforeend', `<button class="menu-btn" type="button" aria-expanded="false" aria-controls="sheet"><span></span> <i aria-hidden="true"></i></button>`);
   document.body.insertAdjacentHTML('beforeend', `<div class="sheet" id="sheet"><nav></nav>
-    <div class="meta"><a href="mailto:${EMAIL}" class="copy">${EMAIL}</a><a href="https://www.instagram.com/oi.lab/" target="_blank" rel="noopener">Instagram</a><span data-i="cityKZ"></span><span class="langs"></span></div></div>`);
+    <div class="meta"><a href="mailto:${EMAIL}" class="copy">${EMAIL}</a>${socialHtml()}<span data-i="cityKZ"></span><span class="langs"></span></div></div>`);
   const btn = hdr.querySelector('.menu-btn');
   const toggle = open => { document.body.classList.toggle('menu-open', open); btn.setAttribute('aria-expanded', open); btn.firstChild.textContent = t(open ? 'close' : 'menu'); };
   btn.onclick = () => toggle(!document.body.classList.contains('menu-open'));
@@ -191,12 +275,12 @@ function siteChrome(){
 // Форма без сервера: «Отправить» открывает почтовое приложение с готовым письмом на EMAIL.
 function buddy(){
   document.body.insertAdjacentHTML('beforeend', `
-  <div class="buddy" id="buddy">
-    <section class="bd-win" id="bd-win" role="dialog" aria-modal="false" aria-labelledby="bd-t" hidden>
-      <button class="bd-x" type="button" aria-label="Close">×</button>
-      <h2 id="bd-t" data-i="b.title"></h2>
+  <section class="bd-win" id="bd-win" role="dialog" aria-modal="true" aria-labelledby="bd-t" hidden>
+    <button class="bd-x" type="button" aria-label="Close"><span data-i="close"></span> <i aria-hidden="true"></i></button>
+    <div class="bd-in">
+      <div class="bd-head"><h2 id="bd-t" data-i="b.title"></h2>
       <p class="bd-sub" data-i="b.sub"></p>
-      <div class="bd-links"><a href="mailto:${EMAIL}" class="bd-mail">${EMAIL}</a><a href="https://www.instagram.com/oi.lab/" target="_blank" rel="noopener">Instagram</a></div>
+      <div class="bd-links"><a href="mailto:${EMAIL}" class="bd-mail">${EMAIL}</a>${socialHtml()}</div></div>
       <form class="bd-form" id="bd-form">
         <label><span data-i="b.name"></span><input name="name" autocomplete="name" required></label>
         <label><span data-i="b.reach"></span><input name="reach" autocomplete="email" required></label>
@@ -205,11 +289,13 @@ function buddy(){
         <button class="bd-send" type="submit" data-i="b.send"></button>
         <small data-i="b.note"></small>
       </form>
-    </section>
+    </div>
+  </section>
+  <div class="buddy" id="buddy">
     <button class="bd-btn" type="button" aria-expanded="false" aria-controls="bd-win"><span class="bd-tip" data-i="b.tip"></span><span class="mascot"><img src="img/mascot-c.png" alt="" width="150" height="150"><span class="eyes"><img class="eye" src="img/mascot-b-eye0.png" alt="" style="left:25.63%;top:38.39%;width:11.73%"><img class="eye" src="img/mascot-b-eye1.png" alt="" style="left:60.11%;top:38.39%;width:12.88%"></span></span><span class="sr" data-i="b.title"></span></button>
   </div>`);
   const root = document.getElementById('buddy'), win = document.getElementById('bd-win'), btn = root.querySelector('.bd-btn');
-  const open = on => { win.hidden = !on; root.classList.toggle('open', on); btn.setAttribute('aria-expanded', on); document.querySelectorAll('.nav-contact').forEach(c => c.classList.toggle('is-on', on)); if (on) win.querySelector('input').focus(); };
+  const open = on => { win.hidden = !on; root.classList.toggle('open', on); document.documentElement.classList.toggle('bd-lock', on); btn.setAttribute('aria-expanded', on); document.querySelectorAll('.nav-contact').forEach(c => c.classList.toggle('is-on', on)); if (on) win.querySelector('input').focus(); };
   btn.onclick = () => open(win.hidden);
   window.openContact = () => { open(true); };
   document.addEventListener('click', e => { if (e.target.closest('.nav-contact')) { e.preventDefault(); open(true); } });
@@ -219,10 +305,9 @@ function buddy(){
     const r = btn.getBoundingClientRect(), dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2), d = Math.hypot(dx, dy) || 1, k = Math.min(1, d / 300) * 4;
     eyes.style.transform = `translate(${(dx / d * k).toFixed(2)}%, ${(dy / d * k).toFixed(2)}%)`;
   }, {passive: true});
-  root.querySelector('.bd-x').onclick = () => { open(false); btn.focus(); };
+  win.querySelector('.bd-x').onclick = () => { open(false); btn.focus(); };
   addEventListener('keydown', e => { if (e.key === 'Escape' && !win.hidden) { open(false); btn.focus(); } });
-  document.addEventListener('pointerdown', e => { if (!win.hidden && !root.contains(e.target)) open(false); });
-  // заявка уходит прямо на почту через FormSubmit (без сервера); если сервис недоступен — открываем почтовое приложение
+    // заявка уходит прямо на почту через FormSubmit (без сервера); если сервис недоступен — открываем почтовое приложение
   const form = document.getElementById('bd-form'), send = form.querySelector('.bd-send'), note = form.querySelector('small');
   form.onsubmit = async e => {
     e.preventDefault();
@@ -275,7 +360,7 @@ function chromeTexts(){
   btn.firstChild.textContent = t(document.body.classList.contains('menu-open') ? 'close' : 'menu');
   document.getElementById('contact').innerHTML = `
     <div class="clocks" id="clocks"></div>
-    <div class="links"><span>${t('f.links')}</span><div><a href="https://www.instagram.com/oi.lab/" target="_blank" rel="noopener">Instagram</a></div></div>
+    <div class="links"><span>${t('f.links')}</span>${socialHtml()}</div>
     <div class="q">${t('f.question')} <a class="write copy" href="mailto:${EMAIL}">${t('f.write')}</a></div>
     <span>${t('f.rights')}</span>`;
   clockTick && clockTick(); whenTick && whenTick();
