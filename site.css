@@ -250,3 +250,22 @@ body .bd-send{border-radius:17px;height:34px;padding:0 22px}
 body .bd-links .social a{width:26px;height:26px;border-radius:13px;color:var(--muted);transition:color .25s,background-color .25s;display:inline-grid;place-items:center}
 body .bd-links .social a:hover{color:var(--ink)}
 body .tag{border-radius:10px;padding:4px 7px}
+
+/* ——— единая типографика сайта (кроме манифестов кейсов и антиквы-заставок) ———
+   подпись 13 · текст 15 · лид 18–22 · заголовок 24–32 · антиква 22–32.5 */
+:root{--fs-cap:13px;--fs-body:15px;--lh-body:1.4;--fs-lead:clamp(18px,1.5vw,22px);--lh-lead:1.22;--fs-h:clamp(24px,2.2vw,32px);--fs-serif:clamp(22px,2.17vw,32.5px)}
+/* подписи разделов — мелко и серым, чтобы не спорить с антиквой и крупным текстом */
+body .head h2,body .sec > h2,body .all h2{font-size:var(--fs-cap);font-weight:500;line-height:1.3;letter-spacing:-.01em;color:var(--muted);margin:0}
+body .card h3,body .cap b,body .team h3,body .bar,body .info h4,body .goal-box h3,body .goal h3{font-size:var(--fs-cap);line-height:1.3}
+/* основной текст */
+body :is(.team p,.info p,.goal-box,.note,.text,.card .body,.bd-sub){font-size:var(--fs-body);line-height:var(--lh-body)}
+/* лид: вводный текст кейса, «Подход», описания принципов, списки услуг и клиентов */
+body :is(main > .lead, .lead:not(p), .goal p, .pr-d > p, .list, .mail, .card h4){font-size:var(--fs-lead);line-height:var(--lh-lead);letter-spacing:-.01em}
+/* заголовки */
+body :is(.pr-h,.title){font-size:var(--fs-h);line-height:1.05}
+/* антиква: манифест на главной, вступление «О нас», заголовок галереи */
+body :is(.hero,p.lead,.title){font-size:var(--fs-serif);line-height:1.23}
+/* кнопки «Назад / Дальше» внизу кейса: плашки, название проекта тёмным */
+body .bottom-nav .pill .n{display:inline;color:var(--ink);margin-left:2px}
+body .bottom-nav .pill .d{color:var(--muted)}
+@media (max-width:767px){body .info h4{font-size:var(--fs-h)}body .hero{font-size:24px}body .cat{white-space:normal}}

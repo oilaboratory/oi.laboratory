@@ -199,7 +199,7 @@ const PROJECTS = [
   {name:"Sezim", field:"Fashion & Apparel", img:"p04", hover:"img/sezim/s01.jpg", case: SEZIM_CASE, tags:["Branding", "Positioning", "SMM Visuals", "Merch & Apparel", "Print"]},
   {name:"KUN", field:"Agencies & Corporate", img:"p21", hover:"img/kun/n05.jpg", case: KUN_CASE, tags:["Branding", "Positioning", "SMM Visuals", "Presentations"]},
   {name:"1135", field:"Automotive", img:"p22c", hover:"img/1135/hover2.jpg", case: D1135_CASE, tags:["Branding", "Positioning", "SMM Visuals", "Merch & Apparel", "Print"]},
-  {name:"Кайрат", field:"Film & Media", img:"p01", case:{intro:["img/kairat/intro.mp4",1920,1080]}, tags:["Titles & Typography", "Film Posters & Key Art"]},
+  {soon:true, name:"Кайрат", field:"Film & Media", img:"p01", case:{intro:["img/kairat/intro.mp4",1920,1080]}, tags:["Titles & Typography", "Film Posters & Key Art"]},
   {name:"Тастамашы Ана", field:"Film & Media", img:"p25b", hover:"img/ta/hover2.jpg", case: TA_CASE, tags:["Art Direction", "Film Posters & Key Art", "Titles & Typography"]},
   {soon:true, name:"Straight Shift", img:"p13", hover:"img/straight-shift/ss01.jpg", case: SS_CASE, tags:["Branding", "Positioning", "Key Visual"]},
   {soon:true, name:"bülbül", field:"Fashion & Apparel", img:"p02", hover:"img/bulbul/hover.jpg", tags:["Branding", "Key Visual", "Art Direction"], case: BULBUL_CASE},
