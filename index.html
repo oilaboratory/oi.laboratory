@@ -17,7 +17,7 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos&display=swap">
-<link rel="stylesheet" href="site.css?v=1793858246">
+<link rel="stylesheet" href="site.css?v=1793859131">
 <style>
 /* Главная: манифест и сетка проектов. Общие токены, шапка и футер — в site.css */
 
@@ -33,13 +33,13 @@
 .hero .ppl > *{position:absolute;left:0;bottom:-.15em;display:block;width:100%;height:auto;aspect-ratio:1901/1049;mix-blend-mode:multiply}
 
 /* проекты */
-/* шапка сетки: слева подпись «Проекты», справа ряд плашек-сфер («Все» + 5 сфер); на телефоне ряд листается вбок */
-.head{display:grid;grid-template-columns:repeat(4,1fr);column-gap:8px;align-items:center;padding-bottom:24px}
-.cats{grid-column:2/-1;display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
-body .cat{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 12px;border:0;border-radius:13px;background:var(--chip);color:var(--muted);font:inherit;font-size:12px;line-height:1;white-space:nowrap;cursor:pointer;transition:color .25s,background-color .25s}
-body .cat:hover{background:var(--chip-hover);color:var(--ink)}
-body .cat.is-on{background:var(--faint);color:var(--ink)}
-.cat:disabled{opacity:.45;cursor:default}
+/* шапка сетки как в референсе: слева подпись «Проекты», рядом — сферы стопкой (серым, выбранная — тёмным) */
+.head{display:grid;grid-template-columns:repeat(4,1fr);column-gap:8px;align-items:start;padding-bottom:40px}
+html body div.head h2{color:var(--ink)}
+.cats{grid-column:2;display:flex;flex-direction:column;align-items:flex-start}
+.cat{appearance:none;border:0;background:none;padding:0;margin:0;font:inherit;color:var(--muted);text-align:left;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:color .25s}
+.cat:hover,.cat.is-on{color:var(--ink)}
+.cat:disabled{color:var(--faint);cursor:default}
 .cat svg{width:7px;height:7px}
 .cat:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 /* поведение как у mouthwash.studio/work: тайминги .25s (цвет) и .33s (фильтр), нажатие scale(.985) */
@@ -69,7 +69,7 @@ body .cat.is-on{background:var(--faint);color:var(--ink)}
 .tag:focus-visible,.filter:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 
 
-@media (max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}.head{grid-template-columns:1fr;row-gap:24px}.cats{grid-column:1;justify-content:flex-start;flex-wrap:wrap}}
+@media (max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}.head{grid-template-columns:repeat(2,1fr)}}
 .hero-art{display:none}
 @media (max-width:767px){
   .hero{padding-block:48px 72px;text-align:left;font-size:24px;line-height:1.18}
@@ -83,10 +83,7 @@ body .cat.is-on{background:var(--faint);color:var(--ink)}
 .more-wrap{display:flex;justify-content:center;margin-top:56px}
 body .more-btn{height:34px;padding:0 18px;border-radius:17px}
 .more-btn .n{color:var(--muted)}
-@media (max-width:1000px){.head{grid-template-columns:1fr;row-gap:14px}.cats{grid-column:1;justify-content:flex-start}}
 @media (max-width:767px){
-  .cats{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 calc(-1 * var(--pad));padding:0 var(--pad)}
-  .cats::-webkit-scrollbar{display:none}
 }
 </style>
 
@@ -129,8 +126,8 @@ body .more-btn{height:34px;padding:0 18px;border-radius:17px}
 <div class="big" id="big" role="img" aria-label="Oilab"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js"></script>
-<script src="i18n.js?v=1793858246" charset="utf-8"></script>
-<script src="projects.js?v=1793858246" charset="utf-8"></script>
+<script src="i18n.js?v=1793859131" charset="utf-8"></script>
+<script src="projects.js?v=1793859131" charset="utf-8"></script>
 <script>
 // hover: вторая фотография проекта (или .mp4) — плавно сменяет обложку при наведении. Пример: {name:"Кайрат", img:"p01", hover:"img/p01-2.jpg", tags:[...]}
 const grid = document.getElementById('grid');
@@ -166,7 +163,7 @@ function filter(tag){
   }, matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 330);
 }
 grid.addEventListener('click', e => { const b = e.target.closest('.tag'); if (b) filter(b.dataset.tag); });
-// плашки: «Все» + сферы деятельности (FIELDS в i18n.js); если выбран тег услуги с карточки — он добавляется плашкой с ×
+// список: «Все» + сферы деятельности (FIELDS в i18n.js); если выбран тег услуги с карточки — он добавляется плашкой с ×
 const USED = new Set(PROJECTS.filter(p => p.case).map(p => p.field));
 function renderCats(){
   const pill = (tag, label, on, x) => `<button class="cat${on ? ' is-on' : ''}" type="button" data-tag="${tag}"${tag && !x && !USED.has(tag) ? ' disabled' : ''}>${label}${x ? X : ''}</button>`;

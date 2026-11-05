@@ -379,7 +379,7 @@ function chromeTexts(){
   document.getElementById('contact').innerHTML = `
     <div class="clocks" id="clocks"></div>
     <div class="links"><span>${t('f.links')}</span>${socialHtml()}</div>
-    <div class="q">${t('f.question')} <a class="write copy" href="mailto:${EMAIL}">${t('f.write')}</a></div>
+    <div class="q">${t('f.question')} <a class="write nav-contact" href="mailto:${EMAIL}">${t('f.write')}</a></div>
     <span>${t('f.rights')}</span>`;
   clockTick && clockTick(); whenTick && whenTick();
 }
