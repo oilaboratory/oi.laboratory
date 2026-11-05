@@ -16,7 +16,7 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos&display=swap">
-<link rel="stylesheet" href="site.css?v=1793857472">
+<link rel="stylesheet" href="site.css?v=1793858246">
 <style>
 /* About по структуре gaadesign.studio/info/about: студия → основатель → принципы (раскрываются) → услуги → клиенты → признание → контакт.
    Сетка сайта: подпись раздела в первой колонке из 4, содержание — в колонках 2–4 */
@@ -34,15 +34,16 @@
 .team img{display:block;width:100%;height:auto;aspect-ratio:900/1205;object-fit:cover;border-radius:4px;background:var(--chip)}
 .team p{margin:12px 0 0;font-size:14px;line-height:1.35;color:var(--ink);max-width:26em}
 
-/* принципы как у gaadesign.studio/info/about: открыт один, остальные бледные; описание справа от заголовка */
-.pr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:0 8px;align-items:start}   /* описание с 3-й колонки сетки, как у GAA */
-.pr-h{appearance:none;border:0;background:none;padding:0 0 22px;margin:0;font:inherit;font-size:clamp(24px,2.2vw,32px);font-weight:500;line-height:1;letter-spacing:-.5px;text-align:left;
-  color:var(--faint);cursor:pointer;transition:color .4s cubic-bezier(.23,1,.32,1)}
-.pr-h .em{display:inline-block;width:1.45em;filter:grayscale(1);opacity:.45;transition:filter .4s,opacity .4s}
+/* принципы как у gaadesign.studio/info/about: открыт один, остальные бледные. Иконка — картинка слева, отдельной колонкой,
+   поэтому заголовки стоят ровно и не зависят от эмодзи телефона */
+.pr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 24px;align-items:start}
+.pr-h{appearance:none;border:0;background:none;padding:0 0 22px;margin:0;font:inherit;text-align:left;color:var(--faint);cursor:pointer;
+  display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:14px;align-items:start;transition:color .4s cubic-bezier(.23,1,.32,1)}
+.pr-h img{width:1.05em;height:1.05em;margin-top:.02em;filter:grayscale(1);opacity:.35;transition:filter .4s,opacity .4s}
 .pr-h:hover,.pr.open .pr-h{color:var(--ink)}
-.pr.open .pr-h .em,.pr-h:hover .em{filter:none;opacity:1}
+.pr.open .pr-h img,.pr-h:hover img{filter:none;opacity:1}
 .pr-d{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .5s cubic-bezier(.23,1,.32,1),opacity .35s}
-.pr-d > p{overflow:hidden;margin:0;font-size:clamp(17px,1.55vw,22px);line-height:1.1;letter-spacing:-.5px;color:var(--ink);max-width:30em}
+.pr-d > p{overflow:hidden;margin:0;color:var(--ink);max-width:30em}
 .pr.open .pr-d{grid-template-rows:1fr;opacity:1;transition:grid-template-rows .5s cubic-bezier(.23,1,.32,1),opacity .5s .1s}
 .pr.open .pr-d > p{padding-bottom:36px}
 .list{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 8px;font-size:18px;color:var(--ink)}
@@ -54,9 +55,11 @@
   .sec > .body{grid-column:1}
   .list{grid-template-columns:1fr 1fr}
   .team{grid-template-columns:minmax(0,1fr) minmax(0,1fr);margin-top:8px}
-  .pr{grid-template-columns:1fr}
-  .pr-h{padding-bottom:16px}
-  .pr.open .pr-d > p{padding-bottom:24px}
+  /* телефон, как у GAA: список с линиями, открытый пункт раскрывает описание под заголовком */
+  .pr{grid-template-columns:1fr;border-top:1px solid var(--chip)}
+  .pr:last-child{border-bottom:1px solid var(--chip)}
+  .pr-h{width:100%;padding:16px 0;column-gap:12px}
+  .pr.open .pr-d > p{padding:0 0 20px calc(1.05em + 12px)}
 }
 </style>
 </head>
@@ -112,17 +115,17 @@
 <div class="big" id="big" role="img" aria-label="Oilab"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js"></script>
-<script src="i18n.js?v=1793857472" charset="utf-8"></script>
-<script src="projects.js?v=1793857472" charset="utf-8"></script>
+<script src="i18n.js?v=1793858246" charset="utf-8"></script>
+<script src="projects.js?v=1793858246" charset="utf-8"></script>
 <script>
 // Тексты страницы — в i18n.js (ключи a.*)
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 window.pageRender = () => {
-  const EMOJI = ['🔬', '🌎', '📐', '🔎', '💍', '💙'];
+  const ICON = ['microscope', 'globe', 'ruler', 'magnifier', 'ring', 'heart'];   // img/em/*.webp — одинаково на iPhone, Android и Windows (Fluent Emoji, MIT)
   const box = document.getElementById('principles'), cur = box.querySelector('.pr.open'), on = cur ? [...box.children].indexOf(cur) : 0;
   box.innerHTML = t('a.principleList').map(([h, d], i) =>
-    `<div class="pr${i === on ? ' open' : ''}"><button class="pr-h" type="button" aria-expanded="${i === on}"><span class="em" aria-hidden="true">${EMOJI[i] || ''}</span>${esc(h)}</button><div class="pr-d"><p>${esc(d)}</p></div></div>`).join('');
+    `<div class="pr${i === on ? ' open' : ''}"><button class="pr-h" type="button" aria-expanded="${i === on}"><img src="img/em/${ICON[i]}.webp" alt="" width="72" height="72"><span>${esc(h)}</span></button><div class="pr-d"><p>${esc(d)}</p></div></div>`).join('');
   const PHOTO = ['aibyn', 'konstantin', 'raim', 'tolegen'];
   document.getElementById('team').innerHTML = t('a.team').map(([n, r, d], i) =>
     `<figure style="margin:0"><h3><b>${esc(n)}</b><span>${esc(r)}</span></h3><img src="img/team/${PHOTO[i]}.jpg" alt="${esc(n)}" width="900" height="1205" loading="lazy"><p>${esc(d)}</p></figure>`).join('');

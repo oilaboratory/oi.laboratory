@@ -280,6 +280,8 @@ html body :is(.pr-h,.peek-b h3){font-size:var(--fs-h);line-height:1.1}
 @media (max-width:767px){
   html body :is(.meta,.meta h2,.meta div,.meta a,.meta .tags){font-size:var(--fs-body);line-height:1.4}
   html body .info h4{font-size:var(--fs-h);line-height:1.1}
+  html body .pr-h{font-size:var(--fs-lead);line-height:1.25}
+  html body .pr-d > p{font-size:var(--fs-body);line-height:1.4}
   html body .hero{font-size:24px}
 }
 /* кнопки «Назад / Дальше» внизу кейса: плашки, название проекта тёмным */
