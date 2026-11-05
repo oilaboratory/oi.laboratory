@@ -16,7 +16,7 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos&display=swap">
-<link rel="stylesheet" href="site.css?v=1793870304">
+<link rel="stylesheet" href="site.css?v=1793870818">
 <style>
 /* «Ещё проекты»: проекты, кейсы которых ещё готовятся. Сетка как на главной, по клику — большая обложка; при входе — дисклеймер по центру */
 main{padding-top:clamp(40px,6vw,80px)}
@@ -85,12 +85,12 @@ body .peek-act .nav-contact:hover,body .note-box .ok:hover{background:var(--ink)
 <div class="big" id="big" role="img" aria-label="Oilab"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js"></script>
-<script src="i18n.js?v=1793870304" charset="utf-8"></script>
-<script src="projects.js?v=1793870304" charset="utf-8"></script>
+<script src="i18n.js?v=1793870818" charset="utf-8"></script>
+<script src="projects.js?v=1793870818" charset="utf-8"></script>
 <script>
 const MORE = PROJECTS.filter(p => !p.case);
 const mini = document.getElementById('mini'), note = document.getElementById('note'), peek = document.getElementById('peek');
-mini.innerHTML = MORE.map((p, i) => `<div class="card" data-k="${i}" tabindex="0" role="button"><span class="media"><img src="img/${p.img}.jpg" alt="${p.name}" loading="lazy"></span><h3>${p.name}</h3>${p.field ? `<p data-field="${p.field}"></p>` : ''}</div>`).join('');
+mini.innerHTML = MORE.map((p, i) => `<div class="card" data-k="${i}" tabindex="0" role="button"><span class="media"><img src="img/${p.img}.jpg" alt="${p.name}" loading="lazy"></span><h3>${p.name}</h3>${p.field ? `<p data-field="${fieldsOf(p).join('|')}"></p>` : ''}</div>`).join('');
 document.getElementById('n').textContent = MORE.length;
 const lock = () => document.documentElement.classList.toggle('bd-lock', !note.hidden || !peek.hidden);
 const noteShow = on => { note.hidden = !on; lock(); };
@@ -98,12 +98,12 @@ const peekShow = on => { peek.hidden = !on; lock(); };
 note.addEventListener('click', e => { if (e.target === note || e.target.closest('.ok')) noteShow(false); });
 const openPeek = c => { const p = MORE[c.dataset.k];
   document.getElementById('peek-img').src = `img/${p.img}.jpg`; document.getElementById('peek-t').textContent = p.name;
-  document.getElementById('peek-f').textContent = p.field ? tr(p.field) : ''; peekShow(true); };
+  document.getElementById('peek-f').textContent = fieldsOf(p).map(tr).join(', '); peekShow(true); };
 mini.addEventListener('click', e => { const c = e.target.closest('.card'); if (c) openPeek(c); });
 mini.addEventListener('keydown', e => { const c = e.target.closest('.card'); if (c && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openPeek(c); } });
 peek.addEventListener('click', e => { if (e.target === peek || e.target.closest('.peek-x, .nav-contact')) peekShow(false); });
 addEventListener('keydown', e => { if (e.key !== 'Escape') return; if (!peek.hidden) peekShow(false); else if (!note.hidden) noteShow(false); });
-window.pageRender = () => document.querySelectorAll('#mini p[data-field]').forEach(s => s.textContent = tr(s.dataset.field));
+window.pageRender = () => document.querySelectorAll('#mini p[data-field]').forEach(s => s.textContent = s.dataset.field.split('|').map(tr).join(', '));
 pageRender(); lock();
 siteChrome();
 playLottie('big', 'img/footer-logo.json', 'img/footer-logo.png');

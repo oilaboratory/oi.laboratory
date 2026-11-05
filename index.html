@@ -17,7 +17,7 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos&display=swap">
-<link rel="stylesheet" href="site.css?v=1793870304">
+<link rel="stylesheet" href="site.css?v=1793870818">
 <style>
 /* Главная: манифест и сетка проектов. Общие токены, шапка и футер — в site.css */
 
@@ -127,12 +127,12 @@ body .more-btn{height:34px;padding:0 18px;border-radius:17px}
 <div class="big" id="big" role="img" aria-label="Oilab"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js"></script>
-<script src="i18n.js?v=1793870304" charset="utf-8"></script>
-<script src="projects.js?v=1793870304" charset="utf-8"></script>
+<script src="i18n.js?v=1793870818" charset="utf-8"></script>
+<script src="projects.js?v=1793870818" charset="utf-8"></script>
 <script>
 // hover: вторая фотография проекта (или .mp4) — плавно сменяет обложку при наведении. Пример: {name:"Кайрат", img:"p01", hover:"img/p01-2.jpg", tags:[...]}
 const grid = document.getElementById('grid');
-const tagsOf = p => [p.field, ...(p.tags||[])].filter(Boolean).join('|');
+const tagsOf = p => [...fieldsOf(p), ...(p.tags||[])].filter(Boolean).join('|');
 grid.innerHTML = PROJECTS.filter(p => p.case).map(p => `
   <div class="card" data-tags="${tagsOf(p)}">
     <a href="case.html#${slug(p)}">
@@ -144,7 +144,7 @@ grid.innerHTML = PROJECTS.filter(p => p.case).map(p => `
       </span>
       <h3>${p.name}</h3>
     </a>
-    <div class="tags">${p.field ? `<button class="tag field" type="button" data-tag="${p.field}">${tr(p.field)}</button>` : ''}${(p.tags||[]).map(g=>`<button class="tag" type="button" data-tag="${g}">${tr(g)}</button>`).join('')}</div>
+    <div class="tags">${fieldsOf(p).map(f => `<button class="tag field" type="button" data-tag="${f}">${tr(f)}</button>`).join('')}${(p.tags||[]).map(g=>`<button class="tag" type="button" data-tag="${g}">${tr(g)}</button>`).join('')}</div>
   </div>`).join('');
 const MORE = PROJECTS.filter(p => !p.case);
 document.getElementById('moreN').textContent = MORE.length;
@@ -165,7 +165,7 @@ function filter(tag){
 }
 grid.addEventListener('click', e => { const b = e.target.closest('.tag'); if (b) filter(b.dataset.tag); });
 // список: сферы деятельности (FIELDS в i18n.js); если выбран тег услуги с карточки — он добавляется плашкой с ×
-const USED = new Set(PROJECTS.filter(p => p.case).map(p => p.field));
+const USED = new Set(PROJECTS.filter(p => p.case).flatMap(fieldsOf));
 function renderCats(){
   const pill = (tag, label, on) => `<button class="cat${on ? ' is-on' : ''}" type="button" data-tag="${tag}"${!on && !USED.has(tag) && FIELDS.includes(tag) ? ' disabled' : ''}>${label}${on ? X : ''}</button>`;
   document.getElementById('cats').innerHTML = FIELDS.map(f => pill(f, tr(f), current === f)).join('')
@@ -174,7 +174,7 @@ function renderCats(){
 renderCats();
 document.getElementById('cats').addEventListener('click', e => { const b = e.target.closest('.cat'); if (b) filter(!b.dataset.tag || b.dataset.tag === current ? null : b.dataset.tag); });
 // ссылка вида index.html#t-visual-identity (из паспорта кейса) сразу включает фильтр по тегу
-const fromHash = PROJECTS.flatMap(p => [p.field, ...(p.tags||[])]).filter(Boolean).find(t => '#t-' + t.toLowerCase().replace(/[^a-z0-9]+/g,'-') === location.hash);
+const fromHash = PROJECTS.flatMap(p => [...fieldsOf(p), ...(p.tags||[])]).filter(Boolean).find(t => '#t-' + t.toLowerCase().replace(/[^a-z0-9]+/g,'-') === location.hash);
 if (fromHash) { filter(fromHash); document.getElementById('projects').scrollIntoView(); }
 
 // манифест: текст на выбранном языке, знак Oilab и анимация встраиваются в строку
