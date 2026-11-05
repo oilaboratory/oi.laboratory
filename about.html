@@ -16,7 +16,7 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos&display=swap">
-<link rel="stylesheet" href="site.css?v=1793859909">
+<link rel="stylesheet" href="site.css?v=1793860058">
 <style>
 /* About 1:1 по gaadesign.studio/info/about (замеры при 1440 и 375 px): размеры, интерлиньяж, трекинг −0.5px, отступы.
    Цвета — палитра сайта: тёмный --ink вместо чёрного, бледный --faint вместо #d8d8d8. Блок основателя и «Процесс» убраны, вместо основателя — команда */
@@ -41,10 +41,11 @@ html body main.ab .big-h{font-size:44px;line-height:1.1;letter-spacing:-.88px!im
 #principles{border-top:1px solid var(--faint)}
 .pr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:8px;align-items:start;border-bottom:1px solid var(--faint)}
 html body main.ab .pr-h{grid-column:1;display:block;width:100%;appearance:none;border:0;background:none;padding:18px 0;margin:0;font:inherit;font-size:32px;line-height:1;text-align:left;color:var(--faint);cursor:pointer;transition:color .3s}
-html body main.ab .pr-h:hover{color:var(--muted)}
+.pr{cursor:pointer}
+html body main.ab .pr:hover .pr-h{color:var(--muted)}   /* вся строка — зона наведения и нажатия */
 html body main.ab .pr.open .pr-h{color:var(--ink)}
 .pr-h .em{display:inline-block;opacity:0;transform:scale(.6);transition:opacity .3s,transform .4s cubic-bezier(.34,1.56,.64,1)}
-.pr-h:hover .em,.pr.open .em{opacity:1;transform:none}
+.pr:hover .em,.pr.open .em{opacity:1;transform:none}
 .pr-d{grid-column:2;display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .5s cubic-bezier(.23,1,.32,1),opacity .3s}
 html body main.ab .pr-d > p{overflow:hidden;margin:0;font-size:22px;line-height:1.1;color:var(--ink)}
 .pr.open .pr-d{grid-template-rows:1fr;opacity:1;transition:grid-template-rows .5s cubic-bezier(.23,1,.32,1),opacity .5s .1s}
@@ -113,8 +114,8 @@ html body main.ab .list > *{display:block;font-size:inherit;line-height:inherit}
 <div class="big" id="big" role="img" aria-label="Oilab"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js"></script>
-<script src="i18n.js?v=1793859909" charset="utf-8"></script>
-<script src="projects.js?v=1793859909" charset="utf-8"></script>
+<script src="i18n.js?v=1793860058" charset="utf-8"></script>
+<script src="projects.js?v=1793860058" charset="utf-8"></script>
 <script>
 // Тексты страницы — в i18n.js (ключи a.*)
 
@@ -132,7 +133,7 @@ window.pageRender = () => {
 pageRender();
 // принципы: нажатие открывает пункт, остальные закрываются
 document.getElementById('principles').addEventListener('click', e => {
-  const h = e.target.closest('.pr-h'); if (!h) return;
+  const r = e.target.closest('.pr'); if (!r) return; const h = r.querySelector('.pr-h');
   document.querySelectorAll('#principles .pr').forEach(p => { const on = p === h.parentElement && !p.classList.contains('open'); p.classList.toggle('open', on); p.querySelector('.pr-h').setAttribute('aria-expanded', on); });
 });
 document.getElementById('clients').innerHTML = PROJECTS.filter(p => !/^Проект/.test(p.name))
