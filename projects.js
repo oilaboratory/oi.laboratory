@@ -1,5 +1,5 @@
 // Данные проектов — общие для главной и страниц кейсов.
-// Чтобы добавить проект: новая строка { name, img, tags }. Теги — ключи из TAG_COLS (i18n.js), по ним работает фильтр на главной.
+// Чтобы добавить проект: новая строка { name, field, img, tags }. field — сфера клиента из FIELDS (i18n.js), по ней фильтр на главной; tags — что мы делали.
 const T = {
   nike:["Key Visual", "Motion & 3D", "Art Direction"],
   base:["Motion & 3D", "Art Direction"],
@@ -193,16 +193,16 @@ const CASE_TEXT = {
 };
 
 const PROJECTS = [
-  {name:"7:20", img:"p07", hover:"img/720/hover2.jpg", case: T720_CASE, tags:["Branding", "Positioning", "SMM Visuals", "Merch & Apparel", "Print"]},
-  {name:"TAU", img:"p05", hover:"img/tau/hover.jpg", case: TAU_CASE, tags:["Branding", "Positioning", "SMM Visuals", "Presentations"]},
-  {name:"Fading Tales", img:"p20c", hover:"img/ft/hover2.jpg", case: FT_CASE, tags:["Art Direction", "Film Posters & Key Art", "Titles & Typography", "Motion & 3D"]},
-  {name:"Sezim", img:"p04", hover:"img/sezim/s01.jpg", case: SEZIM_CASE, tags:["Branding", "Positioning", "SMM Visuals", "Merch & Apparel", "Print"]},
-  {name:"KUN", img:"p21", hover:"img/kun/n05.jpg", case: KUN_CASE, tags:["Branding", "Positioning", "SMM Visuals", "Presentations"]},
-  {name:"1135", img:"p22c", hover:"img/1135/hover2.jpg", case: D1135_CASE, tags:["Branding", "Positioning", "SMM Visuals", "Merch & Apparel", "Print"]},
-  {name:"Кайрат", img:"p01", case:{intro:["img/kairat/intro.mp4",1920,1080]}, tags:["Titles & Typography", "Film Posters & Key Art"]},
-  {name:"Тастамашы Ана", img:"p25b", hover:"img/ta/hover2.jpg", case: TA_CASE, tags:["Art Direction", "Film Posters & Key Art", "Titles & Typography"]},
+  {name:"7:20", field:"Fashion & Apparel", img:"p07", hover:"img/720/hover2.jpg", case: T720_CASE, tags:["Branding", "Positioning", "SMM Visuals", "Merch & Apparel", "Print"]},
+  {name:"TAU", field:"Interior & Furniture", img:"p05", hover:"img/tau/hover.jpg", case: TAU_CASE, tags:["Branding", "Positioning", "SMM Visuals", "Presentations"]},
+  {name:"Fading Tales", field:"Film & Media", img:"p20c", hover:"img/ft/hover2.jpg", case: FT_CASE, tags:["Art Direction", "Film Posters & Key Art", "Titles & Typography", "Motion & 3D"]},
+  {name:"Sezim", field:"Fashion & Apparel", img:"p04", hover:"img/sezim/s01.jpg", case: SEZIM_CASE, tags:["Branding", "Positioning", "SMM Visuals", "Merch & Apparel", "Print"]},
+  {name:"KUN", field:"Agencies & Corporate", img:"p21", hover:"img/kun/n05.jpg", case: KUN_CASE, tags:["Branding", "Positioning", "SMM Visuals", "Presentations"]},
+  {name:"1135", field:"Automotive", img:"p22c", hover:"img/1135/hover2.jpg", case: D1135_CASE, tags:["Branding", "Positioning", "SMM Visuals", "Merch & Apparel", "Print"]},
+  {name:"Кайрат", field:"Film & Media", img:"p01", case:{intro:["img/kairat/intro.mp4",1920,1080]}, tags:["Titles & Typography", "Film Posters & Key Art"]},
+  {name:"Тастамашы Ана", field:"Film & Media", img:"p25b", hover:"img/ta/hover2.jpg", case: TA_CASE, tags:["Art Direction", "Film Posters & Key Art", "Titles & Typography"]},
   {soon:true, name:"Straight Shift", img:"p13", hover:"img/straight-shift/ss01.jpg", case: SS_CASE, tags:["Branding", "Positioning", "Key Visual"]},
-  {soon:true, name:"bülbül", img:"p02", hover:"img/bulbul/hover.jpg", tags:["Branding", "Key Visual", "Art Direction"], case: BULBUL_CASE},
+  {soon:true, name:"bülbül", field:"Fashion & Apparel", img:"p02", hover:"img/bulbul/hover.jpg", tags:["Branding", "Key Visual", "Art Direction"], case: BULBUL_CASE},
   {name:"14 Music Label", img:"p03", tags:["Positioning", "Art Direction", "Branding"]},
   {name:"ushiro", img:"p06", tags:["Positioning", "Art Direction"]},
   {name:"allfolk", img:"p08", tags:["Motion & 3D", "Art Direction", "Branding"]},

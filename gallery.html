@@ -16,7 +16,7 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos&display=swap">
-<link rel="stylesheet" href="site.css?v=1793822460">
+<link rel="stylesheet" href="site.css?v=1793854755">
 <style>
 /* Gallery по макету Frame 20: свободная раскладка крупных кадров (позиции и размеры — из макета, в долях ширины 1390px),
    подписи «проект / услуги», внизу лента всех проектов */
@@ -67,8 +67,8 @@
 <div class="big" id="big" role="img" aria-label="Oilab"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js"></script>
-<script src="i18n.js?v=1793822460" charset="utf-8"></script>
-<script src="projects.js?v=1793822460" charset="utf-8"></script>
+<script src="i18n.js?v=1793854755" charset="utf-8"></script>
+<script src="projects.js?v=1793854755" charset="utf-8"></script>
 <script>
 // Галерея собирается заново при каждом открытии: случайные кадры упакованных проектов
 // раскладываются по шаблонам рядов из макета Frame 20 (позиции и ширины — в пикселях макета шириной 1390).
@@ -85,7 +85,7 @@ TEMPLATES.push(...TEMPLATES.map(r => r.map(([x,w]) => [W-x-w, w]).reverse()));
 const SKIP = /\/(1135\/d0[3789]|1135\/d1[0-2]|1135\/d07b|1135\/d03b|1135\/d11t|ta\/t07|ft\/day|ft\/steppr|sezim2\/z03b|sezim2\/z11|tau\/u02|tau\/u10|tau\/u16|tau\/u18|tau\/u22)/;
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const bySlug = s => PROJECTS.find(p => slug(p) === s);
-const cap = p => `<div class="cap"><b>${esc(p.name)}</b>${p.tags ? `<span class="tags">${p.tags.map(g => `<span class="tag">${esc(tr(g))}</span>`).join('')}</span>` : ''}</div>`;
+const cap = p => `<div class="cap"><b>${esc(p.name)}</b>${p.tags ? `<span class="tags">${[p.field, ...p.tags].filter(Boolean).map(g => `<span class="tag">${esc(tr(g))}</span>`).join('')}</span>` : ''}</div>`;
 
 const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
 function pool(){

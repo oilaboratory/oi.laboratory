@@ -93,16 +93,11 @@ const I18N = {
   },
 };
 // теги проектов: ключи на английском (в projects.js), колонки — как в фильтре на главной
-const TAG_COLS = [
-  ['Branding','Rebranding','Positioning','Naming'],
-  ['Key Visual','Art Direction','Packaging','Presentations'],
-  ['Websites & UX/UI','SMM Visuals','Motion & 3D'],
-  ['Merch & Apparel','Events & Spaces','Print'],
-  ['Film Posters & Key Art','Titles & Typography'],
-];
+// сферы деятельности клиентов — фильтр над сеткой проектов (у каждого проекта одно поле field)
+const FIELDS = ['Fashion & Apparel', 'Interior & Furniture', 'Film & Media', 'Agencies & Corporate', 'Automotive'];
 const TAGS = {
-  ru: {'Branding':'Брендинг','Rebranding':'Ребрендинг','Positioning':'Позиционирование','Naming':'Нейминг','Key Visual':'Key Visual','Art Direction':'Арт-дирекшн','Packaging':'Упаковка','Presentations':'Презентации','Websites & UX/UI':'Сайты & UX/UI','SMM Visuals':'SMM-визуал','Motion & 3D':'Моушн & 3D','Merch & Apparel':'Мерч & Одежда','Events & Spaces':'Ивенты & Зоны','Print':'Полиграфия','Film Posters & Key Art':'Кинопостеры & Key Art','Titles & Typography':'Титры & Типографика'},
-  kk: {'Branding':'Брендинг','Rebranding':'Ребрендинг','Positioning':'Позициялау','Naming':'Нейминг','Key Visual':'Key Visual','Art Direction':'Арт-дирекшн','Packaging':'Қаптама','Presentations':'Презентациялар','Websites & UX/UI':'Сайттар & UX/UI','SMM Visuals':'SMM-визуал','Motion & 3D':'Моушн & 3D','Merch & Apparel':'Мерч & Киім','Events & Spaces':'Ивенттер & Аймақтар','Print':'Полиграфия','Film Posters & Key Art':'Кинопостерлер & Key Art','Titles & Typography':'Титрлер & Типографика'},
+  ru: {'Fashion & Apparel':'Мода и одежда','Interior & Furniture':'Интерьер и мебель','Film & Media':'Кино и медиа','Agencies & Corporate':'Агентства и корпоративный дизайн','Automotive':'Автомобильный бизнес','Branding':'Брендинг','Rebranding':'Ребрендинг','Positioning':'Позиционирование','Naming':'Нейминг','Key Visual':'Key Visual','Art Direction':'Арт-дирекшн','Packaging':'Упаковка','Presentations':'Презентации','Websites & UX/UI':'Сайты & UX/UI','SMM Visuals':'SMM-визуал','Motion & 3D':'Моушн & 3D','Merch & Apparel':'Мерч & Одежда','Events & Spaces':'Ивенты & Зоны','Print':'Полиграфия','Film Posters & Key Art':'Кинопостеры & Key Art','Titles & Typography':'Титры & Типографика'},
+  kk: {'Fashion & Apparel':'Сән және киім','Interior & Furniture':'Интерьер және жиһаз','Film & Media':'Кино және медиа','Agencies & Corporate':'Агенттіктер және корпоративтік дизайн','Automotive':'Автокөлік бизнесі','Branding':'Брендинг','Rebranding':'Ребрендинг','Positioning':'Позициялау','Naming':'Нейминг','Key Visual':'Key Visual','Art Direction':'Арт-дирекшн','Packaging':'Қаптама','Presentations':'Презентациялар','Websites & UX/UI':'Сайттар & UX/UI','SMM Visuals':'SMM-визуал','Motion & 3D':'Моушн & 3D','Merch & Apparel':'Мерч & Киім','Events & Spaces':'Ивенттер & Аймақтар','Print':'Полиграфия','Film Posters & Key Art':'Кинопостерлер & Key Art','Titles & Typography':'Титрлер & Типографика'},
 };
 const LANGS = [['en','EN'],['ru','RU'],['kk','KZ']];
 const LOCALE = {en:'en-GB', ru:'ru-RU', kk:'kk-KZ'};
