@@ -155,7 +155,7 @@ video::-webkit-media-controls,video::-webkit-media-controls-start-playback-butto
 .bd-win[hidden]{display:none}
 html.bd-lock{overflow:hidden}
 .buddy.open{opacity:0;pointer-events:none}
-.bd-card{box-sizing:border-box;width:min(680px,100%);justify-self:center;background:#f7f8f9;border:1px solid var(--chip);border-radius:24px;padding:16px;box-shadow:0 30px 80px rgba(35,55,70,.12);transform-origin:50% 50%;will-change:transform}
+.bd-card{box-sizing:border-box;width:min(420px,100%);justify-self:center;background:#f7f8f9;border:1px solid var(--chip);border-radius:24px;padding:16px;box-shadow:0 30px 80px rgba(35,55,70,.12);transform-origin:50% 50%;will-change:transform}
 .bd-top{display:flex;align-items:center;gap:10px;background:var(--bg);border-radius:12px;padding:12px 12px 12px 16px}
 .bd-dot{width:7px;height:7px;border-radius:50%;background:var(--dot);flex:none;box-shadow:0 0 0 0 rgba(43,212,107,.5);animation:bd-pulse 2s infinite}
 @keyframes bd-pulse{70%{box-shadow:0 0 0 7px rgba(43,212,107,0)}100%{box-shadow:0 0 0 0 rgba(43,212,107,0)}}
@@ -166,11 +166,11 @@ body .bd-top .bd-x{flex:none;width:26px;min-width:26px;padding:0;gap:0;justify-c
 .bd-x i{position:relative;display:block;width:10px;height:10px}
 .bd-x i::before,.bd-x i::after{content:"";position:absolute;left:0;top:4.5px;width:10px;height:1.3px;background:currentColor;transform:rotate(45deg)}
 .bd-x i::after{transform:rotate(-45deg)}
-/* окно связи: слева квадрат с анимацией (ролик заполняет его целиком — без полей), справа подпись и каналы */
-.bd-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:stretch;padding:12px 0 0}
+/* окно связи: иллюстрация на всю ширину окна, под ней подпись, ниже каналы */
+.bd-in{display:grid;gap:12px;padding:12px 0 0}
 .bd-vid{display:block;width:100%;aspect-ratio:1;height:auto;object-fit:cover;border-radius:12px;pointer-events:none}
-.bd-side{display:flex;flex-direction:column;justify-content:space-between;gap:12px;min-width:0}
-.bd-in .bd-sub{margin:4px 2px 0}
+.bd-side{display:grid;gap:12px;min-width:0}
+.bd-in .bd-sub{margin:0;text-align:center}
 .bd-list{display:grid;gap:6px}
 .bd-list a{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:10px;align-items:center;padding:10px 12px;border-radius:12px;background:var(--bg);color:var(--ink);transition:background-color .25s}
 .bd-list a:hover{background:var(--chip-hover)}
@@ -181,10 +181,6 @@ body .bd-top .bd-x{flex:none;width:26px;min-width:26px;padding:0;gap:0;justify-c
   /* телефон: окно внутри экрана с отступами со всех сторон; квадрат сверху, каналы под ним */
   .bd-win{padding:16px}
   .bd-card{border-radius:20px;padding:12px}
-  .bd-in{grid-template-columns:42% 1fr;row-gap:10px}
-  .bd-side{display:contents}
-  .bd-in .bd-sub{align-self:center;margin:0}
-  .bd-list{grid-column:1/-1}
   .bd-list a{padding:9px 12px}
 }
 
