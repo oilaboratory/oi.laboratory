@@ -207,7 +207,7 @@ const PROJECTS = [
   {name:"ushiro", field:"Fashion", img:"p06", tags:["Positioning", "Art Direction"]},
   {name:"allfolk", field:["Agencies", "Music"], img:"p08", tags:["Motion & 3D", "Art Direction", "Branding"]},
   {name:"Dudeontheguitar", field:"Music", img:"p09", tags:["Art Direction", "Positioning"]},
-  {name:"SAZY", field:"Music", img:"p10", tags:["Motion & 3D", "Art Direction", "Websites & UX/UI"]},
+  {name:"Sary", field:"Music", img:"p10", tags:["Motion & 3D", "Art Direction", "Websites & UX/UI"]},
   {name:"Special Thanks", field:"Agencies", img:"p11", tags:["Art Direction", "Websites & UX/UI"]},
   {name:"muni", field:"Beauty", img:"p12", tags:["Positioning", "Naming", "Art Direction", "Key Visual"]},
   {name:"Kira D'Archi", field:"Fashion", img:"p14", tags:T.base},
