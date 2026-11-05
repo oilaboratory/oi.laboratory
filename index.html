@@ -17,7 +17,7 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos&display=swap">
-<link rel="stylesheet" href="site.css?v=1793856879">
+<link rel="stylesheet" href="site.css?v=1793857472">
 <style>
 /* Главная: манифест и сетка проектов. Общие токены, шапка и футер — в site.css */
 
@@ -56,7 +56,6 @@ body .cat.is-on{background:var(--faint);color:var(--ink)}
   background:var(--chip);color:var(--muted);cursor:pointer;transition:color .25s,background-color .25s}
 .tag:active,.filter:active{transform:scale(.985)}
 .tag.is-on{color:var(--ink)}
-.tag.field{color:var(--ink)}   /* сфера проекта — первой, тёмным; дальше что мы делали */
 .filter{appearance:none;border:0;border-radius:8px;font:inherit;font-size:13px;letter-spacing:-.03em;padding:5px 8px;
   background:var(--chip);color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:color .25s,background-color .25s}
 .filter svg{width:7px;height:7px}
@@ -84,44 +83,10 @@ body .cat.is-on{background:var(--faint);color:var(--ink)}
 .more-wrap{display:flex;justify-content:center;margin-top:56px}
 body .more-btn{height:34px;padding:0 18px;border-radius:17px}
 .more-btn .n{color:var(--muted)}
-.layer{position:fixed;inset:0;z-index:90;background:var(--bg);overflow:auto;overscroll-behavior:contain;padding:0 var(--pad) 80px;animation:pk .35s ease}
-.layer[hidden]{display:none}
-.layer-top{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:22px 0 20px;background:var(--bg)}
-.layer-top h2{margin:0}
-.layer .grid{animation:pk-up .5s cubic-bezier(.23,1,.32,1)}
-.layer .card{cursor:pointer}
-.layer .card .media img{transition:transform .6s cubic-bezier(.23,1,.32,1)}
-@media (hover:hover){.layer .card:hover .media img{transform:scale(1.03)}}
-.layer .card p{margin:4px 0 0;font-size:13px;line-height:1.3;color:var(--faint)}
-/* дисклеймер в слое: маленькое окно, закрывается */
-.note-box{position:fixed;z-index:3;left:50%;bottom:24px;transform:translateX(-50%);width:min(440px,calc(100vw - 24px));background:#f7f8f9;border:1px solid var(--chip);border-radius:20px;padding:16px 16px 14px;
-  box-shadow:0 20px 60px rgba(35,55,70,.14);animation:nb-in .55s cubic-bezier(.22,1.12,.36,1)}
-.note-box[hidden]{display:none}
-@keyframes nb-in{from{opacity:0;transform:translate(-50%,18px) scale(.97)}}
-.note-box h3{display:flex;align-items:center;gap:8px;margin:0 0 6px;font-size:15px;line-height:1.3;color:var(--ink)}
-.note-box h3 i{width:7px;height:7px;border-radius:50%;background:var(--dot);flex:none}
-.note-box p{margin:0 0 12px;font-size:13px;line-height:1.4;color:var(--muted)}
-/* большая обложка поверх слоя */
-.peek{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:24px;background:rgba(255,255,255,.3);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);animation:pk .35s ease}
-.peek[hidden]{display:none}
-@keyframes pk{from{opacity:0}}
-@keyframes pk-up{from{opacity:0;transform:translateY(16px) scale(.98)}}
-.peek-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;width:min(820px,100%);background:#f7f8f9;border:1px solid var(--chip);border-radius:24px;padding:16px;box-shadow:0 30px 80px rgba(35,55,70,.12);animation:pk-up .5s cubic-bezier(.22,1.12,.36,1)}
-.peek-card img{width:100%;aspect-ratio:339/386;object-fit:cover;border-radius:12px;display:block}
-.peek-b{display:flex;flex-direction:column;gap:6px;padding:8px 8px 4px}
-.peek-b h3{margin:0;font-size:var(--fs-h);line-height:1.1;color:var(--ink)}
-.peek-f{margin:0;font-size:13px;line-height:1.3;color:var(--muted)}
-.peek-b p:not(.peek-f){margin:auto 0 0;font-size:15px;line-height:1.4;color:var(--ink)}
-.peek-act{display:flex;gap:6px;margin-top:10px}
-body .peek-act .nav-contact,body .note-box .ok{background:var(--ink);color:#fff}
-body .peek-act .nav-contact:hover,body .note-box .ok:hover{background:var(--ink);opacity:.85;color:#fff}
 @media (max-width:1000px){.head{grid-template-columns:1fr;row-gap:14px}.cats{grid-column:1;justify-content:flex-start}}
 @media (max-width:767px){
   .cats{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 calc(-1 * var(--pad));padding:0 var(--pad)}
   .cats::-webkit-scrollbar{display:none}
-  .layer-top{padding:16px 0}
-  .layer .grid{grid-template-columns:1fr 1fr;gap:28px 8px}
-  .peek{align-items:end;padding:12px}.peek-card{grid-template-columns:1fr;border-radius:20px}.peek-card img{aspect-ratio:4/3}
 }
 </style>
 
@@ -155,30 +120,20 @@ body .peek-act .nav-contact:hover,body .note-box .ok:hover{background:var(--ink)
   <section id="projects">
     <div class="head"><h2 data-i="projects">Projects</h2><div class="cats" id="cats"></div></div>
     <div class="grid" id="grid"></div>
-    <div class="more-wrap"><button class="pill more-btn" type="button" id="moreBtn"><span data-i="more.title">More projects</span> <span class="n" id="moreN"></span></button></div>
-  </section>
-  <!-- слой «Ещё проекты»: проекты, кейсы которых ещё готовятся; при открытии — маленький дисклеймер -->
-  <section class="layer" id="layer" role="dialog" aria-modal="true" aria-labelledby="layer-t" hidden>
-    <div class="layer-top"><h2 id="layer-t" class="cap-h" data-i="more.title"></h2><button class="pill layer-x" type="button" data-i="close"></button></div>
-    <div class="grid" id="mini"></div>
-    <div class="note-box" id="note" role="status"><h3><i aria-hidden="true"></i><span data-i="more.noteT"></span></h3><p data-i="more.note"></p><button class="pill ok" type="button" data-i="more.ok"></button></div>
+    <div class="more-wrap"><a class="pill more-btn" href="more.html" id="moreBtn"><span data-i="more.title">More projects</span> <span class="n" id="moreN"></span></a></div>
   </section>
 
-  <div class="peek" id="peek" role="dialog" aria-modal="true" aria-labelledby="peek-t" hidden>
-    <div class="peek-card"><img id="peek-img" alt=""><div class="peek-b"><h3 id="peek-t"></h3><p class="peek-f" id="peek-f"></p><p data-i="peek.text"></p>
-      <div class="peek-act"><a class="pill nav-contact" href="#"><span data-i="peek.cta"></span></a><button class="pill peek-x" type="button" data-i="close"></button></div></div></div>
-  </div>
 
   <footer id="contact"></footer>
 </div>
 <div class="big" id="big" role="img" aria-label="Oilab"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js"></script>
-<script src="i18n.js?v=1793856879" charset="utf-8"></script>
-<script src="projects.js?v=1793856879" charset="utf-8"></script>
+<script src="i18n.js?v=1793857472" charset="utf-8"></script>
+<script src="projects.js?v=1793857472" charset="utf-8"></script>
 <script>
 // hover: вторая фотография проекта (или .mp4) — плавно сменяет обложку при наведении. Пример: {name:"Кайрат", img:"p01", hover:"img/p01-2.jpg", tags:[...]}
-const grid = document.getElementById('grid'), mini = document.getElementById('mini');
+const grid = document.getElementById('grid');
 const tagsOf = p => [p.field, ...(p.tags||[])].filter(Boolean).join('|');
 grid.innerHTML = PROJECTS.filter(p => p.case).map(p => `
   <div class="card" data-tags="${tagsOf(p)}">
@@ -194,23 +149,7 @@ grid.innerHTML = PROJECTS.filter(p => p.case).map(p => `
     <div class="tags">${p.field ? `<button class="tag field" type="button" data-tag="${p.field}">${tr(p.field)}</button>` : ''}${(p.tags||[]).map(g=>`<button class="tag" type="button" data-tag="${g}">${tr(g)}</button>`).join('')}</div>
   </div>`).join('');
 const MORE = PROJECTS.filter(p => !p.case);
-mini.innerHTML = MORE.map((p, i) => `
-  <div class="card" data-k="${i}" tabindex="0" role="button"><span class="media"><img class="cover" src="img/${p.img}.jpg" alt="${p.name}" loading="lazy"></span><h3>${p.name}</h3>${p.field ? `<p data-field="${p.field}">${tr(p.field)}</p>` : ''}</div>`).join('');
 document.getElementById('moreN').textContent = MORE.length;
-const layer = document.getElementById('layer'), note = document.getElementById('note'), peek = document.getElementById('peek');
-const lock = () => document.documentElement.classList.toggle('bd-lock', !layer.hidden || !peek.hidden);
-const layerShow = on => { layer.hidden = !on; if (on) { note.hidden = false; layer.scrollTop = 0; } lock(); };
-const peekShow = on => { peek.hidden = !on; lock(); };
-document.getElementById('moreBtn').onclick = () => layerShow(true);
-layer.querySelector('.layer-x').onclick = () => layerShow(false);
-note.querySelector('.ok').onclick = () => { note.hidden = true; };
-const openPeek = c => { const p = MORE[c.dataset.k];
-  document.getElementById('peek-img').src = `img/${p.img}.jpg`; document.getElementById('peek-t').textContent = p.name;
-  document.getElementById('peek-f').textContent = p.field ? tr(p.field) : ''; peekShow(true); };
-mini.addEventListener('click', e => { const c = e.target.closest('.card'); if (c) openPeek(c); });
-mini.addEventListener('keydown', e => { const c = e.target.closest('.card'); if (c && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openPeek(c); } });
-peek.addEventListener('click', e => { if (e.target === peek || e.target.closest('.peek-x')) peekShow(false); else if (e.target.closest('.nav-contact')) { peekShow(false); layerShow(false); } });
-addEventListener('keydown', e => { if (e.key !== 'Escape') return; if (!peek.hidden) peekShow(false); else if (!layer.hidden) layerShow(false); });
 
 // клик по тегу фильтрует сетку: исчезает за .33s, перестраивается, проявляется; сверху плашка «тег ×»
 const X = '<svg viewBox="0 0 8 9" fill="none"><path d="M1 1.25L7.5 7.75M7.5 1.25L1 7.75" stroke="currentColor"/></svg>';
@@ -247,7 +186,6 @@ window.pageRender = () => {
   // иллюстрация стоит в начале абзаца и плавает справа — текст обтекает её слева
   document.getElementById('heroText').innerHTML = t('hero').replace('{WM}', WM).replace('{ART}', ART);
   document.querySelectorAll('.tag').forEach(b => b.firstChild.textContent = tr(b.dataset.tag));
-  document.querySelectorAll('#mini p[data-field]').forEach(s => s.textContent = tr(s.dataset.field));
   renderCats();
 };
 pageRender();
