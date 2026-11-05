@@ -202,7 +202,7 @@ const PROJECTS = [
   {soon:true, name:"Кайрат", field:"Film", img:"p01", case:{intro:["img/kairat/intro.mp4",1920,1080]}, tags:["Titles & Typography", "Film Posters & Key Art"]},
   {name:"Тастамашы Ана", field:"Film", img:"p25b", hover:"img/ta/hover2.jpg", case: TA_CASE, tags:["Art Direction", "Film Posters & Key Art", "Titles & Typography"]},
   {soon:true, name:"Straight Shift", field:"Automotive", img:"p13", hover:"img/straight-shift/ss01.jpg", case: SS_CASE, tags:["Branding", "Positioning", "Key Visual"]},
-  {soon:true, name:"bülbül", field:"Fashion", img:"p02", hover:"img/bulbul/hover.jpg", tags:["Branding", "Key Visual", "Art Direction"], case: BULBUL_CASE},
+  {soon:true, name:"bülbül", field:"Fashion", img:"p02b", hover:"img/bulbul/hover.jpg", tags:["Branding", "Key Visual", "Art Direction"], case: BULBUL_CASE},
   {name:"14 Music Label", field:["Agencies", "Music"], img:"p03", tags:["Positioning", "Art Direction", "Branding"]},
   {name:"ushiro", field:"Fashion", img:"p06", tags:["Positioning", "Art Direction"]},
   {name:"allfolk", field:["Agencies", "Music"], img:"p08", tags:["Motion & 3D", "Art Direction", "Branding"]},
