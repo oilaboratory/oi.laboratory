@@ -17,7 +17,7 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos&display=swap">
-<link rel="stylesheet" href="site.css?v=1793855280">
+<link rel="stylesheet" href="site.css?v=1793855590">
 <style>
 /* Главная: манифест и сетка проектов. Общие токены, шапка и футер — в site.css */
 
@@ -84,6 +84,37 @@
   .grid{grid-template-columns:1fr;gap:44px}
   .cats{display:grid;grid-template-columns:1fr 1fr;gap:6px 8px}
 }
+ /* ещё работы: мелкие обложки 6 в ряд, без ссылки на кейс */
+#more{margin-top:clamp(100px,12vw,180px)}
+#more[hidden]{display:none}
+.more-head{display:grid;grid-template-columns:repeat(4,1fr);column-gap:8px;padding-bottom:24px}
+.more-head h2{margin:0;font-size:13px;font-weight:500;color:var(--muted)}
+.more-head h2 .n{color:var(--faint);margin-left:4px}
+.more-head p{grid-column:2/4;margin:0;font-size:13px;line-height:1.35;color:var(--muted);max-width:36em}
+.grid.mini{grid-template-columns:repeat(6,1fr);gap:28px 8px}
+.mcard{appearance:none;border:0;background:none;padding:0;font:inherit;text-align:left;cursor:pointer;color:var(--muted);display:block}
+.mcard[hidden]{display:none}
+.mcard .media{display:block;border-radius:4px;overflow:hidden}
+.mcard img{display:block;width:100%;aspect-ratio:339/386;object-fit:cover;filter:saturate(.85);transition:filter .4s,transform .6s cubic-bezier(.23,1,.32,1)}
+.mcard:hover img{filter:none;transform:scale(1.03)}
+.mcard b{display:block;margin-top:8px;font-size:12px;font-weight:500;letter-spacing:-.03em;transition:color .25s}
+.mcard small{display:block;font-size:11px;color:var(--faint)}
+.mcard:hover b{color:var(--ink)}
+.peek{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:24px;background:rgba(255,255,255,.3);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);animation:pk .35s ease}
+.peek[hidden]{display:none}
+@keyframes pk{from{opacity:0}}
+.peek-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;width:min(820px,100%);background:#f7f8f9;border:1px solid var(--chip);border-radius:24px;padding:16px;box-shadow:0 30px 80px rgba(35,55,70,.12);animation:pk-up .5s cubic-bezier(.22,1.12,.36,1)}
+@keyframes pk-up{from{opacity:0;transform:translateY(16px) scale(.97)}}
+.peek-card img{width:100%;aspect-ratio:339/386;object-fit:cover;border-radius:12px;display:block}
+.peek-b{display:flex;flex-direction:column;gap:10px;padding:8px 8px 4px}
+.peek-b h3{margin:0;font-size:22px;font-weight:500;letter-spacing:-.02em;color:var(--ink)}
+.peek-f{margin:0;font-size:13px;color:var(--muted)}
+.peek-b p:not(.peek-f){margin:auto 0 0;font-size:15px;line-height:1.4;color:var(--ink)}
+.peek-act{display:flex;gap:6px;margin-top:8px}
+body .peek-act .nav-contact{background:var(--ink);color:#fff}
+body .peek-act .nav-contact:hover{background:var(--ink);opacity:.85;color:#fff}
+@media (max-width:1000px){.grid.mini{grid-template-columns:repeat(4,1fr)}.more-head{grid-template-columns:1fr;row-gap:8px}.more-head p{grid-column:1}}
+@media (max-width:767px){.grid.mini{grid-template-columns:repeat(3,1fr);gap:20px 6px}.peek{align-items:end;padding:12px}.peek-card{grid-template-columns:1fr;border-radius:20px}.peek-card img{aspect-ratio:4/3}}
 </style>
 
 </head>
@@ -118,22 +149,33 @@
     <div class="grid" id="grid"></div>
   </section>
 
+  <!-- ещё работы: проекты без готового кейса — мелкие обложки, по клику большая обложка и пояснение -->
+  <section id="more">
+    <div class="more-head"><h2><span data-i="more.title">More work</span> <span class="n" id="moreN"></span></h2><p data-i="more.note"></p></div>
+    <div class="grid mini" id="mini"></div>
+  </section>
+  <div class="peek" id="peek" role="dialog" aria-modal="true" aria-labelledby="peek-t" hidden>
+    <div class="peek-card"><img id="peek-img" alt=""><div class="peek-b"><h3 id="peek-t"></h3><p class="peek-f" id="peek-f"></p><p data-i="peek.text"></p>
+      <div class="peek-act"><a class="pill nav-contact" href="#"><span data-i="peek.cta"></span></a><button class="pill peek-x" type="button" data-i="close"></button></div></div></div>
+  </div>
+
   <footer id="contact"></footer>
 </div>
 <div class="big" id="big" role="img" aria-label="Oilab"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js"></script>
-<script src="i18n.js?v=1793855280" charset="utf-8"></script>
-<script src="projects.js?v=1793855280" charset="utf-8"></script>
+<script src="i18n.js?v=1793855590" charset="utf-8"></script>
+<script src="projects.js?v=1793855590" charset="utf-8"></script>
 <script>
 // hover: вторая фотография проекта (или .mp4) — плавно сменяет обложку при наведении. Пример: {name:"Кайрат", img:"p01", hover:"img/p01-2.jpg", tags:[...]}
-const grid = document.getElementById('grid');
-grid.innerHTML = PROJECTS.map(p => `
-  <div class="card${p.case ? '' : ' soon'}" data-tags="${[p.field, ...(p.tags||[])].filter(Boolean).join('|')}">
-    <a${p.case ? ` href="case.html#${slug(p)}"` : ' tabindex="0"'}>
+const grid = document.getElementById('grid'), mini = document.getElementById('mini');
+const tagsOf = p => [p.field, ...(p.tags||[])].filter(Boolean).join('|');
+grid.innerHTML = PROJECTS.filter(p => p.case).map(p => `
+  <div class="card" data-tags="${tagsOf(p)}">
+    <a href="case.html#${slug(p)}">
       <span class="media">
         <img class="cover" src="img/${p.img}.jpg" alt="${p.name}" loading="lazy">
-        ${!p.case ? `<span class="soon-pill" data-i="soon">${t('soon')}</span>` : p.hover ? (/\.(mp4|webm)$/.test(p.hover)
+        ${p.hover ? (/\.(mp4|webm)$/.test(p.hover)
           ? `<video class="hover" src="${p.hover}" muted loop playsinline autoplay></video>`
           : `<img class="hover" src="${p.hover.replace(/(\/[^/]+\/[^/]+)\.jpg$/, '$1-m.jpg')}" alt="" loading="lazy" decoding="async">`) : ''}
       </span>
@@ -141,6 +183,18 @@ grid.innerHTML = PROJECTS.map(p => `
     </a>
     <div class="tags">${p.field ? `<button class="tag field" type="button" data-tag="${p.field}">${tr(p.field)}</button>` : ''}${(p.tags||[]).map(g=>`<button class="tag" type="button" data-tag="${g}">${tr(g)}</button>`).join('')}</div>
   </div>`).join('');
+const MORE = PROJECTS.filter(p => !p.case);
+mini.innerHTML = MORE.map((p, i) => `
+  <button class="mcard" type="button" data-i-dx="${i}" data-tags="${tagsOf(p)}"><span class="media"><img src="img/${p.img}.jpg" alt="${p.name}" loading="lazy"></span><b>${p.name}</b>${p.field ? `<small data-field="${p.field}">${tr(p.field)}</small>` : ''}</button>`).join('');
+document.getElementById('moreN').textContent = MORE.length;
+// большая обложка поверх сайта: что это за проект и что кейс ещё упаковывается
+const peek = document.getElementById('peek');
+const peekShow = on => { peek.hidden = !on; document.documentElement.classList.toggle('bd-lock', on); };
+mini.addEventListener('click', e => { const c = e.target.closest('.mcard'); if (!c) return; const p = MORE[c.dataset.iDx];
+  document.getElementById('peek-img').src = `img/${p.img}.jpg`; document.getElementById('peek-t').textContent = p.name;
+  document.getElementById('peek-f').textContent = p.field ? tr(p.field) : ''; peekShow(true); });
+peek.addEventListener('click', e => { if (e.target === peek || e.target.closest('.peek-x, .nav-contact')) peekShow(false); });
+addEventListener('keydown', e => { if (e.key === 'Escape' && !peek.hidden) peekShow(false); });
 
 // клик по тегу фильтрует сетку: исчезает за .33s, перестраивается, проявляется; сверху плашка «тег ×»
 const X = '<svg viewBox="0 0 8 9" fill="none"><path d="M1 1.25L7.5 7.75M7.5 1.25L1 7.75" stroke="currentColor"/></svg>';
@@ -150,7 +204,8 @@ function filter(tag){
   current = tag;
   grid.classList.add('is-fading');
   setTimeout(() => {
-    grid.querySelectorAll('.card').forEach(c => c.hidden = !!tag && !c.dataset.tags.split('|').includes(tag));
+    document.querySelectorAll('#grid .card, #mini .mcard').forEach(c => c.hidden = !!tag && !c.dataset.tags.split('|').includes(tag));
+    document.getElementById('more').hidden = !!tag && !mini.querySelector('.mcard:not([hidden])');
     document.querySelectorAll('.tag, .cat').forEach(b => b.classList.toggle('is-on', b.dataset.tag === tag));
     document.getElementById('active').innerHTML = tag ? `<button class="filter" type="button" data-tag="${tag}">${tr(tag)}${X}</button>` : '';
     grid.classList.remove('is-fading');
@@ -175,6 +230,7 @@ window.pageRender = () => {
   // иллюстрация стоит в начале абзаца и плавает справа — текст обтекает её слева
   document.getElementById('heroText').innerHTML = t('hero').replace('{WM}', WM).replace('{ART}', ART);
   document.querySelectorAll('.tag, .filter, .cat').forEach(b => b.firstChild.textContent = tr(b.dataset.tag));
+  document.querySelectorAll('.mcard small').forEach(s => s.textContent = tr(s.dataset.field));
 };
 pageRender();
 siteChrome();
