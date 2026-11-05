@@ -251,21 +251,37 @@ body .bd-links .social a{width:26px;height:26px;border-radius:13px;color:var(--m
 body .bd-links .social a:hover{color:var(--ink)}
 body .tag{border-radius:10px;padding:4px 7px}
 
-/* ——— единая типографика сайта (кроме манифестов кейсов и антиквы-заставок) ———
-   подпись 13 · текст 15 · лид 18–22 · заголовок 24–32 · антиква 22–32.5 */
-:root{--fs-cap:13px;--fs-body:15px;--lh-body:1.4;--fs-lead:clamp(18px,1.5vw,22px);--lh-lead:1.22;--fs-h:clamp(24px,2.2vw,32px);--fs-serif:clamp(22px,2.17vw,32.5px)}
-/* подписи разделов — мелко и серым, чтобы не спорить с антиквой и крупным текстом */
-body .head h2,body .sec > h2,body .all h2{font-size:var(--fs-cap);font-weight:500;line-height:1.3;letter-spacing:-.01em;color:var(--muted);margin:0}
-body .card h3,body .cap b,body .team h3,body .bar,body .info h4,body .goal-box h3,body .goal h3{font-size:var(--fs-cap);line-height:1.3}
-/* основной текст */
-body :is(.team p,.info p,.goal-box,.note,.text,.card .body,.bd-sub){font-size:var(--fs-body);line-height:var(--lh-body)}
-/* лид: вводный текст кейса, «Подход», описания принципов, списки услуг и клиентов */
-body :is(main > .lead, .lead:not(p), .goal p, .pr-d > p, .list, .mail, .card h4){font-size:var(--fs-lead);line-height:var(--lh-lead);letter-spacing:-.01em}
+/* ——— единая типографика сайта ———
+   Гротеск (Helvetica Neue Medium, 500) везде с одинаковым межбуквенным −0.01em; антиква (Times) — 400, без трекинга.
+   Пять размеров, у каждого свой интерлиньяж:
+   плашка 12/1 · подпись 13/1.3 · текст 15/1.4 · лид 18–22/1.25 · заголовок 24–32/1.1 · антиква 22–32.5/1.23
+   Исключения: манифесты кейсов (.statement) и заставка — у них свой масштаб. */
+:root{--fs-ui:12px;--fs-cap:13px;--fs-body:15px;--fs-lead:clamp(18px,1.5vw,22px);--fs-h:clamp(24px,2.2vw,32px);--fs-serif:clamp(22px,2.17vw,32.5px);--ls:-.01em}
+html body,html body :where(*:not(.statement p, #intro *)){letter-spacing:var(--ls)!important;font-weight:500!important}
+/* антиква */
+html body :is(.hero,.hero *,p.lead,.title,.q){font-family:var(--serif);font-weight:400!important;letter-spacing:0!important}
+html body :is(.hero,p.lead,.title){font-size:var(--fs-serif);line-height:1.23}
+html body .q{font-size:22px;line-height:1.23}
+html body .q .write{font-family:var(--sans);font-weight:500!important;letter-spacing:var(--ls)!important}
+/* плашки и кнопки */
+html body :is(.pill,.cat,.tag,.write,.shuffle,.filter,.bd-mail,.bd-send,header nav a,.lang-pill,.menu-btn,.soon-pill){line-height:1}
+html body .tag,html body .cap .tag{font-size:10px;line-height:1}
+html body .langs .lang-pill{line-height:1}
+/* подписи: названия разделов, проектов, метаданные, подвал */
+html body :is(.head h2,.sec > h2,.all h2,.layer-top h2,.card h3,.cap b,.team h3,.bar,.info h4,.goal-box h3,.goal h3,.layer .card p,.peek-f,.note-box p,footer,footer span,.clocks,.links span,.bd-form label,.bd-form small,.when,.ph){font-size:var(--fs-cap);line-height:1.3}
+html body :is(.head h2,.sec > h2,.all h2,.layer-top h2){color:var(--muted);margin:0}
+/* текст */
+html body :is(.team p,.info p,.info .services a,.goal-box p,.note,.text,.card .body,.bd-sub,.peek-b p:not(.peek-f),.note-box h3){font-size:var(--fs-body);line-height:1.4}
+/* лид */
+html body :is(.lead:not(p) p,.goal p,.pr-d > p,.list,.list a,.list span,.mail,.card h4){font-size:var(--fs-lead);line-height:1.25}
 /* заголовки */
-body :is(.pr-h,.title){font-size:var(--fs-h);line-height:1.05}
-/* антиква: манифест на главной, вступление «О нас», заголовок галереи */
-body :is(.hero,p.lead,.title){font-size:var(--fs-serif);line-height:1.23}
+html body :is(.pr-h,.peek-b h3){font-size:var(--fs-h);line-height:1.1}
+/* кейс: паспорт проекта и «Дополнительно» на телефоне — тем же текстом, что и описание */
+@media (max-width:767px){
+  html body :is(.meta,.meta h2,.meta div,.meta a,.meta .tags){font-size:var(--fs-body);line-height:1.4}
+  html body .info h4{font-size:var(--fs-h);line-height:1.1}
+  html body .hero{font-size:24px}
+}
 /* кнопки «Назад / Дальше» внизу кейса: плашки, название проекта тёмным */
 body .bottom-nav .pill .n{display:inline;color:var(--ink);margin-left:2px}
 body .bottom-nav .pill .d{color:var(--muted)}
-@media (max-width:767px){body .info h4{font-size:var(--fs-h)}body .hero{font-size:24px}body .cat{white-space:normal}}

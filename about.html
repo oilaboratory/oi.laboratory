@@ -16,7 +16,7 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos&display=swap">
-<link rel="stylesheet" href="site.css?v=1793855590">
+<link rel="stylesheet" href="site.css?v=1793856879">
 <style>
 /* About по структуре gaadesign.studio/info/about: студия → основатель → принципы (раскрываются) → услуги → клиенты → признание → контакт.
    Сетка сайта: подпись раздела в первой колонке из 4, содержание — в колонках 2–4 */
@@ -29,7 +29,8 @@
 .muted{color:var(--muted)}
 .team{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:40px 8px;margin-top:40px}
 .team h3{margin:0 0 10px;font-size:13px;font-weight:400;line-height:1.3;color:var(--muted)}
-.team h3 b{font-weight:500;color:var(--ink)}
+.team h3 b,.team h3 span{display:block}
+.team h3 b{color:var(--ink)}
 .team img{display:block;width:100%;height:auto;aspect-ratio:900/1205;object-fit:cover;border-radius:4px;background:var(--chip)}
 .team p{margin:12px 0 0;font-size:14px;line-height:1.35;color:var(--ink);max-width:26em}
 
@@ -111,8 +112,8 @@
 <div class="big" id="big" role="img" aria-label="Oilab"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js"></script>
-<script src="i18n.js?v=1793855590" charset="utf-8"></script>
-<script src="projects.js?v=1793855590" charset="utf-8"></script>
+<script src="i18n.js?v=1793856879" charset="utf-8"></script>
+<script src="projects.js?v=1793856879" charset="utf-8"></script>
 <script>
 // Тексты страницы — в i18n.js (ключи a.*)
 
@@ -124,7 +125,7 @@ window.pageRender = () => {
     `<div class="pr${i === on ? ' open' : ''}"><button class="pr-h" type="button" aria-expanded="${i === on}"><span class="em" aria-hidden="true">${EMOJI[i] || ''}</span>${esc(h)}</button><div class="pr-d"><p>${esc(d)}</p></div></div>`).join('');
   const PHOTO = ['aibyn', 'konstantin', 'raim', 'tolegen'];
   document.getElementById('team').innerHTML = t('a.team').map(([n, r, d], i) =>
-    `<figure style="margin:0"><h3><b>${esc(n)}</b> ${esc(r)}</h3><img src="img/team/${PHOTO[i]}.jpg" alt="${esc(n)}" width="900" height="1205" loading="lazy"><p>${esc(d)}</p></figure>`).join('');
+    `<figure style="margin:0"><h3><b>${esc(n)}</b><span>${esc(r)}</span></h3><img src="img/team/${PHOTO[i]}.jpg" alt="${esc(n)}" width="900" height="1205" loading="lazy"><p>${esc(d)}</p></figure>`).join('');
   document.getElementById('services').innerHTML = t('a.serviceList').map(x => `<span>${esc(x)}</span>`).join('');
 };
 pageRender();
