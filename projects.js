@@ -252,11 +252,11 @@ const EMAIL = 'oi.lab.team@proton.me';
 const SOCIAL = [
   ['WhatsApp', 'https://wa.me/77767387264', '<path d="M4.5 19.5l1.2-3.6A8 8 0 1 1 8.3 18.4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9.3 8.2c-.4 2.6 3 6.2 5.6 5.9l.8-1.3-1.9-1-.9.7c-.9-.4-1.8-1.3-2.2-2.2l.7-.9-1-1.9z" fill="currentColor"/>'],
   ['Instagram', 'https://www.instagram.com/oi.lab/', '<rect x="3.75" y="3.75" width="16.5" height="16.5" rx="5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3.9" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="16.9" cy="7.1" r="1.05" fill="currentColor"/>'],
-  ['Telegram', 'https://t.me/o10eye', '<path d="M20.5 4.5L3.5 11.2l5.6 2 2 5.9 3.1-3.6 4.6 3.4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9.1 13.2l11.4-8.7" stroke="currentColor" stroke-width="1.5"/>'],
+  ['Telegram', 'https://t.me/oi_lab_work', '<path d="M20.5 4.5L3.5 11.2l5.6 2 2 5.9 3.1-3.6 4.6 3.4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9.1 13.2l11.4-8.7" stroke="currentColor" stroke-width="1.5"/>'],
 ];
 // окно «Связаться с нами»: каналы списком (форму на сайте убрали — отправка работала ненадёжно)
 const MAIL_ICON = '<rect x="3.75" y="5.75" width="16.5" height="12.5" rx="3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4.5 7.5l7.5 5.5 7.5-5.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>';
-const CONTACTS = [['Telegram', 'https://t.me/o10eye', '@o10eye'], ['WhatsApp', 'https://wa.me/77767387264', '+7 776 738 72 64'], ['Instagram', 'https://www.instagram.com/oi.lab/', '@oi.lab'], ['Email', 'mailto:' + EMAIL, EMAIL]];
+const CONTACTS = [['Telegram', 'https://t.me/oi_lab_work', '@oi_lab_work'], ['WhatsApp', 'https://wa.me/77767387264', '+7 776 738 72 64'], ['Instagram', 'https://www.instagram.com/oi.lab/', '@oi.lab'], ['Email', 'mailto:' + EMAIL, EMAIL]];
 const socialHtml = () => `<span class="social">${SOCIAL.map(([n, h, d]) =>
   `<a href="${h}" target="_blank" rel="noopener" aria-label="${n}" title="${n}"><svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg></a>`).join('')}</span>`;
 function siteChrome(){
@@ -282,9 +282,9 @@ function buddy(){
     <div class="bd-card">
       <div class="bd-top"><i class="bd-dot" aria-hidden="true"></i><h2 id="bd-t" data-i="b.title"></h2><button class="bd-x" type="button" aria-label="Close"><i aria-hidden="true"></i></button></div>
       <div class="bd-in">
-        <video class="bd-vid" src="img/contact.mp4" poster="img/contact.jpg" width="630" height="560" autoplay muted loop playsinline preload="none" aria-hidden="true"></video>
-        <p class="bd-sub" data-i="b.sub"></p>
-        <div class="bd-list">${CONTACTS.map(([n, h, v]) => `<a href="${h}"${/^http/.test(h) ? ' target="_blank" rel="noopener"' : ''}><svg viewBox="0 0 24 24" aria-hidden="true">${(SOCIAL.find(x => x[0] === n) || [, , MAIL_ICON])[2]}</svg><b>${n}</b><span>${v}</span></a>`).join('')}</div>
+        <video class="bd-vid" src="img/contact2.mp4" poster="img/contact2.jpg" width="600" height="600" autoplay muted loop playsinline preload="none" aria-hidden="true"></video>
+        <div class="bd-side"><p class="bd-sub" data-i="b.sub"></p>
+        <div class="bd-list">${CONTACTS.map(([n, h, v]) => `<a href="${h}"${/^http/.test(h) ? ' target="_blank" rel="noopener"' : ''}><svg viewBox="0 0 24 24" aria-hidden="true">${(SOCIAL.find(x => x[0] === n) || [, , MAIL_ICON])[2]}</svg><b>${n}</b><span>${v}</span></a>`).join('')}</div></div>
       </div>
     </div>
   </section>
