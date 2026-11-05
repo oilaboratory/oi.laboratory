@@ -16,7 +16,7 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos&display=swap">
-<link rel="stylesheet" href="site.css?v=1793859606">
+<link rel="stylesheet" href="site.css?v=1793859785">
 <style>
 /* About 1:1 по gaadesign.studio/info/about (замеры при 1440 и 375 px): размеры, интерлиньяж, трекинг −0.5px, отступы.
    Цвета — палитра сайта: тёмный --ink вместо чёрного, бледный --faint вместо #d8d8d8. Блок основателя и «Процесс» убраны, вместо основателя — команда */
@@ -36,14 +36,19 @@ html body main.ab .team p{margin:12px 0 0;font-size:14px;line-height:1.35;color:
 
 html body main.ab .big-h{font-size:44px;line-height:1.1;letter-spacing:-.88px!important;color:var(--ink);text-align:center;margin:0 0 65px}
 .studio .lbl::after,.big-h::after{content:":"}
-/* принцип: заголовок 32/32 слева, описание открытого 22/24.2 — с середины экрана; шаг строк 65px */
-.pr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:8px;align-items:start}
-html body main.ab .pr-h{grid-column:1;appearance:none;border:0;background:none;padding:0 0 33px;margin:0;font:inherit;font-size:32px;line-height:1;text-align:left;color:var(--faint);cursor:pointer;transition:color .4s cubic-bezier(.23,1,.32,1)}
-html body main.ab .pr-h:hover,html body main.ab .pr.open .pr-h{color:var(--ink)}
-.pr-d{grid-column:2;display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .5s cubic-bezier(.23,1,.32,1),opacity .35s}
-html body main.ab .pr-d > p{overflow:hidden;margin:0;font-size:22px;line-height:1.1;color:var(--ink)}
+/* принципы по референсу: строки между линиями, все заголовки бледные; наведение — темнее и появляется эмодзи;
+   нажатие раскрывает текст под заголовком (открыт один, повторное нажатие закрывает) */
+#principles{border-top:1px solid var(--faint)}
+.pr{border-bottom:1px solid var(--faint)}
+html body main.ab .pr-h{display:block;width:100%;appearance:none;border:0;background:none;padding:18px 0;margin:0;font:inherit;font-size:32px;line-height:1;text-align:left;color:var(--faint);cursor:pointer;transition:color .3s}
+html body main.ab .pr-h:hover{color:var(--muted)}
+html body main.ab .pr.open .pr-h{color:var(--ink)}
+.pr-h .em{display:inline-block;opacity:0;transform:scale(.6);transition:opacity .3s,transform .4s cubic-bezier(.34,1.56,.64,1)}
+.pr-h:hover .em,.pr.open .em{opacity:1;transform:none}
+.pr-d{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .5s cubic-bezier(.23,1,.32,1),opacity .3s}
+html body main.ab .pr-d > p{overflow:hidden;margin:0;max-width:668px;font-size:22px;line-height:1.1;color:var(--ink)}
 .pr.open .pr-d{grid-template-rows:1fr;opacity:1;transition:grid-template-rows .5s cubic-bezier(.23,1,.32,1),opacity .5s .1s}
-.pr.open .pr-d > p{padding-bottom:33px}
+.pr.open .pr-d > p{padding-bottom:24px}
 
 /* низ: три колонки 715 / 237 / 280 с зазором 56 (как у GAA при 1440), всё 18/19.8, списки бледные */
 .cols{display:grid;grid-template-columns:minmax(0,715fr) minmax(0,237fr) minmax(0,280fr);gap:56px;padding-top:24px}
@@ -60,12 +65,10 @@ html body main.ab .list > *{display:block;font-size:inherit;line-height:inherit}
   .studio,.blk{padding-bottom:80px}
   .team{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   html body main.ab .big-h{font-size:48px;line-height:1;letter-spacing:-1px!important;margin-bottom:48px}
-  /* телефон: заголовки 18/18 с шагом 54px, описание открытого 14/15.4 под заголовком */
-  .pr{grid-template-columns:1fr}
-  .pr-d{grid-column:1}
-  html body main.ab .pr-h{width:100%;font-size:18px;padding:0 0 36px}
+  /* телефон: те же строки с линиями, заголовки 18, текст 14 */
+  html body main.ab .pr-h{font-size:18px;padding:14px 0}
   html body main.ab .pr-d > p{font-size:14px;line-height:1.1}
-  .pr.open .pr-d > p{padding:0 0 36px}
+  .pr.open .pr-d > p{padding-bottom:16px}
   /* низ: услуги | признание, клиенты ниже в две колонки; подписи 12/13.2, пункты 14/15.4 */
   .cols{grid-template-columns:1fr 1fr;gap:40px 10px;padding-top:46px}
   .cols > :nth-child(2){grid-column:1/-1;order:3}
@@ -108,17 +111,17 @@ html body main.ab .list > *{display:block;font-size:inherit;line-height:inherit}
 <div class="big" id="big" role="img" aria-label="Oilab"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js"></script>
-<script src="i18n.js?v=1793859606" charset="utf-8"></script>
-<script src="projects.js?v=1793859606" charset="utf-8"></script>
+<script src="i18n.js?v=1793859785" charset="utf-8"></script>
+<script src="projects.js?v=1793859785" charset="utf-8"></script>
 <script>
 // Тексты страницы — в i18n.js (ключи a.*)
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 window.pageRender = () => {
   const EM = ['🔬', '🌍', '📐', '🔍', '💍', '❤️'];   // как у GAA: эмодзи текстом после заголовка — на iPhone/Mac это эмодзи Apple
-  const box = document.getElementById('principles'), cur = box.querySelector('.pr.open'), on = cur ? [...box.children].indexOf(cur) : 0;
+  const box = document.getElementById('principles'), cur = box.querySelector('.pr.open'), on = cur ? [...box.children].indexOf(cur) : -1;
   box.innerHTML = t('a.principleList').map(([h, d], i) =>
-    `<div class="pr${i === on ? ' open' : ''}"><button class="pr-h" type="button" aria-expanded="${i === on}">${esc(h)} ${EM[i]}</button><div class="pr-d"><p>${esc(d)}</p></div></div>`).join('');
+    `<div class="pr${i === on ? ' open' : ''}"><button class="pr-h" type="button" aria-expanded="${i === on}">${esc(h)} <span class="em">${EM[i]}</span></button><div class="pr-d"><p>${esc(d)}</p></div></div>`).join('');
   const PHOTO = ['aibyn', 'konstantin', 'raim', 'tolegen'];
   document.getElementById('team').innerHTML = t('a.team').map(([n, r, d], i) =>
     `<figure style="margin:0"><h3><b>${esc(n)}</b><span>${esc(r)}</span></h3><img src="img/team/${PHOTO[i]}.jpg" alt="${esc(n)}" width="900" height="1205" loading="lazy"><p>${esc(d)}</p></figure>`).join('');
@@ -128,7 +131,7 @@ pageRender();
 // принципы: нажатие открывает пункт, остальные закрываются
 document.getElementById('principles').addEventListener('click', e => {
   const h = e.target.closest('.pr-h'); if (!h) return;
-  document.querySelectorAll('#principles .pr').forEach(p => { const on = p === h.parentElement; p.classList.toggle('open', on); p.querySelector('.pr-h').setAttribute('aria-expanded', on); });
+  document.querySelectorAll('#principles .pr').forEach(p => { const on = p === h.parentElement && !p.classList.contains('open'); p.classList.toggle('open', on); p.querySelector('.pr-h').setAttribute('aria-expanded', on); });
 });
 document.getElementById('clients').innerHTML = PROJECTS.filter(p => !/^Проект/.test(p.name))
   .map(p => p.case ? `<a href="case.html#${slug(p)}">${esc(p.name)}</a>` : `<span>${esc(p.name)}</span>`).join('');
