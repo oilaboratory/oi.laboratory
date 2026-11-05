@@ -254,6 +254,9 @@ const SOCIAL = [
   ['Instagram', 'https://www.instagram.com/oi.lab/', '<rect x="3.75" y="3.75" width="16.5" height="16.5" rx="5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3.9" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="16.9" cy="7.1" r="1.05" fill="currentColor"/>'],
   ['Telegram', 'https://t.me/o10eye', '<path d="M20.5 4.5L3.5 11.2l5.6 2 2 5.9 3.1-3.6 4.6 3.4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9.1 13.2l11.4-8.7" stroke="currentColor" stroke-width="1.5"/>'],
 ];
+// окно «Связаться с нами»: каналы списком (форму на сайте убрали — отправка работала ненадёжно)
+const MAIL_ICON = '<rect x="3.75" y="5.75" width="16.5" height="12.5" rx="3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4.5 7.5l7.5 5.5 7.5-5.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>';
+const CONTACTS = [['Telegram', 'https://t.me/o10eye', '@o10eye'], ['WhatsApp', 'https://wa.me/77767387264', '+7 776 738 72 64'], ['Instagram', 'https://www.instagram.com/oi.lab/', '@oi.lab'], ['Email', 'mailto:' + EMAIL, EMAIL]];
 const socialHtml = () => `<span class="social">${SOCIAL.map(([n, h, d]) =>
   `<a href="${h}" target="_blank" rel="noopener" aria-label="${n}" title="${n}"><svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg></a>`).join('')}</span>`;
 function siteChrome(){
@@ -279,15 +282,9 @@ function buddy(){
     <div class="bd-card">
       <div class="bd-top"><i class="bd-dot" aria-hidden="true"></i><h2 id="bd-t" data-i="b.title"></h2><button class="bd-x" type="button" aria-label="Close"><i aria-hidden="true"></i></button></div>
       <div class="bd-in">
+        <video class="bd-vid" src="img/contact.mp4" poster="img/contact.jpg" width="630" height="560" autoplay muted loop playsinline preload="none" aria-hidden="true"></video>
         <p class="bd-sub" data-i="b.sub"></p>
-        <div class="bd-links"><a href="mailto:${EMAIL}" class="bd-mail">${EMAIL}</a>${socialHtml()}</div>
-        <form class="bd-form" id="bd-form">
-          <label><span data-i="b.name"></span><input name="name" autocomplete="name" required></label>
-          <label><span data-i="b.reach"></span><input name="reach" autocomplete="email" required></label>
-          <label class="wide"><span data-i="b.about"></span><textarea name="about" rows="4" required></textarea></label>
-          <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
-          <div class="bd-foot wide"><button class="bd-send" type="submit" data-i="b.send"></button><small data-i="b.note"></small></div>
-        </form>
+        <div class="bd-list">${CONTACTS.map(([n, h, v]) => `<a href="${h}"${/^http/.test(h) ? ' target="_blank" rel="noopener"' : ''}><svg viewBox="0 0 24 24" aria-hidden="true">${(SOCIAL.find(x => x[0] === n) || [, , MAIL_ICON])[2]}</svg><b>${n}</b><span>${v}</span></a>`).join('')}</div>
       </div>
     </div>
   </section>
@@ -306,12 +303,12 @@ function buddy(){
     document.querySelectorAll('.nav-contact').forEach(c => c.classList.toggle('is-on', on));
     if (anim) anim.cancel();
     if (on) win.hidden = false;
-    if (still.matches) { win.hidden = !on; if (on) win.querySelector('input').focus(); return; }
+    if (still.matches) { win.hidden = !on; if (on) win.querySelector('.bd-x').focus(); return; }
     const kf = [{transform: fromRect(), borderRadius: '40px', opacity: 0}, {transform: 'none', borderRadius: '24px', opacity: 1}];
     win.animate([{opacity: 0}, {opacity: 1}], {duration: 420, easing: 'ease', direction: on ? 'normal' : 'reverse', fill: 'both'});
     anim = card.animate(kf, {duration: on ? 560 : 420, easing: on ? 'cubic-bezier(.22,1.12,.36,1)' : 'cubic-bezier(.4,0,.6,1)', direction: on ? 'normal' : 'reverse', fill: 'both'});
     card.querySelector('.bd-in').animate([{opacity: 0}, {opacity: 1}], {duration: on ? 360 : 160, delay: on ? 180 : 0, easing: 'ease', direction: on ? 'normal' : 'reverse', fill: 'both'});
-    anim.onfinish = () => { anim = null; if (!on) { win.hidden = true; win.getAnimations({subtree: true}).forEach(a => a.cancel()); } else win.querySelector('input').focus({preventScroll: true}); };
+    anim.onfinish = () => { anim = null; if (!on) { win.hidden = true; win.getAnimations({subtree: true}).forEach(a => a.cancel()); } else { win.querySelector('.bd-x').focus({preventScroll: true}); const v = win.querySelector('video'); v.play().catch(() => {}); } };
   };
   btn.onclick = () => { from = btn; open(win.hidden); };
   window.openContact = () => { open(true); };
@@ -325,26 +322,6 @@ function buddy(){
   }, {passive: true});
   win.querySelector('.bd-x').onclick = () => { open(false); btn.focus(); };
   addEventListener('keydown', e => { if (e.key === 'Escape' && !win.hidden) { open(false); btn.focus(); } });
-    // заявка уходит прямо на почту через FormSubmit (без сервера); если сервис недоступен — открываем почтовое приложение
-  const form = document.getElementById('bd-form'), send = form.querySelector('.bd-send'), note = form.querySelector('small');
-  form.onsubmit = async e => {
-    e.preventDefault();
-    const f = new FormData(form);
-    if (f.get('_honey')) return;   // ловушка для ботов
-    send.disabled = true; send.textContent = t('b.sending');
-    try {
-      const r = await fetch(`https://formsubmit.co/ajax/b767abc441ae779010df1e16cc8fae82`, {signal: AbortSignal.timeout(15000), method: 'POST', headers: {'Content-Type': 'application/json', Accept: 'application/json'},
-        body: JSON.stringify({name: f.get('name'), contact: f.get('reach'), message: f.get('about'), page: location.href,
-          _subject: 'Заявка с сайта Oi.Lab — ' + f.get('name'), _replyto: /@/.test(f.get('reach')) ? f.get('reach') : undefined, _template: 'table', _captcha: 'false'})});
-      const j = await r.json().catch(() => ({}));
-      if (!r.ok || j.success === 'false' || j.success === false) throw new Error(j.message || r.status);
-      form.reset(); form.classList.add('sent'); note.textContent = t('b.sent');
-    } catch (err) {
-      // не открываем почтовое приложение сами — показываем адрес, текст заявки остаётся в форме
-      note.innerHTML = `${t('b.error')} <a href="mailto:${EMAIL}">${EMAIL}</a>`;
-    } finally { send.disabled = false; send.textContent = t('b.send'); }
-  };
-
 }
 
 // Видео без звука должны играть сами. iPhone в режиме энергосбережения и некоторые встроенные браузеры
