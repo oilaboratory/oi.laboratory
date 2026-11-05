@@ -17,7 +17,7 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos&display=swap">
-<link rel="stylesheet" href="site.css?v=1793859131">
+<link rel="stylesheet" href="site.css?v=1793859485">
 <style>
 /* Главная: манифест и сетка проектов. Общие токены, шапка и футер — в site.css */
 
@@ -33,10 +33,11 @@
 .hero .ppl > *{position:absolute;left:0;bottom:-.15em;display:block;width:100%;height:auto;aspect-ratio:1901/1049;mix-blend-mode:multiply}
 
 /* проекты */
-/* шапка сетки как в референсе: слева подпись «Проекты», рядом — сферы стопкой (серым, выбранная — тёмным) */
+/* шапка сетки: «Проекты» в 1-й колонке, подпись «Сферы» в 3-й, сферы стопкой в 4-й (серым, выбранная — тёмным с ×, повторное нажатие сбрасывает) */
 .head{display:grid;grid-template-columns:repeat(4,1fr);column-gap:8px;align-items:start;padding-bottom:40px}
 html body div.head h2{color:var(--ink)}
-.cats{grid-column:2;display:flex;flex-direction:column;align-items:flex-start}
+html body div.head h2.sph{grid-column:3}
+.cats{grid-column:4;display:flex;flex-direction:column;align-items:flex-start}
 .cat{appearance:none;border:0;background:none;padding:0;margin:0;font:inherit;color:var(--muted);text-align:left;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:color .25s}
 .cat:hover,.cat.is-on{color:var(--ink)}
 .cat:disabled{color:var(--faint);cursor:default}
@@ -69,7 +70,7 @@ html body div.head h2{color:var(--ink)}
 .tag:focus-visible,.filter:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 
 
-@media (max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}.head{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}.head{grid-template-columns:repeat(2,1fr);row-gap:24px}.head h2:first-child{grid-column:1/-1}html body div.head h2.sph{grid-column:1}.cats{grid-column:2}}
 .hero-art{display:none}
 @media (max-width:767px){
   .hero{padding-block:48px 72px;text-align:left;font-size:24px;line-height:1.18}
@@ -115,7 +116,7 @@ body .more-btn{height:34px;padding:0 18px;border-radius:17px}
   </section>
 
   <section id="projects">
-    <div class="head"><h2 data-i="projects">Projects</h2><div class="cats" id="cats"></div></div>
+    <div class="head"><h2 data-i="projects">Projects</h2><h2 class="sph" data-i="spheres">Spheres</h2><div class="cats" id="cats"></div></div>
     <div class="grid" id="grid"></div>
     <div class="more-wrap"><a class="pill more-btn" href="more.html" id="moreBtn"><span data-i="more.title">More projects</span> <span class="n" id="moreN"></span></a></div>
   </section>
@@ -126,8 +127,8 @@ body .more-btn{height:34px;padding:0 18px;border-radius:17px}
 <div class="big" id="big" role="img" aria-label="Oilab"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js"></script>
-<script src="i18n.js?v=1793859131" charset="utf-8"></script>
-<script src="projects.js?v=1793859131" charset="utf-8"></script>
+<script src="i18n.js?v=1793859485" charset="utf-8"></script>
+<script src="projects.js?v=1793859485" charset="utf-8"></script>
 <script>
 // hover: вторая фотография проекта (или .mp4) — плавно сменяет обложку при наведении. Пример: {name:"Кайрат", img:"p01", hover:"img/p01-2.jpg", tags:[...]}
 const grid = document.getElementById('grid');
@@ -163,12 +164,12 @@ function filter(tag){
   }, matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 330);
 }
 grid.addEventListener('click', e => { const b = e.target.closest('.tag'); if (b) filter(b.dataset.tag); });
-// список: «Все» + сферы деятельности (FIELDS в i18n.js); если выбран тег услуги с карточки — он добавляется плашкой с ×
+// список: сферы деятельности (FIELDS в i18n.js); если выбран тег услуги с карточки — он добавляется плашкой с ×
 const USED = new Set(PROJECTS.filter(p => p.case).map(p => p.field));
 function renderCats(){
-  const pill = (tag, label, on, x) => `<button class="cat${on ? ' is-on' : ''}" type="button" data-tag="${tag}"${tag && !x && !USED.has(tag) ? ' disabled' : ''}>${label}${x ? X : ''}</button>`;
-  document.getElementById('cats').innerHTML = pill('', t('viewAll'), !current) + FIELDS.map(f => pill(f, tr(f), current === f)).join('')
-    + (current && !FIELDS.includes(current) ? pill(current, tr(current), true, true) : '');
+  const pill = (tag, label, on) => `<button class="cat${on ? ' is-on' : ''}" type="button" data-tag="${tag}"${!on && !USED.has(tag) && FIELDS.includes(tag) ? ' disabled' : ''}>${label}${on ? X : ''}</button>`;
+  document.getElementById('cats').innerHTML = FIELDS.map(f => pill(f, tr(f), current === f)).join('')
+    + (current && !FIELDS.includes(current) ? pill(current, tr(current), true) : '');
 }
 renderCats();
 document.getElementById('cats').addEventListener('click', e => { const b = e.target.closest('.cat'); if (b) filter(!b.dataset.tag || b.dataset.tag === current ? null : b.dataset.tag); });
