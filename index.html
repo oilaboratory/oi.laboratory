@@ -17,7 +17,7 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos&display=swap">
-<link rel="stylesheet" href="site.css?v=1794066323">
+<link rel="stylesheet" href="site.css?v=1794066479">
 <style>
 /* Главная: манифест и сетка проектов. Общие токены, шапка и футер — в site.css */
 
@@ -150,8 +150,8 @@ html body .lead2 ul{grid-column:4;list-style:none;margin:0;padding:0;font-size:v
 <div class="big" id="big" role="img" aria-label="Oilab"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js"></script>
-<script src="i18n.js?v=1794066323" charset="utf-8"></script>
-<script src="projects.js?v=1794066323" charset="utf-8"></script>
+<script src="i18n.js?v=1794066479" charset="utf-8"></script>
+<script src="projects.js?v=1794066479" charset="utf-8"></script>
 <script>
 // hover: вторая фотография проекта (или .mp4) — плавно сменяет обложку при наведении. Пример: {name:"Кайрат", img:"p01", hover:"img/p01-2.jpg", tags:[...]}
 const grid = document.getElementById('grid');
@@ -244,7 +244,7 @@ const O = [...orb.querySelectorAll('.o')].map(el => {
 addEventListener('resize', () => {   // при смене размера окна шарики сохраняют относительное место
   const W = orb.clientWidth, H = orb.clientHeight; O.forEach(c => { c.x *= W / W0; c.y *= H / H0; }); W0 = W; H0 = H;
 });
-const T0 = performance.now(), DUR = 2400, ease = t => 1 - Math.pow(1 - t, 4), FR = .86, BOUNCE = .2;
+const T0 = performance.now(), DUR = 2400, ease = t => 1 - Math.pow(1 - t, 4), FR = .86, BOUNCE = .5;
 const tick = now => {
   const W = orb.clientWidth, H = orb.clientHeight, cx = W / 2, cy = H * .44;
   for (const c of O) {
@@ -264,10 +264,10 @@ const tick = now => {
     const a = O[i], b = O[j]; if (!(a.drag || b.drag || a.vx || a.vy || b.vx || b.vy)) continue;
     const dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy) || .01, min = a.r + b.r + 2; if (d >= min) continue;
     const nx = dx / d, ny = dy / d, ma = a.r * a.r * (a.drag ? 2 : 1), mb = b.r * b.r * (b.drag ? 2 : 1), over = min - d;   // взятый шарик тяжелее, но соседи упираются
-    const soft = over * .35;   // расталкивание по чуть-чуть каждый кадр — без резких «щелчков»
+    const soft = over * .6;   // расталкивание по чуть-чуть каждый кадр — без резких «щелчков»
     a.x -= nx * soft * mb / (ma + mb); a.y -= ny * soft * mb / (ma + mb); b.x += nx * soft * ma / (ma + mb); b.y += ny * soft * ma / (ma + mb);
     const rv = (b.vx - a.vx) * nx + (b.vy - a.vy) * ny;
-    if (rv < 0) { const imp = -(1 + .05) * rv / (1 / ma + 1 / mb); a.vx -= imp / ma * nx; a.vy -= imp / ma * ny; b.vx += imp / mb * nx; b.vy += imp / mb * ny; }
+    if (rv < 0) { const imp = -(1 + .9) * rv / (1 / ma + 1 / mb); a.vx -= imp / ma * nx; a.vy -= imp / ma * ny; b.vx += imp / mb * nx; b.vy += imp / mb * ny; }   // упругий удар, как шары в боулинге: импульс передаётся соседу
     a.live = b.live = true;
   }
   // надпись в центре — неподвижный объект: шарики к ней не прикасаются и мягко отталкиваются (зазор 18px)
