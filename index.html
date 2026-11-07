@@ -17,7 +17,7 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos&display=swap">
-<link rel="stylesheet" href="site.css?v=1794068919">
+<link rel="stylesheet" href="site.css?v=1794069219">
 <style>
 /* Главная: манифест и сетка проектов. Общие токены, шапка и футер — в site.css */
 
@@ -73,7 +73,7 @@ body .more-btn{height:34px;padding:0 18px;border-radius:17px}
 }
 /* первый экран (черновик 2), по макету 1500×934: знак Oilab · иллюстрация · «Превращаем бизнес в бренд», под ним текст и услуги.
    Размеры — в долях ширины экрана, как в макете. При наведении на заголовок буквы возле курсора превращаются в стикеры (как на wabi.ai) */
-.h2{display:grid;grid-template-columns:20.2vw 22.3vw 1fr;grid-template-rows:auto auto;column-gap:.8vw;align-content:center;min-height:calc(100svh - 62px);padding-bottom:6vw}
+.h2{position:relative;display:grid;grid-template-columns:20.2vw 22.3vw 1fr;grid-template-rows:auto auto;column-gap:.8vw;align-content:center;min-height:calc(100svh - 62px);padding-bottom:6vw}
 /* знак, иллюстрация и заголовок стоят на одной линии: низ знака = линия пола на иллюстрации = базовая линия заголовка */
 .h2-wm{grid-area:1/1;align-self:end;display:block;width:100%;height:auto}
 .h2-art{grid-area:1/2;align-self:end;position:relative;display:block;isolation:isolate;margin-bottom:-.6vw}   /* под линией пола в ролике ~2.7% пустоты */
@@ -83,6 +83,12 @@ html body .h2-t{grid-area:1/3;align-self:end;margin:0 0 -.21em;font-size:3.47vw;
 .h2-sub{grid-area:2/3;display:grid;grid-template-columns:31.2vw 1fr;column-gap:3.6vw;margin-top:1.6vw}
 html body .h2-sub :is(p,ul){margin:0;font-size:max(12px,.95vw);line-height:1.25;color:var(--ink)}
 .h2-sub ul{list-style:none;padding:0;line-height:1.38}
+/* след из стикеров в пустых местах первого экрана */
+.h2 .tr{position:absolute;z-index:1;width:1em;height:1em;margin:-.5em 0 0 -.5em;font-style:normal;line-height:1;text-align:center;pointer-events:none;
+  animation:trIn .32s cubic-bezier(.16,1.42,.4,1) both;filter:drop-shadow(0 .15em .15em rgba(20,18,14,.15))}
+.h2 .tr.out{animation:trOut .38s cubic-bezier(.45,0,.75,.35) both}
+@keyframes trIn{from{opacity:0;transform:scale(.3) rotate(0)}to{opacity:1;transform:scale(1) rotate(var(--r))}}
+@keyframes trOut{from{opacity:1;transform:scale(1) rotate(var(--r))}to{opacity:0;transform:scale(.2) rotate(var(--r))}}
 /* буква-стикер: при включении буква сжимается и гаснет, на её месте «прыгает» стикер с лёгким поворотом */
 .h2-t .w{display:inline-block;white-space:nowrap}
 .h2-t .ch{position:relative;display:inline-block;transition:width .38s cubic-bezier(.22,.8,.28,1)}
@@ -144,8 +150,8 @@ html body .h2-sub :is(p,ul){margin:0;font-size:max(12px,.95vw);line-height:1.25;
 <div class="big" id="big" role="img" aria-label="Oilab"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js"></script>
-<script src="i18n.js?v=1794068919" charset="utf-8"></script>
-<script src="projects.js?v=1794068919" charset="utf-8"></script>
+<script src="i18n.js?v=1794069219" charset="utf-8"></script>
+<script src="projects.js?v=1794069219" charset="utf-8"></script>
 <script>
 // hover: вторая фотография проекта (или .mp4) — плавно сменяет обложку при наведении. Пример: {name:"Кайрат", img:"p01", hover:"img/p01-2.jpg", tags:[...]}
 const grid = document.getElementById('grid');
@@ -217,17 +223,32 @@ const stickOn = (ch, on) => {
   if (on) { o.textContent = STICK[Math.random() * STICK.length | 0]; o.style.setProperty('--r', (Math.random() * 24 - 12).toFixed(1) + 'deg'); o.style.setProperty('--r0', (Math.random() * 60 - 30).toFixed(1) + 'deg'); }
   ch.classList.toggle('on', on);
 };
-// под курсором буквы превращаются в стикеры и оставляют след: каждый стикер держится ~0,9 с и сам возвращается в букву
-const timers = new WeakMap();
+// буквы ближе ~0.7em к курсору — стикеры; курсор ушёл — снова буквы
 h2t.addEventListener('pointermove', e => {
   const fs = parseFloat(getComputedStyle(h2t).fontSize);
-  h2t.querySelectorAll('.ch').forEach(ch => {
-    const r = ch.getBoundingClientRect();
-    if (Math.abs(e.clientX - (r.left + r.width / 2)) < fs * .45 && e.clientY > r.top - fs * .2 && e.clientY < r.bottom + fs * .2) {
-      stickOn(ch, true); clearTimeout(timers.get(ch)); timers.set(ch, setTimeout(() => stickOn(ch, false), 900));
-    }
-  });
+  h2t.querySelectorAll('.ch').forEach(ch => { const r = ch.getBoundingClientRect(); stickOn(ch, Math.abs(e.clientX - (r.left + r.width / 2)) < fs * .7 && e.clientY > r.top - fs * .2 && e.clientY < r.bottom + fs * .2); });
 });
+h2t.addEventListener('pointerleave', () => h2t.querySelectorAll('.ch.on').forEach(ch => stickOn(ch, false)));
+// в пустых местах первого экрана курсор оставляет след из стикеров: через каждые ~34px пути — эмодзи, который «выпрыгивает»,
+// держится ~0,7 с и исчезает, так что хвост тает по порядку (как в референсе)
+const hero = document.getElementById('top');
+let lx = null, ly = 0;
+if (matchMedia('(hover:hover)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  hero.addEventListener('pointermove', e => {
+    if (e.target.closest('#h2t')) { lx = null; return; }
+    const b = hero.getBoundingClientRect(), x = e.clientX - b.left, y = e.clientY - b.top;
+    if (lx === null) { lx = x; ly = y; }
+    const d = Math.hypot(x - lx, y - ly), STEP = 34;
+    for (let k = STEP; k <= d; k += STEP) {
+      const px = lx + (x - lx) * k / d, py = ly + (y - ly) * k / d, el = document.createElement('i');
+      el.className = 'tr'; el.textContent = STICK[Math.random() * STICK.length | 0];
+      el.style.cssText = `left:${px}px;top:${py}px;--r:${(Math.random() * 30 - 15).toFixed(0)}deg;font-size:${(22 + Math.random() * 10).toFixed(0)}px`;
+      hero.appendChild(el); setTimeout(() => el.classList.add('out'), 700); setTimeout(() => el.remove(), 1100);
+    }
+    if (d >= STEP) { const k = Math.floor(d / STEP) * STEP / d; lx += (x - lx) * k; ly += (y - ly) * k; }
+  });
+  hero.addEventListener('pointerleave', () => { lx = null; });
+}
 window.pageRender = () => {
   renderH2();
   document.getElementById('h2svc').innerHTML = t('h2.svc').map(x => `<li>${x}</li>`).join('');
