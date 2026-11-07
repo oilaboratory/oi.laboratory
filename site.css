@@ -253,7 +253,7 @@ body .shuffle{display:flex;width:max-content}
 body .bd-send{border-radius:17px;height:34px;padding:0 22px}
 body .bd-links .social a{width:26px;height:26px;border-radius:13px;color:var(--muted);transition:color .25s,background-color .25s;display:inline-grid;place-items:center}
 body .bd-links .social a:hover{color:var(--ink)}
-body .tag{background:none!important;padding:0;border-radius:0;color:var(--muted)}   /* теги под проектами — просто серым текстом, без плашки */
+body .tag{background:none!important;padding:0;border-radius:0;color:var(--faint)}   /* теги под проектами — светло-серым текстом, как «Almaty, KZ» в подвале, без плашки */
 body .tags{gap:3px 10px}
 
 /* ——— единая типографика сайта ———
