@@ -17,20 +17,11 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos&display=swap">
-<link rel="stylesheet" href="site.css?v=1793886435">
+<link rel="stylesheet" href="site.css?v=1794062924">
 <style>
 /* Главная: манифест и сетка проектов. Общие токены, шапка и футер — в site.css */
 
 /* манифест */
-.hero{padding-block:clamp(80px,18vw,240px);text-align:center;font-family:var(--serif);
-  font-size:clamp(20px,2.17vw,32.5px);line-height:1.23;color:var(--hero);max-width:1350px;margin:0 auto}
-.hero img,.hero video{display:inline-block;vertical-align:-0.15em}
-.hero .wm{height:1.25em;margin-right:.15em}
-.hero .nw{white-space:nowrap}
-.hero .ppl{display:inline-block;position:relative;width:7.3em;height:1em;vertical-align:baseline;margin:0 -.2em}   /* иллюстрация в строке манифеста: крупная, выступает вверх, межстрочный интервал не меняется */
-.hero br{display:none}
-.hero br.hb{display:inline}   /* переносы строк как в макете (только компьютер) */
-.hero .ppl > *{position:absolute;left:0;bottom:-.15em;display:block;width:100%;height:auto;aspect-ratio:1901/1049;mix-blend-mode:multiply}
 
 /* проекты */
 /* шапка сетки: «Проекты» в 1-й колонке, подпись «Сферы» в 3-й, сферы стопкой в 4-й (серым, выбранная — тёмным с ×, повторное нажатие сбрасывает) */
@@ -71,13 +62,7 @@ html body div.head h2.sph{grid-column:3}
 
 
 @media (max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}.head{grid-template-columns:repeat(2,1fr);row-gap:24px}.head h2:first-child{grid-column:1/-1}html body div.head h2.sph{grid-column:1}.cats{grid-column:2}}
-.hero-art{display:none}
 @media (max-width:767px){
-  .hero{padding-block:48px 72px;text-align:left;font-size:24px;line-height:1.18}
-  .hero-art{display:block;margin:0 -8px 28px}
-  .hero-art video{display:block;width:100%;aspect-ratio:900/484;mix-blend-mode:multiply}
-  .hero .ppl,.hero br,.hero br.hb{display:none}
-  .hero .nw{white-space:normal}
   .grid{grid-template-columns:1fr;gap:44px}
 }
  /* кнопка «Ещё проекты» под кейсами и слой со всеми остальными проектами */
@@ -86,6 +71,28 @@ body .more-btn{height:34px;padding:0 18px;border-radius:17px}
 .more-btn .n{color:var(--muted)}
 @media (max-width:767px){
 }
+/* первый экран: проекты в кругах вокруг знака. При входе круги «подлетают» из глубины (масштаб),
+   при наведении мягко тянутся за курсором, как на telescope.fyi */
+.orb{position:relative;width:100vw;margin-left:calc(50% - 50vw);aspect-ratio:1500/630;min-height:520px;overflow:hidden}
+.orb-c{position:absolute;left:50%;top:44%;translate:-50% -50%;text-align:center;pointer-events:none;z-index:2}
+.orb-wm{display:block;height:clamp(40px,3.4vw,52px);width:auto;margin:0 auto 6px}
+.orb-c p{margin:0;font-size:clamp(20px,1.9vw,28px);line-height:1.2;color:var(--muted);white-space:nowrap}
+.o{position:absolute;left:calc(var(--x) * 1%);top:calc(var(--y) * 1%);width:calc(var(--r) * 2 / 15 * 1vw);aspect-ratio:1;translate:-50% -50%;
+  animation:oIn 2.2s cubic-bezier(.16,1,.3,1) var(--d,0s) both}
+.o > span{display:block;width:100%;height:100%;border-radius:50%;overflow:hidden;background:var(--chip);will-change:transform}
+.o img{display:block;width:100%;height:100%;object-fit:cover}
+@keyframes oIn{from{opacity:0;transform:translate(calc(var(--dx) * -.35), calc(var(--dy) * -.35)) scale(.55)}to{opacity:1;transform:none}}
+.lead2{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:8px;padding-block:24px clamp(80px,9vw,140px)}
+html body .lead2 p{grid-column:1/4;margin:0;max-width:44em;font-size:var(--fs-lead);line-height:1.3;color:var(--muted)}
+html body .lead2 ul{grid-column:4;list-style:none;margin:0;padding:0;font-size:var(--fs-cap);line-height:1.4;color:var(--muted)}
+@media (max-width:767px){
+  .orb{aspect-ratio:auto;height:600px;min-height:0}
+  .o{left:calc(var(--mx) * 1%);top:calc(var(--my) * 1%);width:calc(var(--mr) * 2 / 3.9 * 1vw)}
+  .orb-c p{font-size:20px}
+  .lead2{grid-template-columns:1fr;row-gap:24px;padding-top:8px}
+  .lead2 p,.lead2 ul{grid-column:1}
+}
+@media (prefers-reduced-motion:reduce){.o{animation:none}}
 </style>
 
 </head>
@@ -110,9 +117,14 @@ body .more-btn{height:34px;padding:0 18px;border-radius:17px}
 
 <div class="wrap">
 
-  <section class="hero" id="top">
-    <div class="hero-art" aria-hidden="true"><video src="img/hero-people.mp4" poster="img/hero-people-poster.jpg" autoplay muted loop playsinline></video></div>
-    <div id="heroText"></div>
+  <section class="orb" id="top">
+    <div class="orb-c"><img class="orb-wm" src="img/wordmark.png" alt="Oilab"><p data-i="tagline"></p></div>
+    <div id="orbs"></div>
+  </section>
+
+  <section class="lead2">
+    <p data-i="lead2"></p>
+    <ul id="svc"></ul>
   </section>
 
   <section id="projects">
@@ -127,8 +139,8 @@ body .more-btn{height:34px;padding:0 18px;border-radius:17px}
 <div class="big" id="big" role="img" aria-label="Oilab"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js"></script>
-<script src="i18n.js?v=1793886435" charset="utf-8"></script>
-<script src="projects.js?v=1793886435" charset="utf-8"></script>
+<script src="i18n.js?v=1794062924" charset="utf-8"></script>
+<script src="projects.js?v=1794062924" charset="utf-8"></script>
 <script>
 // hover: вторая фотография проекта (или .mp4) — плавно сменяет обложку при наведении. Пример: {name:"Кайрат", img:"p01", hover:"img/p01-2.jpg", tags:[...]}
 const grid = document.getElementById('grid');
@@ -185,12 +197,31 @@ document.getElementById('cats').addEventListener('click', e => { const b = e.tar
 const fromHash = PROJECTS.flatMap(p => [...fieldsOf(p), ...(p.tags||[])]).filter(Boolean).find(t => '#t-' + t.toLowerCase().replace(/[^a-z0-9]+/g,'-') === location.hash);
 if (fromHash) { filter(fromHash); document.getElementById('projects').scrollIntoView(); }
 
-// манифест: текст на выбранном языке, знак Oilab и анимация встраиваются в строку
-const WM = '<img class="wm" src="img/wordmark.png" alt="Oilab">';
-const ART = '<span class="ppl" id="ppl" aria-hidden="true"><video src="img/hero-people.mp4" poster="img/hero-people-poster.jpg" autoplay muted loop playsinline></video></span>';
+
+// круги первого экрана: [проект, x, y, радиус] — компьютер (макет 1500×630) и телефон (390×600); позже в списке — выше по слою
+const ORBS = [['KUN',161,256,72, 62,130,46],['Fading Tales',258,202,52, 118,78,28],['Special Thanks',591,98,40, 196,66,30],['TAU',643,120,26, 228,92,17],['1135',889,105,42, 300,62,30],
+  ["Kira D'Archi",1063,144,41, 355,128,24],['ushiro',1195,179,64, 300,175,36],['allfolk',1379,347,74, 360,330,24],['Sezim',401,472,103, 95,452,62],['Straight Shift',546,452,59, 172,420,32],
+  ['Dudeontheguitar',856,550,60, 222,535,34],['7:20',1125,417,64, 300,450,40],['muni',1206,443,50, 350,482,28]];
+const INTRO = !!document.getElementById('intro');   // если показывается заставка — круги «влетают» после неё
+document.getElementById('orbs').innerHTML = ORBS.map(([n, x, y, r, mx, my, mr], i) => {
+  const p = PROJECTS.find(q => q.name === n); if (!p) return '';
+  const href = p.case ? `case.html#${slug(p)}` : `more.html#k-${MORE.indexOf(p)}`;
+  const d = (INTRO ? 1.9 : .1) + i * .05;
+  return `<a class="o" href="${href}" aria-label="${p.name}" style="--x:${x/15};--y:${y/6.3};--r:${r};--mx:${mx/3.9};--my:${my/6};--mr:${mr};--dx:${x-750}px;--dy:${y-277}px;--d:${d.toFixed(2)}s"><span><img src="img/${p.img}.jpg" alt="" loading="eager"></span></a>`;
+}).join('');
+// мягкое притяжение к курсору: круг сдвигается к точке наведения (до ~18% от смещения курсора), с плавным догоном
+if (matchMedia('(hover:hover) and (pointer:fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  document.querySelectorAll('.o').forEach(o => {
+    const s = o.firstElementChild; let tx = 0, ty = 0, cx = 0, cy = 0, raf = 0;
+    const step = () => { cx += (tx - cx) * .08; cy += (ty - cy) * .08; s.style.transform = `translate(${cx.toFixed(2)}px,${cy.toFixed(2)}px)`;
+      raf = Math.abs(tx - cx) + Math.abs(ty - cy) > .05 ? requestAnimationFrame(step) : 0; };
+    const go = () => { if (!raf) raf = requestAnimationFrame(step); };
+    o.addEventListener('pointermove', e => { const b = o.getBoundingClientRect(); tx = (e.clientX - b.left - b.width / 2) * .18; ty = (e.clientY - b.top - b.height / 2) * .18; go(); });
+    o.addEventListener('pointerleave', () => { tx = ty = 0; go(); });
+  });
+}
 window.pageRender = () => {
-  // иллюстрация стоит в начале абзаца и плавает справа — текст обтекает её слева
-  document.getElementById('heroText').innerHTML = t('hero').replace('{WM}', WM).replace('{ART}', ART);
+  document.getElementById('svc').innerHTML = t('svc').map(x => `<li>${x}</li>`).join('');
   document.querySelectorAll('.tag').forEach(b => b.firstChild.textContent = tr(b.dataset.tag));
   renderCats();
 };
