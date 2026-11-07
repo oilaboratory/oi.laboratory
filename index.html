@@ -17,7 +17,7 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos&display=swap">
-<link rel="stylesheet" href="site.css?v=1794065429">
+<link rel="stylesheet" href="site.css?v=1794065714">
 <style>
 /* Главная: манифест и сетка проектов. Общие токены, шапка и футер — в site.css */
 
@@ -26,7 +26,7 @@
 /* проекты */
 /* шапка сетки: «Проекты» в 1-й колонке, подпись «Сферы» в 3-й, сферы стопкой в 4-й (серым, выбранная — тёмным с ×, повторное нажатие сбрасывает) */
 .head{display:grid;grid-template-columns:repeat(4,1fr);column-gap:8px;align-items:start;padding-bottom:40px}
-html body div.head h2{color:var(--ink)}
+html body div.head h2{color:var(--muted)}
 html body div.head h2.sph{grid-column:3}
 .cats{grid-column:4;display:flex;flex-direction:column;align-items:flex-start}
 .cat{appearance:none;border:0;background:none;padding:0;margin:0;font:inherit;color:var(--muted);text-align:left;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:color .25s}
@@ -76,7 +76,7 @@ body .more-btn{height:34px;padding:0 18px;border-radius:17px}
 .orb{position:relative;width:100vw;margin-left:calc(50% - 50vw);height:calc(100svh - 62px);min-height:560px;overflow:hidden}
 .orb-c{position:absolute;left:50%;top:44%;translate:-50% -50%;text-align:center;pointer-events:none;z-index:2;white-space:nowrap}
 html body .orb-c :is(h1,p){margin:0;font-size:40px;line-height:1.12;letter-spacing:-.02em!important;color:var(--faint);pointer-events:auto;cursor:default;transition:color .45s ease}
-html body .orb-c :is(h1,p):hover{color:var(--ink)}   /* название и фраза подсвечиваются по отдельности */
+html body .orb-c :is(h1,p):hover{color:var(--muted)}   /* название и фраза подсвечиваются по отдельности */
 .orb-c i{display:inline-block;font-style:normal;white-space:pre}
 html.boot .orb-c i{opacity:0;filter:blur(10px);animation:introL .6s ease-out forwards}
 html.boot header,html.boot .buddy{animation:tagIn .9s ease 2.3s both}
@@ -142,8 +142,8 @@ html body .lead2 ul{grid-column:4;list-style:none;margin:0;padding:0;font-size:v
 <div class="big" id="big" role="img" aria-label="Oilab"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js"></script>
-<script src="i18n.js?v=1794065429" charset="utf-8"></script>
-<script src="projects.js?v=1794065429" charset="utf-8"></script>
+<script src="i18n.js?v=1794065714" charset="utf-8"></script>
+<script src="projects.js?v=1794065714" charset="utf-8"></script>
 <script>
 // hover: вторая фотография проекта (или .mp4) — плавно сменяет обложку при наведении. Пример: {name:"Кайрат", img:"p01", hover:"img/p01-2.jpg", tags:[...]}
 const grid = document.getElementById('grid');
@@ -220,56 +220,67 @@ orb.querySelector('#orbs').innerHTML = ORBS.map(([n, x, y, r, mx, my, mr]) => {
   return `<div class="o" style="--x:${(x/15.12).toFixed(2)};--y:${(y/7.52).toFixed(2)};--r:${r};--mx:${(mx/3.9).toFixed(2)};--my:${(my/6).toFixed(2)};--mr:${mr}"><span><img src="img/${p.img}.jpg" alt="${p.name}" draggable="false"></span></div>`;
 }).join('');
 
-/* Круги — маленькая физика на одном requestAnimationFrame:
+/* Круги — шарики в общем поле (один requestAnimationFrame):
    вход: из глубины (масштаб .55→1) и по часовой стрелке вокруг названия (−50° → 0);
-   наведение: +6% масштаба и мягкое притяжение картинки к курсору;
-   перетаскивание мышью/пальцем; после отпускания круг по инерции катится в сторону броска —
-   скорость берётся за последние ~80 мс: резкий бросок уходит дальше, медленный почти сразу встаёт */
+   перетаскивание: шарик мягко догоняет палец/курсор (пружина), поэтому движение плавное, без рывков;
+   столкновения: шарики расталкивают друг друга с учётом «массы» (площади); от краёв экрана мягко отскакивают;
+   инерция: после отпускания шарик катится с той скоростью, что у него была, и тормозит трением —
+   резкий бросок уходит далеко, медленный почти сразу встаёт. Пока никого не трогали, шарики стоят по макету (даже внахлёст) */
 const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
-let zTop = 10;
-const O = [...orb.querySelectorAll('.o')].map((el, i) => ({ el, s: el.firstElementChild, ox: 0, oy: 0, vx: 0, vy: 0, sc: 1, hs: 1, mx: 0, my: 0, tmx: 0, tmy: 0, drag: null, t0: (BOOT ? 2300 : 100) + i * 60 }));
-const T0 = performance.now(), DUR = 2400, ease = t => 1 - Math.pow(1 - t, 4);
+let zTop = 10, W0 = orb.clientWidth, H0 = orb.clientHeight;
+const O = [...orb.querySelectorAll('.o')].map((el, i) => ({ el, x: el.offsetLeft, y: el.offsetTop, vx: 0, vy: 0, sc: 1, hs: 1, live: false, drag: null, t0: (BOOT ? 2300 : 100) + i * 60 }));
+addEventListener('resize', () => {   // при смене размера окна шарики сохраняют относительное место
+  const W = orb.clientWidth, H = orb.clientHeight; O.forEach(c => { c.x *= W / W0; c.y *= H / H0; }); W0 = W; H0 = H;
+});
+const T0 = performance.now(), DUR = 2400, ease = t => 1 - Math.pow(1 - t, 4), FR = .9, BOUNCE = .55;
 const tick = now => {
   const W = orb.clientWidth, H = orb.clientHeight, cx = W / 2, cy = H * .44;
   for (const c of O) {
-    const bx = c.el.offsetLeft, by = c.el.offsetTop;   // место по макету (центр круга)
+    c.r = c.el.offsetWidth / 2;
+    if (c.drag) { c.vx += (c.drag.px - c.x) * .22 - c.vx * .45; c.vy += (c.drag.py - c.y) * .22 - c.vy * .45; }   // пружина к пальцу
+    else { const f = Math.hypot(c.vx, c.vy) < 3 ? .8 : FR + .02; c.vx *= f; c.vy *= f; }   // медленное движение гасится быстро, бросок катится дольше
+    if (Math.abs(c.vx) + Math.abs(c.vy) < .03 && !c.drag) { c.vx = c.vy = 0; }
+    c.x += c.vx; c.y += c.vy;
+    if (c.vx || c.vy || c.drag) c.live = true;
+    if (c.live) {   // мягкий отскок от краёв поля
+      if (c.x < c.r) { c.x = c.r; c.vx = Math.abs(c.vx) * BOUNCE; } else if (c.x > W - c.r) { c.x = W - c.r; c.vx = -Math.abs(c.vx) * BOUNCE; }
+      if (c.y < c.r) { c.y = c.r; c.vy = Math.abs(c.vy) * BOUNCE; } else if (c.y > H - c.r) { c.y = H - c.r; c.vy = -Math.abs(c.vy) * BOUNCE; }
+    }
+  }
+  // столкновения: только если хотя бы один шарик в движении — исходные «пары внахлёст» из макета не разлетаются сами
+  for (let i = 0; i < O.length; i++) for (let j = i + 1; j < O.length; j++) {
+    const a = O[i], b = O[j]; if (!(a.drag || b.drag || a.vx || a.vy || b.vx || b.vy)) continue;
+    const dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy) || .01, min = a.r + b.r + 2; if (d >= min) continue;
+    const nx = dx / d, ny = dy / d, ma = a.drag ? 1e6 : a.r * a.r, mb = b.drag ? 1e6 : b.r * b.r, over = min - d;
+    a.x -= nx * over * mb / (ma + mb); a.y -= ny * over * mb / (ma + mb); b.x += nx * over * ma / (ma + mb); b.y += ny * over * ma / (ma + mb);
+    const rv = (b.vx - a.vx) * nx + (b.vy - a.vy) * ny;
+    if (rv < 0) { const imp = -(1 + .5) * rv / (1 / ma + 1 / mb); a.vx -= imp / ma * nx; a.vy -= imp / ma * ny; b.vx += imp / mb * nx; b.vy += imp / mb * ny; }
+    a.live = b.live = true;
+  }
+  for (const c of O) {
+    const bx = c.el.offsetLeft, by = c.el.offsetTop;   // место по макету
     const t = STILL ? 1 : Math.min(1, Math.max(0, (now - T0 - c.t0) / DUR)), e = ease(t);
-    // вход: точка поворачивается вокруг центра по часовой стрелке и «приближается»
-    const a = (-50 * Math.PI / 180) * (1 - e), k = .62 + .38 * e, vx0 = bx - cx, vy0 = by - cy;
-    const ex = cx + (vx0 * Math.cos(a) - vy0 * Math.sin(a)) * k - bx, ey = cy + (vx0 * Math.sin(a) + vy0 * Math.cos(a)) * k - by;
-    // инерция после броска, с трением; круг не уходит за край экрана
-    if (!c.drag) { c.ox += c.vx; c.oy += c.vy; c.vx *= .88; c.vy *= .88; if (Math.abs(c.vx) < .02) c.vx = 0; if (Math.abs(c.vy) < .02) c.vy = 0; }
-    const nx = Math.min(W, Math.max(0, bx + c.ox)), ny = Math.min(H, Math.max(0, by + c.oy));
-    if (nx !== bx + c.ox) { c.ox = nx - bx; c.vx = 0; } if (ny !== by + c.oy) { c.oy = ny - by; c.vy = 0; }
-    c.sc += (c.hs - c.sc) * .14;
-    c.el.style.transform = `translate(${(c.ox + ex).toFixed(2)}px,${(c.oy + ey).toFixed(2)}px) scale(${((.55 + .45 * e) * c.sc).toFixed(4)})`;
+    const a = (-50 * Math.PI / 180) * (1 - e), k = .62 + .38 * e, vx0 = c.x - cx, vy0 = c.y - cy;
+    const px = cx + (vx0 * Math.cos(a) - vy0 * Math.sin(a)) * k, py = cy + (vx0 * Math.sin(a) + vy0 * Math.cos(a)) * k;
+    c.sc += (c.hs - c.sc) * .12;
+    c.el.style.transform = `translate3d(${(px - bx).toFixed(2)}px,${(py - by).toFixed(2)}px,0) scale(${((.55 + .45 * e) * c.sc).toFixed(4)})`;
     c.el.style.opacity = Math.min(1, t * 3).toFixed(3);
-    c.mx += (c.tmx - c.mx) * .08; c.my += (c.tmy - c.my) * .08;
-    c.s.style.transform = `translate(${c.mx.toFixed(2)}px,${c.my.toFixed(2)}px)`;
   }
   requestAnimationFrame(tick);
 };
 requestAnimationFrame(tick);
+const orbBox = () => orb.getBoundingClientRect();
 O.forEach(c => {
   const el = c.el;
-  el.addEventListener('pointerenter', () => { if (fine) c.hs = 1.06; });
-  el.addEventListener('pointerleave', () => { if (!c.drag) { c.hs = 1; c.tmx = c.tmy = 0; } });
+  el.addEventListener('pointerenter', () => { if (fine && !c.drag) c.hs = 1.02; });
+  el.addEventListener('pointerleave', () => { if (!c.drag) c.hs = 1; });
   el.addEventListener('pointerdown', e => {
     e.preventDefault(); el.setPointerCapture(e.pointerId); el.classList.add('drag'); el.style.zIndex = ++zTop;
-    c.drag = { x: e.clientX - c.ox, y: e.clientY - c.oy, log: [[e.timeStamp, e.clientX, e.clientY]] }; c.vx = c.vy = 0; c.hs = 1.08; c.tmx = c.tmy = 0;
+    const b = orbBox(); c.drag = { dx: c.x - (e.clientX - b.left), dy: c.y - (e.clientY - b.top), px: c.x, py: c.y }; c.hs = 1.03;
   });
-  el.addEventListener('pointermove', e => {
-    if (c.drag) { c.ox = e.clientX - c.drag.x; c.oy = e.clientY - c.drag.y; c.drag.log.push([e.timeStamp, e.clientX, e.clientY]); if (c.drag.log.length > 12) c.drag.log.shift(); }
-    else if (fine) { const b = el.getBoundingClientRect(); c.tmx = (e.clientX - b.left - b.width / 2) * .18; c.tmy = (e.clientY - b.top - b.height / 2) * .18; }
-  });
-  const drop = e => {
-    if (!c.drag) return;
-    const log = c.drag.log, last = log[log.length - 1], first = log.find(p => last[0] - p[0] <= 80) || last, dt = last[0] - first[0];
-    const speed = dt > 0 ? Math.hypot(last[1] - first[1], last[2] - first[2]) / dt : 0;   // px/мс
-    const fresh = e.timeStamp - last[0] < 60;   // задержал палец перед отпусканием — броска нет
-    if (dt > 0 && fresh && speed > .25) { const f = 16 * .6 * Math.min(speed, 3) / speed / dt; c.vx = (last[1] - first[1]) * f; c.vy = (last[2] - first[2]) * f; }
-    c.drag = null; el.classList.remove('drag'); c.hs = fine && e.type === 'pointerup' && el.matches(':hover') ? 1.06 : 1;
-  };
+  el.addEventListener('pointermove', e => { if (!c.drag) return; const b = orbBox(); c.drag.px = e.clientX - b.left + c.drag.dx; c.drag.py = e.clientY - b.top + c.drag.dy; });
+  const drop = () => { if (!c.drag) return; c.drag = null; el.classList.remove('drag'); c.hs = fine && el.matches(':hover') ? 1.02 : 1;
+    const v = Math.hypot(c.vx, c.vy); if (v > 40) { c.vx *= 40 / v; c.vy *= 40 / v; } };   // предел скорости броска
   el.addEventListener('pointerup', drop); el.addEventListener('pointercancel', drop);
 });
 window.pageRender = () => {
