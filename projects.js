@@ -237,15 +237,6 @@ function startClocks(){
 // размытие под шапкой включается только после начала прокрутки – чтобы не размывать первый экран
 addEventListener('scroll', () => document.body.classList.toggle('scrolled', scrollY > 4), {passive: true});
 
-// векторная анимация (Lottie) в блок с id: пока файл грузится, в блоке остаётся запасная картинка/видео
-function playLottie(id, path, fallbackImg){
-  const el = document.getElementById(id);
-  if (!window.lottie) { if (fallbackImg) el.innerHTML = `<img src="${fallbackImg}" alt="">`; return; }
-  const box = document.createElement('div');
-  const anim = lottie.loadAnimation({container: box, renderer: 'svg', loop: true, autoplay: true, path});
-  anim.addEventListener('DOMLoaded', () => el.replaceChildren(...box.childNodes));
-}
-
 // ——— общие для всех страниц: меню, подвал, копирование почты, язык ———
 const EMAIL = 'oi.lab.team@proton.me';
 // соцсети иконками: подвал, меню телефона и окно связи
