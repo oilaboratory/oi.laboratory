@@ -17,7 +17,7 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos&display=swap">
-<link rel="stylesheet" href="site.css?v=1794066710">
+<link rel="stylesheet" href="site.css?v=1794066778">
 <style>
 /* Главная: манифест и сетка проектов. Общие токены, шапка и футер — в site.css */
 
@@ -149,8 +149,8 @@ html body .lead2 ul{grid-column:4;list-style:none;margin:0;padding:0;font-size:v
 </div>
 <div class="big" aria-hidden="true"><video src="img/hero-people.mp4" poster="img/hero-people-poster.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
 
-<script src="i18n.js?v=1794066710" charset="utf-8"></script>
-<script src="projects.js?v=1794066710" charset="utf-8"></script>
+<script src="i18n.js?v=1794066778" charset="utf-8"></script>
+<script src="projects.js?v=1794066778" charset="utf-8"></script>
 <script>
 // hover: вторая фотография проекта (или .mp4) — плавно сменяет обложку при наведении. Пример: {name:"Кайрат", img:"p01", hover:"img/p01-2.jpg", tags:[...]}
 const grid = document.getElementById('grid');
@@ -267,8 +267,8 @@ const tick = now => {
     a.x -= nx * soft * mb / (ma + mb); a.y -= ny * soft * mb / (ma + mb); b.x += nx * soft * ma / (ma + mb); b.y += ny * soft * ma / (ma + mb);
     const rv = (b.vx - a.vx) * nx + (b.vy - a.vy) * ny;
     if (a.drag || b.drag) {
-      // удар взятым шаром: он как бита — сосед отпрыгивает со скоростью удара ×1,6 (минимум небольшой «отскок», даже при медленном касании)
-      const [hit, by, sgn] = a.drag ? [b, a, 1] : [a, b, -1], kick = Math.max(6.5, -rv * 1.6);
+      // удар взятым шаром: он как бита — сосед отпрыгивает со скоростью удара ×2,2 (минимум небольшой «отскок», даже при медленном касании)
+      const [hit, by, sgn] = a.drag ? [b, a, 1] : [a, b, -1], kick = Math.max(9, -rv * 2.2);
       const vn = (hit.vx - by.vx) * nx * sgn + (hit.vy - by.vy) * ny * sgn;
       if (vn < kick) { hit.vx += (kick - vn) * nx * sgn; hit.vy += (kick - vn) * ny * sgn; }
     } else if (rv < 0) { const imp = -(1 + .9) * rv / (1 / ma + 1 / mb); a.vx -= imp / ma * nx; a.vy -= imp / ma * ny; b.vx += imp / mb * nx; b.vy += imp / mb * ny; }   // упругий удар, как шары в боулинге: импульс передаётся соседу
