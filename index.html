@@ -17,7 +17,7 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos&display=swap">
-<link rel="stylesheet" href="site.css?v=1794067246">
+<link rel="stylesheet" href="site.css?v=1794067521">
 <style>
 /* Главная: манифест и сетка проектов. Общие токены, шапка и футер — в site.css */
 
@@ -97,7 +97,8 @@ html body .lead2 p{grid-column:1/4;margin:0;max-width:44em;font-size:var(--fs-le
 html body .lead2 ul{grid-column:4;list-style:none;margin:0;padding:0;font-size:var(--fs-cap);line-height:1.4;color:var(--muted)}
 @media (max-width:767px){
   .orb{height:100svh;min-height:600px;margin-top:-72px}   /* шапка на телефоне поверх экрана */
-  .o{left:calc(var(--mx) * 1%);top:calc(var(--my) * .86% + 9%);width:calc(var(--mr) * 2 / 3.9 * 1vw)}
+  .o{left:calc(var(--mx) * 1%);top:calc(var(--my) * 1%);width:calc(var(--mr) * 2 / 7.36 * 1vw)}
+  .orb-c{top:50%}
   html body .orb-c :is(h1,p){font-size:22px}
   .lead2{grid-template-columns:1fr;row-gap:24px;padding-top:8px}
   html body .lead2 p,html body .lead2 ul{grid-column:1;max-width:none}   /* текст на всю ширину, услуги под ним с того же края */
@@ -149,8 +150,8 @@ html body .lead2 ul{grid-column:4;list-style:none;margin:0;padding:0;font-size:v
 </div>
 <div class="big" aria-hidden="true"><video src="img/hero-people.mp4" poster="img/hero-people-poster.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
 
-<script src="i18n.js?v=1794067246" charset="utf-8"></script>
-<script src="projects.js?v=1794067246" charset="utf-8"></script>
+<script src="i18n.js?v=1794067521" charset="utf-8"></script>
+<script src="projects.js?v=1794067521" charset="utf-8"></script>
 <script>
 // hover: вторая фотография проекта (или .mp4) — плавно сменяет обложку при наведении. Пример: {name:"Кайрат", img:"p01", hover:"img/p01-2.jpg", tags:[...]}
 const grid = document.getElementById('grid');
@@ -209,9 +210,10 @@ if (fromHash) { filter(fromHash); document.getElementById('projects').scrollInto
 
 
 // круги первого экрана: [проект, x, y, радиус] — компьютер (макет 1500×630) и телефон (390×600); позже в списке — выше по слою
-const ORBS = [['KUN',176,252,124, 62,130,46],['Special Thanks',427,131,56, 186,70,30],['Fading Tales',563,161,38, 236,96,20],['1135',904,154,47, 300,62,30],
-  ["Kira D'Archi",1063,97,54, 355,128,24],['ushiro',1292,168,123, 300,175,36],['allfolk',1384,369,78, 360,330,24],['Sezim',334,520,121, 95,452,62],['Straight Shift',546,518,62, 172,420,32],
-  ['TAU',703,606,48, 150,540,18],['Dudeontheguitar',861,616,65, 222,535,34],['7:20',1110,520,68, 300,450,40],['muni',1253,602,53, 350,482,28]];
+// последние три числа — телефон, по макету 736×1198 (весь экран): x, y, радиус
+const ORBS = [['KUN',176,252,124, 120,428,87],['Special Thanks',427,131,56, 233,286,57],['Fading Tales',563,161,38, 341,215,38],['1135',904,154,47, 495,316,57],
+  ["Kira D'Archi",1063,97,54, 630,298,45],['ushiro',1292,168,123, 663,438,68],['allfolk',1384,369,78, 675,731,45],['Sezim',334,520,121, 580,885,117],['Straight Shift',546,518,62, 119,748,60],
+  ['TAU',703,606,48, 251,800,34],['Dudeontheguitar',861,616,65, 88,885,62],['7:20',1110,520,68, 407,1033,76],['muni',1253,602,53, 227,987,53]];
 const BOOT = document.documentElement.classList.contains('boot');   // при входе на сайт: название → фраза → навигация и круги
 const STILL = matchMedia('(prefers-reduced-motion: reduce)').matches;
 // буквы проявляются по очереди: сначала «Oi.Laboratory», за ним фраза — той же анимацией
@@ -224,7 +226,7 @@ const renderTag = () => { orbP.innerHTML = firstTag ? letters(t('tagline'), 1.05
 const orb = document.querySelector('.orb');
 orb.querySelector('#orbs').innerHTML = ORBS.map(([n, x, y, r, mx, my, mr]) => {
   const p = PROJECTS.find(q => q.name === n); if (!p) return '';
-  return `<div class="o" style="--x:${(x/15.12).toFixed(2)};--y:${(y/7.52).toFixed(2)};--r:${r};--mx:${(mx/3.9).toFixed(2)};--my:${(my/6).toFixed(2)};--mr:${mr}"><span><img src="img/${p.img}.jpg" alt="${p.name}" draggable="false"></span></div>`;
+  return `<div class="o" style="--x:${(x/15.12).toFixed(2)};--y:${(y/7.52).toFixed(2)};--r:${r};--mx:${(mx/7.36).toFixed(2)};--my:${(my/11.98).toFixed(2)};--mr:${mr}"><span><img src="img/${p.img}.jpg" alt="${p.name}" draggable="false"></span></div>`;
 }).join('');
 
 /* Круги — шарики в общем поле (один requestAnimationFrame):
