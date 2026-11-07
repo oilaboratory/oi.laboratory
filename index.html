@@ -17,7 +17,7 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos&display=swap">
-<link rel="stylesheet" href="site.css?v=1794068637">
+<link rel="stylesheet" href="site.css?v=1794068919">
 <style>
 /* Главная: манифест и сетка проектов. Общие токены, шапка и футер — в site.css */
 
@@ -73,12 +73,14 @@ body .more-btn{height:34px;padding:0 18px;border-radius:17px}
 }
 /* первый экран (черновик 2), по макету 1500×934: знак Oilab · иллюстрация · «Превращаем бизнес в бренд», под ним текст и услуги.
    Размеры — в долях ширины экрана, как в макете. При наведении на заголовок буквы возле курсора превращаются в стикеры (как на wabi.ai) */
-.h2{display:grid;grid-template-columns:20.2vw 22.3vw 1fr;column-gap:.8vw;align-items:end;min-height:calc(100svh - 62px);align-content:center;padding-bottom:6vw}
-.h2-wm{display:block;width:100%;height:auto;align-self:center;margin-top:5.6vw}
-.h2-art{display:block;width:100%;aspect-ratio:334/214;object-fit:contain;object-position:50% 100%;mix-blend-mode:multiply}
-.h2-txt{align-self:start;margin-top:8.9vw}
-html body .h2-t{margin:0;font-size:3.47vw;line-height:1;letter-spacing:-.02em!important;color:var(--ink);white-space:nowrap;cursor:default}
-.h2-sub{display:grid;grid-template-columns:31.2vw 1fr;column-gap:3.6vw;margin-top:1.1vw}
+.h2{display:grid;grid-template-columns:20.2vw 22.3vw 1fr;grid-template-rows:auto auto;column-gap:.8vw;align-content:center;min-height:calc(100svh - 62px);padding-bottom:6vw}
+/* знак, иллюстрация и заголовок стоят на одной линии: низ знака = линия пола на иллюстрации = базовая линия заголовка */
+.h2-wm{grid-area:1/1;align-self:end;display:block;width:100%;height:auto}
+.h2-art{grid-area:1/2;align-self:end;position:relative;display:block;isolation:isolate;margin-bottom:-.6vw}   /* под линией пола в ролике ~2.7% пустоты */
+.h2-art video{display:block;width:100%;height:auto;aspect-ratio:1920/1056}
+.h2-art::after{content:"";position:absolute;inset:0;background:var(--ink);mix-blend-mode:screen;pointer-events:none}   /* чёрные линии → цвет текста сайта */
+html body .h2-t{grid-area:1/3;align-self:end;margin:0 0 -.21em;font-size:3.47vw;line-height:1;letter-spacing:-.02em!important;color:var(--ink);white-space:nowrap;cursor:default}
+.h2-sub{grid-area:2/3;display:grid;grid-template-columns:31.2vw 1fr;column-gap:3.6vw;margin-top:1.6vw}
 html body .h2-sub :is(p,ul){margin:0;font-size:max(12px,.95vw);line-height:1.25;color:var(--ink)}
 .h2-sub ul{list-style:none;padding:0;line-height:1.38}
 /* буква-стикер: при включении буква сжимается и гаснет, на её месте «прыгает» стикер с лёгким поворотом */
@@ -91,9 +93,10 @@ html body .h2-sub :is(p,ul){margin:0;font-size:max(12px,.95vw);line-height:1.25;
 .h2-t .ch.on .g{opacity:0;transform:scale(.34)}
 .h2-t .ch.on .o{opacity:1;transform:rotate(var(--r)) scale(1);transition:transform .46s cubic-bezier(.16,1.42,.4,1),opacity .13s linear}
 @media (max-width:767px){
-  .h2{grid-template-columns:1fr 1fr;align-items:center;row-gap:24px;padding-block:24px 64px;min-height:0}
-  .h2-wm,.h2-art{margin:0}
-  .h2-txt{grid-column:1/-1;margin:0}
+  .h2{grid-template-columns:1fr 1fr;grid-template-rows:auto;row-gap:12px;padding-block:24px 64px;min-height:0}
+  .h2-art{margin-bottom:-1%}
+  html body .h2-t{grid-area:2/1/3/3;margin:12px 0 0}
+  .h2-sub{grid-area:3/1/4/3}
   html body .h2-t{font-size:8.4vw;line-height:1.05;white-space:normal}
   .h2-sub{grid-template-columns:1fr;row-gap:16px;margin-top:16px}
   html body .h2-sub :is(p,ul){font-size:var(--fs-body)}
@@ -124,11 +127,9 @@ html body .h2-sub :is(p,ul){margin:0;font-size:max(12px,.95vw);line-height:1.25;
 
   <section class="h2" id="top">
     <img class="h2-wm" src="img/wordmark.png" alt="Oilab">
-    <video class="h2-art" src="img/people-hd2.mp4" poster="img/people-hd2.jpg" autoplay muted loop playsinline aria-hidden="true"></video>
-    <div class="h2-txt">
-      <h1 class="h2-t" id="h2t"></h1>
-      <div class="h2-sub"><p data-i="h2.lead"></p><ul id="h2svc"></ul></div>
-    </div>
+    <span class="h2-art" aria-hidden="true"><video src="img/people-hd2.mp4" poster="img/people-hd2.jpg" autoplay muted loop playsinline></video></span>
+    <h1 class="h2-t" id="h2t"></h1>
+    <div class="h2-sub"><p data-i="h2.lead"></p><ul id="h2svc"></ul></div>
   </section>
 
   <section id="projects">
@@ -143,8 +144,8 @@ html body .h2-sub :is(p,ul){margin:0;font-size:max(12px,.95vw);line-height:1.25;
 <div class="big" id="big" role="img" aria-label="Oilab"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js"></script>
-<script src="i18n.js?v=1794068637" charset="utf-8"></script>
-<script src="projects.js?v=1794068637" charset="utf-8"></script>
+<script src="i18n.js?v=1794068919" charset="utf-8"></script>
+<script src="projects.js?v=1794068919" charset="utf-8"></script>
 <script>
 // hover: вторая фотография проекта (или .mp4) — плавно сменяет обложку при наведении. Пример: {name:"Кайрат", img:"p01", hover:"img/p01-2.jpg", tags:[...]}
 const grid = document.getElementById('grid');
@@ -216,12 +217,17 @@ const stickOn = (ch, on) => {
   if (on) { o.textContent = STICK[Math.random() * STICK.length | 0]; o.style.setProperty('--r', (Math.random() * 24 - 12).toFixed(1) + 'deg'); o.style.setProperty('--r0', (Math.random() * 60 - 30).toFixed(1) + 'deg'); }
   ch.classList.toggle('on', on);
 };
-// буквы ближе ~0.7em к курсору — стикеры; курсор ушёл — снова буквы
+// под курсором буквы превращаются в стикеры и оставляют след: каждый стикер держится ~0,9 с и сам возвращается в букву
+const timers = new WeakMap();
 h2t.addEventListener('pointermove', e => {
   const fs = parseFloat(getComputedStyle(h2t).fontSize);
-  h2t.querySelectorAll('.ch').forEach(ch => { const r = ch.getBoundingClientRect(); stickOn(ch, Math.abs(e.clientX - (r.left + r.width / 2)) < fs * .7 && e.clientY > r.top - fs * .2 && e.clientY < r.bottom + fs * .2); });
+  h2t.querySelectorAll('.ch').forEach(ch => {
+    const r = ch.getBoundingClientRect();
+    if (Math.abs(e.clientX - (r.left + r.width / 2)) < fs * .45 && e.clientY > r.top - fs * .2 && e.clientY < r.bottom + fs * .2) {
+      stickOn(ch, true); clearTimeout(timers.get(ch)); timers.set(ch, setTimeout(() => stickOn(ch, false), 900));
+    }
+  });
 });
-h2t.addEventListener('pointerleave', () => h2t.querySelectorAll('.ch.on').forEach(ch => stickOn(ch, false)));
 window.pageRender = () => {
   renderH2();
   document.getElementById('h2svc').innerHTML = t('h2.svc').map(x => `<li>${x}</li>`).join('');
