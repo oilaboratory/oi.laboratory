@@ -17,20 +17,11 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos&display=swap">
-<link rel="stylesheet" href="site.css?v=1793886435">
+<link rel="stylesheet" href="site.css?v=1794068528">
 <style>
 /* Главная: манифест и сетка проектов. Общие токены, шапка и футер — в site.css */
 
 /* манифест */
-.hero{padding-block:clamp(80px,18vw,240px);text-align:center;font-family:var(--serif);
-  font-size:clamp(20px,2.17vw,32.5px);line-height:1.23;color:var(--hero);max-width:1350px;margin:0 auto}
-.hero img,.hero video{display:inline-block;vertical-align:-0.15em}
-.hero .wm{height:1.25em;margin-right:.15em}
-.hero .nw{white-space:nowrap}
-.hero .ppl{display:inline-block;position:relative;width:7.3em;height:1em;vertical-align:baseline;margin:0 -.2em}   /* иллюстрация в строке манифеста: крупная, выступает вверх, межстрочный интервал не меняется */
-.hero br{display:none}
-.hero br.hb{display:inline}   /* переносы строк как в макете (только компьютер) */
-.hero .ppl > *{position:absolute;left:0;bottom:-.15em;display:block;width:100%;height:auto;aspect-ratio:1901/1049;mix-blend-mode:multiply}
 
 /* проекты */
 /* шапка сетки: «Проекты» в 1-й колонке, подпись «Сферы» в 3-й, сферы стопкой в 4-й (серым, выбранная — тёмным с ×, повторное нажатие сбрасывает) */
@@ -71,13 +62,7 @@ html body div.head h2.sph{grid-column:3}
 
 
 @media (max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}.head{grid-template-columns:repeat(2,1fr);row-gap:24px}.head h2:first-child{grid-column:1/-1}html body div.head h2.sph{grid-column:1}.cats{grid-column:2}}
-.hero-art{display:none}
 @media (max-width:767px){
-  .hero{padding-block:48px 72px;text-align:left;font-size:24px;line-height:1.18}
-  .hero-art{display:block;margin:0 -8px 28px}
-  .hero-art video{display:block;width:100%;aspect-ratio:900/484;mix-blend-mode:multiply}
-  .hero .ppl,.hero br,.hero br.hb{display:none}
-  .hero .nw{white-space:normal}
   .grid{grid-template-columns:1fr;gap:44px}
 }
  /* кнопка «Ещё проекты» под кейсами и слой со всеми остальными проектами */
@@ -85,6 +70,33 @@ html body div.head h2.sph{grid-column:3}
 body .more-btn{height:34px;padding:0 18px;border-radius:17px}
 .more-btn .n{color:var(--muted)}
 @media (max-width:767px){
+}
+/* первый экран (черновик 2), по макету 1500×934: знак Oilab · иллюстрация · «Превращаем бизнес в бренд», под ним текст и услуги.
+   Размеры — в долях ширины экрана, как в макете. При наведении на заголовок буквы возле курсора превращаются в стикеры (как на wabi.ai) */
+.h2{display:grid;grid-template-columns:20.2vw 22.3vw 1fr;column-gap:.8vw;align-items:end;min-height:calc(100svh - 62px);align-content:center;padding-bottom:6vw}
+.h2-wm{display:block;width:100%;height:auto;align-self:center;margin-top:5.6vw}
+.h2-art{display:block;width:100%;aspect-ratio:334/214;object-fit:contain;object-position:50% 100%;mix-blend-mode:multiply}
+.h2-txt{align-self:start;margin-top:8.9vw}
+html body .h2-t{margin:0;font-size:3.47vw;line-height:1;letter-spacing:-.02em!important;color:var(--ink);white-space:nowrap;cursor:default}
+.h2-sub{display:grid;grid-template-columns:31.2vw 1fr;column-gap:3.6vw;margin-top:1.1vw}
+html body .h2-sub :is(p,ul){margin:0;font-size:max(12px,.95vw);line-height:1.25;color:var(--ink)}
+.h2-sub ul{list-style:none;padding:0;line-height:1.38}
+/* буква-стикер: при включении буква сжимается и гаснет, на её месте «прыгает» стикер с лёгким поворотом */
+.h2-t .w{display:inline-block;white-space:nowrap}
+.h2-t .ch{position:relative;display:inline-block;transition:width .38s cubic-bezier(.22,.8,.28,1)}
+.h2-t .g{display:inline-block;font-style:normal;transition:opacity .15s linear,transform .24s cubic-bezier(.22,.8,.28,1)}
+.h2-t .o{position:absolute;left:50%;top:50%;width:.95em;height:.95em;margin:-.5em 0 0 -.475em;background:center/contain no-repeat;opacity:0;pointer-events:none;
+  transform:translateY(.25em) rotate(var(--r0)) scale(.4);filter:drop-shadow(0 .18em .2em rgba(20,18,14,.18));
+  transition:transform .46s cubic-bezier(.45,0,.75,.35),opacity .13s linear}
+.h2-t .ch.on .g{opacity:0;transform:scale(.34)}
+.h2-t .ch.on .o{opacity:1;transform:rotate(var(--r)) scale(1);transition:transform .46s cubic-bezier(.16,1.42,.4,1),opacity .13s linear}
+@media (max-width:767px){
+  .h2{grid-template-columns:1fr 1fr;align-items:center;row-gap:24px;padding-block:24px 64px;min-height:0}
+  .h2-wm,.h2-art{margin:0}
+  .h2-txt{grid-column:1/-1;margin:0}
+  html body .h2-t{font-size:8.4vw;line-height:1.05;white-space:normal}
+  .h2-sub{grid-template-columns:1fr;row-gap:16px;margin-top:16px}
+  html body .h2-sub :is(p,ul){font-size:var(--fs-body)}
 }
 </style>
 
@@ -110,9 +122,13 @@ body .more-btn{height:34px;padding:0 18px;border-radius:17px}
 
 <div class="wrap">
 
-  <section class="hero" id="top">
-    <div class="hero-art" aria-hidden="true"><video src="img/hero-people.mp4" poster="img/hero-people-poster.jpg" autoplay muted loop playsinline></video></div>
-    <div id="heroText"></div>
+  <section class="h2" id="top">
+    <img class="h2-wm" src="img/wordmark.png" alt="Oilab">
+    <video class="h2-art" src="img/people-hd2.mp4" poster="img/people-hd2.jpg" autoplay muted loop playsinline aria-hidden="true"></video>
+    <div class="h2-txt">
+      <h1 class="h2-t" id="h2t"></h1>
+      <div class="h2-sub"><p data-i="h2.lead"></p><ul id="h2svc"></ul></div>
+    </div>
   </section>
 
   <section id="projects">
@@ -127,8 +143,8 @@ body .more-btn{height:34px;padding:0 18px;border-radius:17px}
 <div class="big" id="big" role="img" aria-label="Oilab"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js"></script>
-<script src="i18n.js?v=1793886435" charset="utf-8"></script>
-<script src="projects.js?v=1793886435" charset="utf-8"></script>
+<script src="i18n.js?v=1794068528" charset="utf-8"></script>
+<script src="projects.js?v=1794068528" charset="utf-8"></script>
 <script>
 // hover: вторая фотография проекта (или .mp4) — плавно сменяет обложку при наведении. Пример: {name:"Кайрат", img:"p01", hover:"img/p01-2.jpg", tags:[...]}
 const grid = document.getElementById('grid');
@@ -185,12 +201,29 @@ document.getElementById('cats').addEventListener('click', e => { const b = e.tar
 const fromHash = PROJECTS.flatMap(p => [...fieldsOf(p), ...(p.tags||[])]).filter(Boolean).find(t => '#t-' + t.toLowerCase().replace(/[^a-z0-9]+/g,'-') === location.hash);
 if (fromHash) { filter(fromHash); document.getElementById('projects').scrollIntoView(); }
 
-// манифест: текст на выбранном языке, знак Oilab и анимация встраиваются в строку
-const WM = '<img class="wm" src="img/wordmark.png" alt="Oilab">';
-const ART = '<span class="ppl" id="ppl" aria-hidden="true"><video src="img/hero-people.mp4" poster="img/hero-people-poster.jpg" autoplay muted loop playsinline></video></span>';
+// заголовок первого экрана: каждая буква — ячейка; возле курсора буквы превращаются в стикеры-обложки проектов (как на wabi.ai)
+const STICK = PROJECTS.map(p => `img/st/${p.img}.webp`);
+const h2t = document.getElementById('h2t');
+const renderH2 = () => {
+  const words = t('h2.title').split(' ');
+  h2t.setAttribute('aria-label', t('h2.title'));
+  h2t.innerHTML = words.map(w => `<span class="w" aria-hidden="true">${[...w].map(c => c.trim() ? `<span class="ch"><i class="g">${c}</i><i class="o"></i></span>` : '&nbsp;').join('')}</span>`).join(' ');
+};
+const stickOn = (ch, on) => {
+  if (ch.classList.contains('on') === on) return;
+  const o = ch.lastChild;
+  if (on) { o.style.backgroundImage = `url(${STICK[Math.random() * STICK.length | 0]})`; o.style.setProperty('--r', (Math.random() * 24 - 12).toFixed(1) + 'deg'); o.style.setProperty('--r0', (Math.random() * 60 - 30).toFixed(1) + 'deg'); }
+  ch.classList.toggle('on', on);
+};
+// буквы ближе ~0.7em к курсору — стикеры; курсор ушёл — снова буквы
+h2t.addEventListener('pointermove', e => {
+  const fs = parseFloat(getComputedStyle(h2t).fontSize);
+  h2t.querySelectorAll('.ch').forEach(ch => { const r = ch.getBoundingClientRect(); stickOn(ch, Math.abs(e.clientX - (r.left + r.width / 2)) < fs * .7 && e.clientY > r.top - fs * .2 && e.clientY < r.bottom + fs * .2); });
+});
+h2t.addEventListener('pointerleave', () => h2t.querySelectorAll('.ch.on').forEach(ch => stickOn(ch, false)));
 window.pageRender = () => {
-  // иллюстрация стоит в начале абзаца и плавает справа — текст обтекает её слева
-  document.getElementById('heroText').innerHTML = t('hero').replace('{WM}', WM).replace('{ART}', ART);
+  renderH2();
+  document.getElementById('h2svc').innerHTML = t('h2.svc').map(x => `<li>${x}</li>`).join('');
   document.querySelectorAll('.tag').forEach(b => b.firstChild.textContent = tr(b.dataset.tag));
   renderCats();
 };
