@@ -17,7 +17,7 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos&display=swap">
-<link rel="stylesheet" href="site.css?v=1794067132">
+<link rel="stylesheet" href="site.css?v=1794067246">
 <style>
 /* Главная: манифест и сетка проектов. Общие токены, шапка и футер — в site.css */
 
@@ -97,7 +97,7 @@ html body .lead2 p{grid-column:1/4;margin:0;max-width:44em;font-size:var(--fs-le
 html body .lead2 ul{grid-column:4;list-style:none;margin:0;padding:0;font-size:var(--fs-cap);line-height:1.4;color:var(--muted)}
 @media (max-width:767px){
   .orb{height:100svh;min-height:600px;margin-top:-72px}   /* шапка на телефоне поверх экрана */
-  .o{left:calc(var(--mx) * 1%);top:calc(var(--my) * 1%);width:calc(var(--mr) * 2 / 3.9 * 1vw)}   /* телефон: круги равномерно по кольцу вокруг надписи */
+  .o{left:calc(var(--mx) * 1%);top:calc(var(--my) * .86% + 9%);width:calc(var(--mr) * 2 / 3.9 * 1vw)}
   html body .orb-c :is(h1,p){font-size:22px}
   .lead2{grid-template-columns:1fr;row-gap:24px;padding-top:8px}
   html body .lead2 p,html body .lead2 ul{grid-column:1;max-width:none}   /* текст на всю ширину, услуги под ним с того же края */
@@ -149,8 +149,8 @@ html body .lead2 ul{grid-column:4;list-style:none;margin:0;padding:0;font-size:v
 </div>
 <div class="big" aria-hidden="true"><video src="img/hero-people.mp4" poster="img/hero-people-poster.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
 
-<script src="i18n.js?v=1794067132" charset="utf-8"></script>
-<script src="projects.js?v=1794067132" charset="utf-8"></script>
+<script src="i18n.js?v=1794067246" charset="utf-8"></script>
+<script src="projects.js?v=1794067246" charset="utf-8"></script>
 <script>
 // hover: вторая фотография проекта (или .mp4) — плавно сменяет обложку при наведении. Пример: {name:"Кайрат", img:"p01", hover:"img/p01-2.jpg", tags:[...]}
 const grid = document.getElementById('grid');
@@ -222,16 +222,9 @@ let firstTag = BOOT;
 const renderTag = () => { orbP.innerHTML = firstTag ? letters(t('tagline'), 1.05, .035) : t('tagline'); firstTag = false; };
 
 const orb = document.querySelector('.orb');
-// телефон: круги кольцом вокруг надписи, но живой «кучей»: у каждого свой сдвиг по углу (°) и по удалённости от центра,
-// часть пар внахлёст, как на компьютере (Straight Shift у Sezim, muni у 7:20, Fading Tales у Special Thanks)
-const RING = [['1135', 8, 1], ["Kira D'Archi", -4, .84], ['ushiro', 6, .97], ['allfolk', -8, 1.1], ['7:20', 4, .9], ['muni', -14, 1.03],
-  ['Dudeontheguitar', 4, 1.02], ['TAU', -2, .9], ['Straight Shift', 3, 1.04], ['Sezim', -10, .86], ['KUN', -6, 1.04], ['Special Thanks', 6, .9], ['Fading Tales', -16, 1.02]];
-const ringPos = n => { const k = RING.findIndex(q => q[0] === n), [, da, f] = RING[k], a = (-90 + 360 / RING.length * (k + .5) + da) * Math.PI / 180;
-  let mx = 50 + 34 * f * Math.cos(a), my = 46 + 36 * f * Math.sin(a); if (Math.abs(my - 44) < 12) my = 44 + Math.sign(my - 44 || 1) * 12; return [mx, my]; };
-orb.querySelector('#orbs').innerHTML = ORBS.map(([n, x, y, r]) => {
-  const [mxp, myp] = ringPos(n), mr = Math.max(17, r / 124 * 46);
+orb.querySelector('#orbs').innerHTML = ORBS.map(([n, x, y, r, mx, my, mr]) => {
   const p = PROJECTS.find(q => q.name === n); if (!p) return '';
-  return `<div class="o" style="--x:${(x/15.12).toFixed(2)};--y:${(y/7.52).toFixed(2)};--r:${r};--mx:${mxp.toFixed(2)};--my:${myp.toFixed(2)};--mr:${mr.toFixed(1)}"><span><img src="img/${p.img}.jpg" alt="${p.name}" draggable="false"></span></div>`;
+  return `<div class="o" style="--x:${(x/15.12).toFixed(2)};--y:${(y/7.52).toFixed(2)};--r:${r};--mx:${(mx/3.9).toFixed(2)};--my:${(my/6).toFixed(2)};--mr:${mr}"><span><img src="img/${p.img}.jpg" alt="${p.name}" draggable="false"></span></div>`;
 }).join('');
 
 /* Круги — шарики в общем поле (один requestAnimationFrame):
