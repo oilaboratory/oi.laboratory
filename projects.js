@@ -295,10 +295,14 @@ function buddy(){
     if (anim) anim.cancel();
     if (on) win.hidden = false;
     if (still.matches) { win.hidden = !on; if (on) win.querySelector('.bd-x').focus(); return; }
-    const kf = [{transform: fromRect(), borderRadius: '40px', opacity: 0}, {transform: 'none', borderRadius: '24px', opacity: 1}];
+    const phone = matchMedia('(max-width:767px)').matches;
+    // телефон: окно открывается как меню — белый слой на весь экран проявляется, содержимое мягко поднимается снизу
+    const kf = phone ? [{opacity: 0}, {opacity: 1}] : [{transform: fromRect(), borderRadius: '40px', opacity: 0}, {transform: 'none', borderRadius: '24px', opacity: 1}];
+    if (phone) [...card.querySelector('.bd-in').children, ...card.querySelectorAll('.bd-list a')].forEach((el, i) => el.animate([{opacity: 0, transform: 'translateY(12px)'}, {opacity: 1, transform: 'none'}],
+      {duration: on ? 450 : 200, delay: on ? 80 + i * 40 : 0, easing: 'cubic-bezier(.23,1,.32,1)', direction: on ? 'normal' : 'reverse', fill: 'both'}));
     win.animate([{opacity: 0}, {opacity: 1}], {duration: 420, easing: 'ease', direction: on ? 'normal' : 'reverse', fill: 'both'});
-    anim = card.animate(kf, {duration: on ? 560 : 420, easing: on ? 'cubic-bezier(.22,1.12,.36,1)' : 'cubic-bezier(.4,0,.6,1)', direction: on ? 'normal' : 'reverse', fill: 'both'});
-    card.querySelector('.bd-in').animate([{opacity: 0}, {opacity: 1}], {duration: on ? 360 : 160, delay: on ? 180 : 0, easing: 'ease', direction: on ? 'normal' : 'reverse', fill: 'both'});
+    anim = card.animate(kf, {duration: phone ? 300 : on ? 560 : 420, easing: on ? 'cubic-bezier(.22,1.12,.36,1)' : 'cubic-bezier(.4,0,.6,1)', direction: on ? 'normal' : 'reverse', fill: 'both'});
+    if (!phone) card.querySelector('.bd-in').animate([{opacity: 0}, {opacity: 1}], {duration: on ? 360 : 160, delay: on ? 180 : 0, easing: 'ease', direction: on ? 'normal' : 'reverse', fill: 'both'});
     anim.onfinish = () => { anim = null; if (!on) { win.hidden = true; win.getAnimations({subtree: true}).forEach(a => a.cancel()); } else { win.querySelector('.bd-x').focus({preventScroll: true}); const v = win.querySelector('video'); v.play().catch(() => {}); } };
   };
   btn.onclick = () => { from = btn; open(win.hidden); };

@@ -177,9 +177,14 @@ body .bd-top .bd-x{flex:none;width:26px;min-width:26px;padding:0;gap:0;justify-c
 .bd-list b{font-weight:500;font-size:13px;line-height:1.3}
 .bd-list span{font-size:13px;line-height:1.3;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 @media (max-width:767px){
-  /* телефон: окно внутри экрана с отступами со всех сторон; квадрат сверху, каналы под ним */
-  .bd-win{padding:16px}
-  .bd-card{border-radius:20px;padding:12px}
+  /* телефон: окно связи — как меню, белый слой на весь экран; крестик на месте кнопки «Меню» */
+  .bd-win{padding:0;background:var(--bg);-webkit-backdrop-filter:none;backdrop-filter:none;place-items:stretch;align-content:start}
+  .bd-card{width:100%;min-height:100%;border:0;border-radius:0;box-shadow:none;background:var(--bg);
+    padding:calc(16px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(24px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+  .bd-top{padding:6px 0 6px 4px}
+  .bd-in{gap:10px}
+  .bd-vid{width:72%;margin:0 auto;filter:brightness(1.04) contrast(1.04);mix-blend-mode:multiply}   /* фон ролика растворяется в белом слое */
+  .bd-list a{background:var(--chip)}
   .bd-list a{padding:9px 12px}
 }
 
