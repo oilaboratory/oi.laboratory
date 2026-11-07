@@ -41,7 +41,7 @@ footer{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;align-items:cent
 .links .social a{color:var(--muted)}
 .links .social a:hover{color:var(--ink)}
 .links a:hover{color:var(--ink)}
-.q{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-family:var(--serif);font-size:22px;color:var(--ink)}
+.q{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-family:var(--sans);   /* «Есть вопрос?» гротеском */ font-size:22px;color:var(--ink)}
 .write{font-family:var(--sans);font-size:12.5px;font-weight:500;background:var(--chip);padding:6px 14px;border-radius:8px;display:inline-flex;gap:8px;align-items:center}
 .write::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--dot)}
 .write:hover{background:var(--chip-hover)}
@@ -254,7 +254,7 @@ body .tag{border-radius:10px;padding:4px 7px}
 :root{--fs-ui:12px;--fs-cap:13px;--fs-body:15px;--fs-lead:clamp(18px,1.5vw,22px);--fs-h:clamp(24px,2.2vw,32px);--fs-serif:clamp(22px,2.17vw,32.5px);--ls:-.01em}
 html body,html body :where(*:not(.statement p, #intro *)){letter-spacing:var(--ls)!important;font-weight:500!important}
 /* антиква */
-html body :is(.hero,.hero *,p.lead,.title,.q){font-family:var(--serif);font-weight:400!important;letter-spacing:0!important}
+html body :is(.hero,.hero *,p.lead,.title){font-family:var(--serif);font-weight:400!important;letter-spacing:0!important}
 html body :is(.hero,p.lead,.title){font-size:var(--fs-serif);line-height:1.23}
 html body .q{font-size:22px;line-height:1.23}
 html body .q .write{font-family:var(--sans);font-weight:500!important;letter-spacing:var(--ls)!important}
