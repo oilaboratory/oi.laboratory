@@ -17,7 +17,7 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos&display=swap">
-<link rel="stylesheet" href="site.css?v=1794070220">
+<link rel="stylesheet" href="site.css?v=1794070477">
 <style>
 /* Главная: манифест и сетка проектов. Общие токены, шапка и футер — в site.css */
 
@@ -110,9 +110,11 @@ html body .lead2 ul{grid-column:4;list-style:none;margin:0;padding:0;font-size:v
   .o{left:calc(var(--mx) * 1%);top:calc(50% + var(--my) * 1vw);width:calc(var(--mr) * 2 / 7.36 * 1vw)}   /* всё от ширины экрана и от центра — раскладка точь-в-точь как в макете на любом телефоне */
   .orb-c{top:50%}
   html body .orb-c :is(h1,p){font-size:22px}
-  .lead2{grid-template-columns:1fr;row-gap:24px;padding-top:8px}
-  html body .lead2 p,html body .lead2 ul{grid-column:1;max-width:none}   /* текст на всю ширину, услуги под ним с того же края */
+  .lead2{grid-template-columns:1fr 1fr;column-gap:8px;row-gap:24px;padding-top:8px}
+  html body .lead2 p{grid-column:1/-1;max-width:none}   /* текст на всю ширину */
+  html body .lead2 ul{grid-column:2}   /* услуги — во второй колонке, по одной линии со списком сфер ниже */
 }
+@media (hover:none){.o > span::before{-webkit-backdrop-filter:none;backdrop-filter:none;background:radial-gradient(circle,transparent 80%,rgba(255,255,255,.2) 94%)}}   /* телефон: стекло без «живого» размытия — физика не тормозит */
 </style>
 
 </head>
@@ -160,8 +162,8 @@ html body .lead2 ul{grid-column:4;list-style:none;margin:0;padding:0;font-size:v
 </div>
 <div class="big" aria-hidden="true"><video src="img/people-hd2.mp4" poster="img/people-hd2.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
 
-<script src="i18n.js?v=1794070220" charset="utf-8"></script>
-<script src="projects.js?v=1794070220" charset="utf-8"></script>
+<script src="i18n.js?v=1794070477" charset="utf-8"></script>
+<script src="projects.js?v=1794070477" charset="utf-8"></script>
 <script>
 // hover: вторая фотография проекта (или .mp4) — плавно сменяет обложку при наведении. Пример: {name:"Кайрат", img:"p01", hover:"img/p01-2.jpg", tags:[...]}
 const grid = document.getElementById('grid');
@@ -253,74 +255,80 @@ const O = [...orb.querySelectorAll('.o')].map(el => {
   return { el, x: el.offsetLeft, y: el.offsetTop, vx: 0, vy: 0, sc: 1, hs: 1, live: false, drag: null, t0: (BOOT ? 2300 : 100) + turn * 500 };
 });
 addEventListener('resize', () => {   // при смене размера окна шарики сохраняют относительное место
-  const W = orb.clientWidth, H = orb.clientHeight; O.forEach(c => { c.x *= W / W0; c.y *= H / H0; }); W0 = W; H0 = H;
+  const W = orb.clientWidth, H = orb.clientHeight; O.forEach(c => { c.x *= W / W0; c.y *= H / H0; }); W0 = W; H0 = H; G = null;
 });
 const T0 = performance.now(), DUR = 2400, ease = t => 1 - Math.pow(1 - t, 4), FR = .86, BOUNCE = .5;
+// размеры и места кругов, рамки надписи — считаем один раз (и при смене размера окна), а не в каждом кадре: так нет подтормаживаний
+let G = null;
+const measure = () => {
+  const ob = orb.getBoundingClientRect();
+  O.forEach(c => { c.bx = c.el.offsetLeft; c.by = c.el.offsetTop; c.r = c.el.offsetWidth / 2; });
+  G = { W: orb.clientWidth, H: orb.clientHeight, tb: [orbT, orbP].map(e => { const r = e.getBoundingClientRect(); return [r.left - ob.left - 18, r.top - ob.top - 18, r.right - ob.left + 18, r.bottom - ob.top + 18]; }) };
+};
+addEventListener('resize', () => { G = null; wake(); });
+let raf = 0;
+const wake = () => { if (!raf) raf = requestAnimationFrame(tick); };
+/* физика без отскоков: шарики только расталкивают друг друга (неупруго) и упираются в края и надпись — без дрожания и прыжков */
 const tick = now => {
-  const W = orb.clientWidth, H = orb.clientHeight, cx = W / 2, cy = H * .44;
+  raf = 0; if (!G) measure();
+  const { W, H, tb } = G, cx = W / 2, cy = H * .44;
+  let busy = false;
   for (const c of O) {
-    c.r = c.el.offsetWidth / 2;
-    if (c.drag) { c.vx += (c.drag.px - c.x) * .03 - c.vx * .3; c.vy += (c.drag.py - c.y) * .03 - c.vy * .3; }   // пружина к пальцу: мягкая, шарик весомый и догоняет руку с запаздыванием
-    else { const f = Math.hypot(c.vx, c.vy) < 1.5 ? .8 : FR; c.vx *= f; c.vy *= f; }   // медленное движение гасится быстро, бросок катится дольше
-    if (Math.abs(c.vx) + Math.abs(c.vy) < .03 && !c.drag) { c.vx = c.vy = 0; }
+    if (c.drag) { c.vx += (c.drag.px - c.x) * .03 - c.vx * .3; c.vy += (c.drag.py - c.y) * .03 - c.vy * .3; }   // пружина к пальцу
+    else { const f = Math.hypot(c.vx, c.vy) < 1.5 ? .8 : FR; c.vx *= f; c.vy *= f; if (Math.abs(c.vx) + Math.abs(c.vy) < .05) c.vx = c.vy = 0; }
     c.x += c.vx; c.y += c.vy;
-    if (c.vx || c.vy || c.drag) c.live = true;
-    if (c.live) {   // мягкий отскок от краёв поля
-      if (c.x < c.r) { c.x = c.r; c.vx = Math.abs(c.vx) * BOUNCE; } else if (c.x > W - c.r) { c.x = W - c.r; c.vx = -Math.abs(c.vx) * BOUNCE; }
-      if (c.y < c.r) { c.y = c.r; c.vy = Math.abs(c.vy) * BOUNCE; } else if (c.y > H - c.r) { c.y = H - c.r; c.vy = -Math.abs(c.vy) * BOUNCE; }
+    if (c.vx || c.vy || c.drag) { c.live = true; busy = true; }
+  }
+  for (let it = 0; it < 3; it++) {   // несколько проходов — шарики спокойно «укладываются», даже если прижаты к краю
+    for (let i = 0; i < O.length; i++) for (let j = i + 1; j < O.length; j++) {
+      const a = O[i], b = O[j]; if (!(a.live || b.live) || !(a.drag || b.drag || a.vx || a.vy || b.vx || b.vy)) continue;
+      const dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy) || .01, min = a.r + b.r + 2; if (d >= min) continue;
+      const nx = dx / d, ny = dy / d, ma = a.drag ? 1e6 : a.r * a.r, mb = b.drag ? 1e6 : b.r * b.r, over = min - d, ka = mb / (ma + mb), kb = ma / (ma + mb);
+      a.x -= nx * over * ka; a.y -= ny * over * ka; b.x += nx * over * kb; b.y += ny * over * kb;
+      const rv = (b.vx - a.vx) * nx + (b.vy - a.vy) * ny;
+      if (rv < 0) { a.vx += rv * nx * ka; a.vy += rv * ny * ka; b.vx -= rv * nx * kb; b.vy -= rv * ny * kb; }   // неупруго: сближение гасится, без отскока
+      a.live = b.live = true;
+    }
+    for (const c of O) {
+      if (!c.live) continue;
+      if (c.x < c.r) { c.x = c.r; c.vx = Math.max(0, c.vx); } else if (c.x > W - c.r) { c.x = W - c.r; c.vx = Math.min(0, c.vx); }
+      if (c.y < c.r) { c.y = c.r; c.vy = Math.max(0, c.vy); } else if (c.y > H - c.r) { c.y = H - c.r; c.vy = Math.min(0, c.vy); }
+      for (const [l, t, r, b] of tb) {
+        const qx = Math.max(l, Math.min(c.x, r)), qy = Math.max(t, Math.min(c.y, b)), dx = c.x - qx, dy = c.y - qy, d = Math.hypot(dx, dy);
+        if (d >= c.r) continue;
+        let nx, ny, over;
+        if (d > .01) { nx = dx / d; ny = dy / d; over = c.r - d; }
+        else { const e = [c.x - l, r - c.x, c.y - t, b - c.y], m = Math.min(...e), k = e.indexOf(m); nx = [-1, 1, 0, 0][k]; ny = [0, 0, -1, 1][k]; over = m + c.r; }
+        c.x += nx * over; c.y += ny * over;
+        const vn = c.vx * nx + c.vy * ny; if (vn < 0) { c.vx -= vn * nx; c.vy -= vn * ny; }
+      }
     }
   }
-  // столкновения: только если хотя бы один шарик в движении — исходные «пары внахлёст» из макета не разлетаются сами
-  for (let i = 0; i < O.length; i++) for (let j = i + 1; j < O.length; j++) {
-    const a = O[i], b = O[j]; if (!(a.drag || b.drag || a.vx || a.vy || b.vx || b.vy)) continue;
-    const dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy) || .01, min = a.r + b.r + 2; if (d >= min) continue;
-    const nx = dx / d, ny = dy / d, ma = a.r * a.r * (a.drag ? 2 : 1), mb = b.r * b.r * (b.drag ? 2 : 1), over = min - d;   // взятый шарик тяжелее, но соседи упираются
-    const soft = over * .6;   // расталкивание по чуть-чуть каждый кадр — без резких «щелчков»
-    a.x -= nx * soft * mb / (ma + mb); a.y -= ny * soft * mb / (ma + mb); b.x += nx * soft * ma / (ma + mb); b.y += ny * soft * ma / (ma + mb);
-    const rv = (b.vx - a.vx) * nx + (b.vy - a.vy) * ny;
-    if (a.drag || b.drag) {
-      // удар взятым шаром: он как бита — сосед отпрыгивает со скоростью удара ×2,2 (минимум небольшой «отскок», даже при медленном касании)
-      const [hit, by, sgn] = a.drag ? [b, a, 1] : [a, b, -1], kick = Math.max(9, -rv * 2.2);
-      const vn = (hit.vx - by.vx) * nx * sgn + (hit.vy - by.vy) * ny * sgn;
-      if (vn < kick) { hit.vx += (kick - vn) * nx * sgn; hit.vy += (kick - vn) * ny * sgn; }
-    } else if (rv < 0) { const imp = -(1 + .9) * rv / (1 / ma + 1 / mb); a.vx -= imp / ma * nx; a.vy -= imp / ma * ny; b.vx += imp / mb * nx; b.vy += imp / mb * ny; }   // упругий удар, как шары в боулинге: импульс передаётся соседу
-    a.live = b.live = true;
-  }
-  // надпись в центре — неподвижный объект: шарики к ней не прикасаются и мягко отталкиваются (зазор 18px)
-  const ob = orb.getBoundingClientRect(), tb = [orbT.getBoundingClientRect(), orbP.getBoundingClientRect()].map(r => [r.left - ob.left - 18, r.top - ob.top - 18, r.right - ob.left + 18, r.bottom - ob.top + 18]);
-  for (const c of O) if (c.live) for (const [l, t, r, b] of tb) {
-    const qx = Math.max(l, Math.min(c.x, r)), qy = Math.max(t, Math.min(c.y, b)), dx = c.x - qx, dy = c.y - qy, d = Math.hypot(dx, dy);
-    if (d >= c.r) continue;
-    let nx, ny, over;
-    if (d > .01) { nx = dx / d; ny = dy / d; over = c.r - d; }
-    else { const e = [c.x - l, r - c.x, c.y - t, b - c.y], m = Math.min(...e), k = e.indexOf(m); nx = [-1, 1, 0, 0][k]; ny = [0, 0, -1, 1][k]; over = m + c.r; }   // центр внутри — выталкиваем к ближнему краю
-    c.x += nx * over; c.y += ny * over;
-    const vn = c.vx * nx + c.vy * ny; if (vn < 0) { c.vx -= (1 + BOUNCE) * vn * nx; c.vy -= (1 + BOUNCE) * vn * ny; }
-  }
   for (const c of O) {
-    const bx = c.el.offsetLeft, by = c.el.offsetTop;   // место по макету
     const t = STILL ? 1 : Math.min(1, Math.max(0, (now - T0 - c.t0) / DUR)), e = ease(t);
-    const a = (-14 * Math.PI / 180) * (1 - e), k = .84 + .16 * e,   /* лёгкий доворот и «наезд»: круги не проходят через надпись */ vx0 = c.x - cx, vy0 = c.y - cy;
+    if (t < 1) busy = true;
+    const ns = c.sc + (c.hs - c.sc) * .08; if (Math.abs(ns - c.hs) > .0005) busy = true; c.sc = Math.abs(ns - c.hs) > .0005 ? ns : c.hs;
+    const a = (-14 * Math.PI / 180) * (1 - e), k = .84 + .16 * e, vx0 = c.x - cx, vy0 = c.y - cy;   // вход: лёгкий доворот и «наезд»
     const px = cx + (vx0 * Math.cos(a) - vy0 * Math.sin(a)) * k, py = cy + (vx0 * Math.sin(a) + vy0 * Math.cos(a)) * k;
-    c.sc += (c.hs - c.sc) * .05;
-    c.el.style.transform = `translate3d(${(px - bx).toFixed(2)}px,${(py - by).toFixed(2)}px,0) scale(${((.55 + .45 * e) * c.sc).toFixed(4)})`;
-    c.el.style.opacity = Math.min(1, t * 3).toFixed(3);
+    const tr = `translate3d(${(px - c.bx).toFixed(1)}px,${(py - c.by).toFixed(1)}px,0) scale(${((.55 + .45 * e) * c.sc).toFixed(3)})`;
+    if (tr !== c.tr) { c.el.style.transform = c.tr = tr; }   // в DOM пишем только когда что-то изменилось
+    const op = Math.min(1, t * 3).toFixed(2); if (op !== c.op) c.el.style.opacity = c.op = op;
   }
-  requestAnimationFrame(tick);
+  if (busy) raf = requestAnimationFrame(tick);   // всё стоит — цикл засыпает, пока круг не тронут
 };
-requestAnimationFrame(tick);
+wake();
 const orbBox = () => orb.getBoundingClientRect();
 O.forEach(c => {
   const el = c.el;
-  el.addEventListener('pointerenter', () => { if (fine && !c.drag) c.hs = 1.02; });
-  el.addEventListener('pointerleave', () => { if (!c.drag) c.hs = 1; });
+  el.addEventListener('pointerenter', () => { if (fine && !c.drag) { c.hs = 1.02; wake(); } });
+  el.addEventListener('pointerleave', () => { if (!c.drag) { c.hs = 1; wake(); } });
   el.addEventListener('pointerdown', e => {
     e.preventDefault(); el.setPointerCapture(e.pointerId); el.classList.add('drag'); el.style.zIndex = ++zTop;
-    const b = orbBox(); c.drag = { dx: c.x - (e.clientX - b.left), dy: c.y - (e.clientY - b.top), px: c.x, py: c.y }; c.hs = 1.03;
+    const b = orbBox(); c.drag = { dx: c.x - (e.clientX - b.left), dy: c.y - (e.clientY - b.top), px: c.x, py: c.y }; c.hs = 1.03; wake();
   });
-  el.addEventListener('pointermove', e => { if (!c.drag) return; const b = orbBox(); c.drag.px = e.clientX - b.left + c.drag.dx; c.drag.py = e.clientY - b.top + c.drag.dy; });
+  el.addEventListener('pointermove', e => { if (!c.drag) return; const b = orbBox(); c.drag.px = e.clientX - b.left + c.drag.dx; c.drag.py = e.clientY - b.top + c.drag.dy; wake(); });
   const drop = () => { if (!c.drag) return; c.drag = null; el.classList.remove('drag'); c.hs = fine && el.matches(':hover') ? 1.02 : 1;
-    const v = Math.hypot(c.vx, c.vy); if (v > 8) { c.vx *= 8 / v; c.vy *= 8 / v; } };   // предел скорости броска
+    const v = Math.hypot(c.vx, c.vy); if (v > 8) { c.vx *= 8 / v; c.vy *= 8 / v; } wake(); };   // предел скорости броска
   el.addEventListener('pointerup', drop); el.addEventListener('pointercancel', drop);
 });
 window.pageRender = () => {
