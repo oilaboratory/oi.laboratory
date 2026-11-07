@@ -1,5 +1,5 @@
 #!/bin/sh
-# Черновик: правки уходят в ветку draft (сайт не меняется). Посмотреть: https://raw.githack.com/oilaboratory/oi.laboratory/draft/index.html
+# Черновик: правки уходят в ветку draft (сайт не меняется). Ссылку на просмотр скрипт печатает в конце.
 set -e
 cd "$(dirname "$0")"
 git checkout -q draft
@@ -8,3 +8,5 @@ sed -i -E "s#(site\.css|i18n\.js|projects\.js)(\?v=[0-9]+)?\"#\1?v=$v\"#g" *.htm
 git add -A
 git -c user.name="oilaboratory" -c user.email="oi.lab.team@proton.me" commit -qm "${1:-Draft}" || true
 git push -q -u origin draft
+# ссылка на ветку у githack кэшируется надолго — даём ссылку на конкретный коммит, она всегда свежая
+echo "https://raw.githack.com/oilaboratory/oi.laboratory/$(git rev-parse HEAD)/index.html"
