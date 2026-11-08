@@ -17,7 +17,7 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos&display=swap">
-<link rel="stylesheet" href="site.css?v=1794160642">
+<link rel="stylesheet" href="site.css?v=1794160979">
 <style>
 /* Главная: манифест и сетка проектов. Общие токены, шапка и футер — в site.css */
 
@@ -159,8 +159,8 @@ html body .lead2 ul{grid-column:4;list-style:none;margin:0;padding:0;font-size:v
 </div>
 <div class="big" aria-hidden="true"><video src="img/people-hd2.mp4" poster="img/people-hd2.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
 
-<script src="i18n.js?v=1794160642" charset="utf-8"></script>
-<script src="projects.js?v=1794160642" charset="utf-8"></script>
+<script src="i18n.js?v=1794160979" charset="utf-8"></script>
+<script src="projects.js?v=1794160979" charset="utf-8"></script>
 <script>
 // hover: вторая фотография проекта (или .mp4) — плавно сменяет обложку при наведении. Пример: {name:"Кайрат", img:"p01", hover:"img/p01-2.jpg", tags:[...]}
 const grid = document.getElementById('grid');
@@ -238,17 +238,16 @@ orb.querySelector('#orbs').innerHTML = ORBS.map(([n, x, y, r, mx, my, mr]) => {
   return `<div class="o" style="--x:${(x/15.12).toFixed(2)};--y:${(y/7.52).toFixed(2)};--r:${r};--mx:${(mx/7.36).toFixed(2)};--my:${((my - 599)/7.36).toFixed(2)};--mr:${mr}"><span><img src="img/${p.img}.jpg" alt="${p.name}" draggable="false"></span></div>`;
 }).join('');
 
-/* Круги стоят по макету и каждый медленно описывает свой небольшой круг вокруг своего места — с разным радиусом,
-   скоростью и фазой, поэтому движение «небрежное», но спокойное и не превращается в хоровод.
+/* Круги стоят по макету и все вместе медленно описывают одинаковый небольшой ровный круг вокруг своих мест,
+   в одну сторону и в одном темпе; фазы чуть разные — лёгкая небрежность.
    Курсор рядом мягко отталкивает круги (на телефоне — палец), они плавно возвращаются. Вход — как раньше */
 const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
 const rnd = (i, k) => { const x = Math.sin(i * 12.9898 + k * 78.233) * 43758.5453; return x - Math.floor(x); };   // стабильный «случай» для каждого круга
 const O = [...orb.querySelectorAll('.o')].map((el, i) => {
   const ang = Math.atan2(el.offsetTop - orb.clientHeight * .44, el.offsetLeft - orb.clientWidth / 2), turn = ((ang + Math.PI / 2) / (2 * Math.PI) + 1) % 1;
   return { el, sc: 1, hs: 1, ox: 0, oy: 0, t0: (BOOT ? 2300 : 100) + turn * 500,
-    rad: .010 + rnd(i, 1) * .012,                      // радиус своего круга — 1–2,2% ширины экрана
-    per: 22000 + rnd(i, 2) * 18000,                    // период 22–40 с
-    ph: rnd(i, 3) * Math.PI * 2, el2: .6 + rnd(i, 4) * .4 };   // фаза и сплюснутость орбиты
+    rad: .011, per: 30000,                              // у всех одинаковый ровный круг (1,1% ширины экрана) и один темп — оборот за 30 с
+    ph: (rnd(i, 3) - .5) * 1.2 };                       // лишь небольшой разброс фазы (±35°) — чуть небрежно, но все движутся вместе
 });
 let G = null, mx = -1e4, my = -1e4;
 const measure = () => {
@@ -265,7 +264,7 @@ const tick = now => {
   const { W, H } = G, cx = W / 2, cy = H * .44, R = Math.min(W, H);
   for (const c of O) {
     const w = STILL ? 0 : (now - T0) / c.per * Math.PI * 2 + c.ph;
-    let x = c.bx + Math.cos(w) * c.rad * W, y = c.by + Math.sin(w) * c.rad * W * c.el2;
+    let x = c.bx + Math.cos(w) * c.rad * Math.max(W, 700), y = c.by + Math.sin(w) * c.rad * Math.max(W, 700);   // по часовой стрелке, ровный круг
     // отталкивание от курсора: в радиусе ~1,6 размера круга, до 40px, с плавным догоном
     const dx = x - mx, dy = y - my, d = Math.hypot(dx, dy) || 1, reach = c.r * 1.6 + 40;
     const push = d < reach ? (1 - d / reach) ** 2 * Math.min(40, R * .05) : 0;
