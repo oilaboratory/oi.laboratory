@@ -1,7 +1,7 @@
 /* Общие стили сайта Oi.Lab: токены, шапка, футер. Подключаются на всех страницах. */
 :root{
   /* цвета сняты с первого макета: тёмный текст, серый меню, светлый серый футера, плашки */
-  --bg:#ffffff; --ink:#233746; --muted:#93a0a8; --faint:#d4dade; --chip:#f0f3f4; --dot:#2bd46b; --hero:#233746; --chip-hover:#e4e8ea;
+  --bg:#ffffff; --ink:#233746; --muted:#93a0a8; --faint:#d4dade; --chip:#f0f3f4; --dot:#2bd46b; --hero:#233746; --chip-hover:#e4e8ea; --soft:#b3bec5;
   --serif:"Times New Roman","Tinos",Times,serif; /* Tinos — тот же Times по метрикам, для телефонов без Times New Roman */
   --sans:"Helvetica Neue",Helvetica,Arial,sans-serif; /* как у gaadesign.studio; на Mac и iPhone — настоящий Helvetica Neue, на остальных Arial */
   color-scheme:light;
@@ -30,12 +30,12 @@ nav a:hover,.lang:hover{color:var(--ink)}
 
 /* футер */
 /* подвал на сетке проектов: 4 колонки, всё в одну линию */
-footer{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;align-items:center;padding-block:140px 72px;font-size:13px;color:var(--faint)}
+footer{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;align-items:center;padding-block:140px 72px;font-size:13px;color:var(--soft)}
 .clocks,.links{align-content:start}
 .clocks{display:grid;grid-template-columns:1fr auto;gap:4px 24px;font-variant-numeric:tabular-nums}
 .links{display:grid;grid-template-columns:auto 1fr;gap:4px 50px}
 .social{display:inline-flex;align-items:center;gap:10px}
-.social a{display:inline-grid;place-items:center;color:var(--faint);transition:color .25s,background-color .25s}
+.social a{display:inline-grid;place-items:center;color:var(--soft);transition:color .25s,background-color .25s}
 .social a:hover{color:var(--ink)}
 .social svg{width:18px;height:18px;display:block}
 .links .social a{color:var(--muted)}
@@ -253,7 +253,7 @@ body .shuffle{display:flex;width:max-content}
 body .bd-send{border-radius:17px;height:34px;padding:0 22px}
 body .bd-links .social a{width:26px;height:26px;border-radius:13px;color:var(--muted);transition:color .25s,background-color .25s;display:inline-grid;place-items:center}
 body .bd-links .social a:hover{color:var(--ink)}
-body .tag{background:none!important;padding:0;border-radius:0;color:var(--faint)}   /* теги под проектами — светло-серым текстом, как «Almaty, KZ» в подвале, без плашки */
+body .tag{background:none!important;padding:0;border-radius:0;color:var(--soft)}   /* теги под проектами — светло-серым текстом, как «Almaty, KZ» в подвале, без плашки */
 body .tags{gap:3px 10px}
 
 /* ——— единая типографика сайта ———
