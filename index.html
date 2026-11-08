@@ -17,7 +17,7 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos&display=swap">
-<link rel="stylesheet" href="site.css?v=1794070682">
+<link rel="stylesheet" href="site.css?v=1794159913">
 <style>
 /* Главная: манифест и сетка проектов. Общие токены, шапка и футер — в site.css */
 
@@ -86,17 +86,15 @@ html.boot header,html.boot .buddy{animation:tagIn .9s ease 2.3s both}
 @keyframes tagIn{from{opacity:0;filter:blur(8px);transform:translateY(8px)}to{opacity:1;filter:none;transform:none}}
 /* круги: положение/вход/перетаскивание/инерция считает скрипт (transform), здесь — только место по макету */
 .o{position:absolute;left:calc(var(--x) * 1%);top:calc(var(--y) * 1%);width:calc(var(--r) * 2 / 15.12 * 1vw);aspect-ratio:1;translate:-50% -50%;
-  opacity:0;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
-.o.drag{cursor:grabbing}
+  opacity:0;user-select:none;-webkit-user-select:none}
 /* круги — тонкое «жидкое стекло»: картинка чуть увеличена линзой; по краю — узкое кольцо с размытием и насыщенностью (преломление),
    тонкая светлая кромка, едва заметный блик-полумесяц сверху и очень мягкая тень. Всё деликатно, без тёмных ободков */
 .o > span{position:relative;display:block;width:100%;height:100%;border-radius:50%;overflow:hidden;background:var(--chip);will-change:transform;
   box-shadow:0 10px 28px -6px rgba(20,30,40,.18),0 2px 6px rgba(20,30,40,.06)}
 .o img{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none;-webkit-user-drag:none;transform:scale(1.05)}
 .o > span::before,.o > span::after{content:"";position:absolute;inset:0;z-index:1;border-radius:50%;pointer-events:none}
-.o > span::before{   /* преломление у края: размытие и насыщенность только в узком кольце */
-  -webkit-backdrop-filter:blur(3px) saturate(1.5) brightness(1.06);backdrop-filter:blur(3px) saturate(1.5) brightness(1.06);
-  -webkit-mask:radial-gradient(circle,transparent 80%,#000 94%);mask:radial-gradient(circle,transparent 80%,#000 94%)}
+.o > span::before{   /* край линзы: светлое кольцо (без «живого» размытия — круги всё время движутся, так не тормозит) */
+  background:radial-gradient(circle,transparent 78%,rgba(255,255,255,.14) 90%,rgba(255,255,255,.26) 97%,rgba(255,255,255,.08) 100%)}
 .o > span::after{    /* тонкая кромка (ярче сверху) и узкий блик-полумесяц */
   box-shadow:inset 0 1.5px 1px rgba(255,255,255,.55),inset 0 -1px 1px rgba(255,255,255,.22),inset 0 0 0 .5px rgba(255,255,255,.35);
   background:radial-gradient(ellipse 46% 9% at 50% 7%,rgba(255,255,255,.32),rgba(255,255,255,0) 100%)}
@@ -114,7 +112,6 @@ html body .lead2 ul{grid-column:4;list-style:none;margin:0;padding:0;font-size:v
   html body .lead2 p{grid-column:1/-1;max-width:none}   /* текст на всю ширину */
   html body .lead2 ul{grid-column:2}   /* услуги — во второй колонке, по одной линии со списком сфер ниже */
 }
-@media (hover:none){.o > span::before{-webkit-backdrop-filter:none;backdrop-filter:none;background:radial-gradient(circle,transparent 80%,rgba(255,255,255,.2) 94%)}}   /* телефон: стекло без «живого» размытия — физика не тормозит */
 </style>
 
 </head>
@@ -162,8 +159,8 @@ html body .lead2 ul{grid-column:4;list-style:none;margin:0;padding:0;font-size:v
 </div>
 <div class="big" aria-hidden="true"><video src="img/people-hd2.mp4" poster="img/people-hd2.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
 
-<script src="i18n.js?v=1794070682" charset="utf-8"></script>
-<script src="projects.js?v=1794070682" charset="utf-8"></script>
+<script src="i18n.js?v=1794159913" charset="utf-8"></script>
+<script src="projects.js?v=1794159913" charset="utf-8"></script>
 <script>
 // hover: вторая фотография проекта (или .mp4) — плавно сменяет обложку при наведении. Пример: {name:"Кайрат", img:"p01", hover:"img/p01-2.jpg", tags:[...]}
 const grid = document.getElementById('grid');
@@ -241,96 +238,45 @@ orb.querySelector('#orbs').innerHTML = ORBS.map(([n, x, y, r, mx, my, mr]) => {
   return `<div class="o" style="--x:${(x/15.12).toFixed(2)};--y:${(y/7.52).toFixed(2)};--r:${r};--mx:${(mx/7.36).toFixed(2)};--my:${((my - 599)/7.36).toFixed(2)};--mr:${mr}"><span><img src="img/${p.img}.jpg" alt="${p.name}" draggable="false"></span></div>`;
 }).join('');
 
-/* Круги — шарики в общем поле (один requestAnimationFrame):
-   вход: из глубины (масштаб .55→1, расстояние до центра 84%→100%) с лёгким доворотом по часовой стрелке (−14° → 0);
-   перетаскивание: шарик мягко догоняет палец/курсор (пружина), поэтому движение плавное, без рывков;
-   столкновения: шарики расталкивают друг друга с учётом «массы» (площади); от краёв экрана мягко отскакивают;
-   инерция: после отпускания шарик катится с той скоростью, что у него была, и тормозит трением —
-   резкий бросок уходит далеко, медленный почти сразу встаёт. Пока никого не трогали, шарики стоят по макету (даже внахлёст) */
+/* Круги медленно вращаются вокруг надписи (руками не двигаются): полный оборот — 4 минуты, по часовой стрелке.
+   Орбиты — эллипсы по форме экрана, поэтому круги не уходят за края; если орбита проходит у надписи, круг мягко
+   отодвигается от неё наружу. Вход: из глубины (масштаб .55→1) с лёгким доворотом, как раньше. Наведение: +2% */
 const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
-let zTop = 10, W0 = orb.clientWidth, H0 = orb.clientHeight;
-// очерёдность появления — по кругу по часовой стрелке, начиная сверху (за ~0,5 с), чтобы круги «разворачивались» веером
 const O = [...orb.querySelectorAll('.o')].map(el => {
   const ang = Math.atan2(el.offsetTop - orb.clientHeight * .44, el.offsetLeft - orb.clientWidth / 2), turn = ((ang + Math.PI / 2) / (2 * Math.PI) + 1) % 1;
-  return { el, x: el.offsetLeft, y: el.offsetTop, vx: 0, vy: 0, sc: 1, hs: 1, live: false, drag: null, t0: (BOOT ? 2300 : 100) + turn * 500 };
+  return { el, sc: 1, hs: 1, t0: (BOOT ? 2300 : 100) + turn * 500 };
 });
-addEventListener('resize', () => {   // при смене размера окна шарики сохраняют относительное место
-  const W = orb.clientWidth, H = orb.clientHeight; O.forEach(c => { c.x *= W / W0; c.y *= H / H0; }); W0 = W; H0 = H; G = null;
-});
-const T0 = performance.now(), DUR = 2400, ease = t => 1 - Math.pow(1 - t, 4), FR = .86, BOUNCE = .5;
-// размеры и места кругов, рамки надписи — считаем один раз (и при смене размера окна), а не в каждом кадре: так нет подтормаживаний
 let G = null;
 const measure = () => {
   const ob = orb.getBoundingClientRect();
   O.forEach(c => { c.bx = c.el.offsetLeft; c.by = c.el.offsetTop; c.r = c.el.offsetWidth / 2; });
   G = { W: orb.clientWidth, H: orb.clientHeight, tb: [orbT, orbP].map(e => { const r = e.getBoundingClientRect(); return [r.left - ob.left - 18, r.top - ob.top - 18, r.right - ob.left + 18, r.bottom - ob.top + 18]; }) };
 };
-addEventListener('resize', () => { G = null; wake(); });
-let raf = 0;
-const wake = () => { if (!raf) raf = requestAnimationFrame(tick); };
-/* физика без отскоков: шарики только расталкивают друг друга (неупруго) и упираются в края и надпись — без дрожания и прыжков */
+addEventListener('resize', () => { G = null; });
+const T0 = performance.now(), DUR = 2400, ease = t => 1 - Math.pow(1 - t, 4), SPIN = 2 * Math.PI / 240000;   // рад/мс
 const tick = now => {
-  raf = 0; if (!G) measure();
-  const { W, H, tb } = G, cx = W / 2, cy = H * .44;
-  let busy = false;
+  if (!G) measure();
+  const { W, H, tb } = G, cx = W / 2, cy = H * .44, th = STILL ? 0 : (now - T0) * SPIN;
   for (const c of O) {
-    if (c.drag) { c.vx += (c.drag.px - c.x) * .03 - c.vx * .3; c.vy += (c.drag.py - c.y) * .03 - c.vy * .3; }   // пружина к пальцу
-    else { const f = Math.hypot(c.vx, c.vy) < 1.5 ? .8 : FR; c.vx *= f; c.vy *= f; if (Math.abs(c.vx) + Math.abs(c.vy) < .05) c.vx = c.vy = 0; }
-    c.x += c.vx; c.y += c.vy;
-    if (c.vx || c.vy || c.drag) { c.live = true; busy = true; }
-  }
-  for (let it = 0; it < 3; it++) {   // несколько проходов — шарики спокойно «укладываются», даже если прижаты к краю
-    for (let i = 0; i < O.length; i++) for (let j = i + 1; j < O.length; j++) {
-      const a = O[i], b = O[j]; if (!(a.live || b.live) || !(a.drag || b.drag || a.vx || a.vy || b.vx || b.vy)) continue;
-      const dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy) || .01, min = a.r + b.r + 2; if (d >= min) continue;
-      const nx = dx / d, ny = dy / d, ma = a.drag ? 1e6 : a.r * a.r, mb = b.drag ? 1e6 : b.r * b.r, over = min - d, ka = mb / (ma + mb), kb = ma / (ma + mb);
-      a.x -= nx * over * ka; a.y -= ny * over * ka; b.x += nx * over * kb; b.y += ny * over * kb;
-      const rv = (b.vx - a.vx) * nx + (b.vy - a.vy) * ny;
-      if (rv < 0) { a.vx += rv * nx * ka; a.vy += rv * ny * ka; b.vx -= rv * nx * kb; b.vy -= rv * ny * kb; }   // неупруго: сближение гасится, без отскока
-      a.live = b.live = true;
+    // место на эллиптической орбите
+    const u = (c.bx - cx) / (W / 2), v = (c.by - cy) / (H / 2), cs = Math.cos(th), sn = Math.sin(th);
+    let x = cx + (u * cs - v * sn) * W / 2, y = cy + (u * sn + v * cs) * H / 2;
+    // не заезжать на надпись: если круг задевает её, отодвигаем по лучу от центра
+    for (const [l, t, r, b] of tb) {
+      const qx = Math.max(l, Math.min(x, r)), qy = Math.max(t, Math.min(y, b)), d = Math.hypot(x - qx, y - qy);
+      if (d < c.r) { const dx = x - cx, dy = y - cy, L = Math.hypot(dx, dy) || 1; x += dx / L * (c.r - d); y += dy / L * (c.r - d); }
     }
-    for (const c of O) {
-      if (!c.live) continue;
-      if (c.x < c.r) { c.x = c.r; c.vx = Math.max(0, c.vx); } else if (c.x > W - c.r) { c.x = W - c.r; c.vx = Math.min(0, c.vx); }
-      if (c.y < c.r) { c.y = c.r; c.vy = Math.max(0, c.vy); } else if (c.y > H - c.r) { c.y = H - c.r; c.vy = Math.min(0, c.vy); }
-      for (const [l, t, r, b] of tb) {
-        const qx = Math.max(l, Math.min(c.x, r)), qy = Math.max(t, Math.min(c.y, b)), dx = c.x - qx, dy = c.y - qy, d = Math.hypot(dx, dy);
-        if (d >= c.r) continue;
-        let nx, ny, over;
-        if (d > .01) { nx = dx / d; ny = dy / d; over = c.r - d; }
-        else { const e = [c.x - l, r - c.x, c.y - t, b - c.y], m = Math.min(...e), k = e.indexOf(m); nx = [-1, 1, 0, 0][k]; ny = [0, 0, -1, 1][k]; over = m + c.r; }
-        c.x += nx * over; c.y += ny * over;
-        const vn = c.vx * nx + c.vy * ny; if (vn < 0) { c.vx -= vn * nx; c.vy -= vn * ny; }
-      }
-    }
-  }
-  for (const c of O) {
     const t = STILL ? 1 : Math.min(1, Math.max(0, (now - T0 - c.t0) / DUR)), e = ease(t);
-    if (t < 1) busy = true;
-    const ns = c.sc + (c.hs - c.sc) * .08; if (Math.abs(ns - c.hs) > .0005) busy = true; c.sc = Math.abs(ns - c.hs) > .0005 ? ns : c.hs;
-    const a = (-14 * Math.PI / 180) * (1 - e), k = .84 + .16 * e, vx0 = c.x - cx, vy0 = c.y - cy;   // вход: лёгкий доворот и «наезд»
+    c.sc += (c.hs - c.sc) * .08;
+    const a = (-14 * Math.PI / 180) * (1 - e), k = .84 + .16 * e, vx0 = x - cx, vy0 = y - cy;   // вход: лёгкий доворот и «наезд»
     const px = cx + (vx0 * Math.cos(a) - vy0 * Math.sin(a)) * k, py = cy + (vx0 * Math.sin(a) + vy0 * Math.cos(a)) * k;
-    const tr = `translate3d(${(px - c.bx).toFixed(1)}px,${(py - c.by).toFixed(1)}px,0) scale(${((.55 + .45 * e) * c.sc).toFixed(3)})`;
-    if (tr !== c.tr) { c.el.style.transform = c.tr = tr; }   // в DOM пишем только когда что-то изменилось
-    const op = Math.min(1, t * 3).toFixed(2); if (op !== c.op) c.el.style.opacity = c.op = op;
+    c.el.style.transform = `translate3d(${(px - c.bx).toFixed(1)}px,${(py - c.by).toFixed(1)}px,0) scale(${((.55 + .45 * e) * c.sc).toFixed(3)})`;
+    if (t < 1 || !c.shown) { c.el.style.opacity = Math.min(1, t * 3).toFixed(2); c.shown = t >= 1; }
   }
-  if (busy) raf = requestAnimationFrame(tick);   // всё стоит — цикл засыпает, пока круг не тронут
+  requestAnimationFrame(tick);
 };
-wake();
-const orbBox = () => orb.getBoundingClientRect();
-O.forEach(c => {
-  const el = c.el;
-  el.addEventListener('pointerenter', () => { if (fine && !c.drag) { c.hs = 1.02; wake(); } });
-  el.addEventListener('pointerleave', () => { if (!c.drag) { c.hs = 1; wake(); } });
-  el.addEventListener('pointerdown', e => {
-    e.preventDefault(); el.setPointerCapture(e.pointerId); el.classList.add('drag'); el.style.zIndex = ++zTop;
-    const b = orbBox(); c.drag = { dx: c.x - (e.clientX - b.left), dy: c.y - (e.clientY - b.top), px: c.x, py: c.y }; c.hs = 1.03; wake();
-  });
-  el.addEventListener('pointermove', e => { if (!c.drag) return; const b = orbBox(); c.drag.px = e.clientX - b.left + c.drag.dx; c.drag.py = e.clientY - b.top + c.drag.dy; wake(); });
-  const drop = () => { if (!c.drag) return; c.drag = null; el.classList.remove('drag'); c.hs = fine && el.matches(':hover') ? 1.02 : 1;
-    const v = Math.hypot(c.vx, c.vy); if (v > 8) { c.vx *= 8 / v; c.vy *= 8 / v; } wake(); };   // предел скорости броска
-  el.addEventListener('pointerup', drop); el.addEventListener('pointercancel', drop);
-});
+requestAnimationFrame(tick);
+if (fine) O.forEach(c => { c.el.addEventListener('pointerenter', () => c.hs = 1.02); c.el.addEventListener('pointerleave', () => c.hs = 1); });
 window.pageRender = () => {
   renderTag();
   document.getElementById('svc').innerHTML = t('svc').map(x => `<li>${x}</li>`).join('');
