@@ -4,6 +4,7 @@ const I18N = {
   en: {
     'nav.projects': 'Projects', 'nav.gallery': 'Gallery', 'nav.about': 'About Us', 'nav.contact': 'Contact us',
     'menu': 'Menu', 'close': 'Close', 'copied': 'Copied',
+    'tagline': 'We turn businesses into brands',
     'hero': '{WM}is a design laboratory exploring and building <span class="nw">a {ART} new</span> visual<br class="hb"> identity for Central Asia. We create brands, visual systems and design for businesses, cultural<br class="hb"> projects and people with ideas.',
     'projects': 'Projects', 'viewAll': 'All', 'spheres': 'Industry',
     'city': 'Almaty', 'cityKZ': 'Almaty, KZ',
@@ -34,6 +35,7 @@ const I18N = {
   ru: {
     'nav.projects': 'Проекты', 'nav.gallery': 'Галерея', 'nav.about': 'О нас', 'nav.contact': 'Связаться с нами',
     'menu': 'Меню', 'close': 'Закрыть', 'copied': 'Скопировано',
+    'tagline': 'Превращаем бизнес в\xa0бренд',
     'hero': '{WM}дизайн-лаборатория, которая исследует и создаёт <span class="nw">{ART} новую</span><br> визуальную идентичность Центральной Азии. Мы создаём бренды, визуальные системы и дизайн для бизнеса, культурных проектов и людей с идеями.',
     'projects': 'Проекты', 'viewAll': 'Все', 'spheres': 'Сферы',
     'city': 'Алматы', 'cityKZ': 'Алматы, KZ',
@@ -64,6 +66,7 @@ const I18N = {
   kk: {
     'nav.projects': 'Жобалар', 'nav.gallery': 'Галерея', 'nav.about': 'Біз туралы', 'nav.contact': 'Байланысу',
     'menu': 'Мәзір', 'close': 'Жабу', 'copied': 'Көшірілді',
+    'tagline': 'Бизнесті брендке айналдырамыз',
     'hero': '{WM}Орталық Азияның <span class="nw">жаңа {ART} визуалды</span> бейнесін зерттеп, жасап жатқан дизайн-зертхана. Біз бизнеске, мәдени жобаларға және идеясы бар адамдарға бренд, визуалды жүйе және дизайн жасаймыз.',
     'projects': 'Жобалар', 'viewAll': 'Барлығы', 'spheres': 'Салалар',
     'city': 'Алматы', 'cityKZ': 'Алматы, KZ',
