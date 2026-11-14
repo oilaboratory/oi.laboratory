@@ -335,7 +335,7 @@ function autoplay(){
 // тексты меню и подвала на текущем языке (перерисовываются при смене языка)
 // плавный переход: сначала плашка становится активной, потом открывается страница
 document.addEventListener('click', e => {
-  const a = e.target.closest('header nav a:not(.nav-contact)');
+  const a = e.target.closest('header nav a.nv-tab');
   if (!a || e.metaKey || e.ctrlKey || e.shiftKey || a.getAttribute('aria-current')) return;
   e.preventDefault();
   a.parentElement.querySelectorAll('a[aria-current]').forEach(x => x.removeAttribute('aria-current'));
@@ -349,7 +349,10 @@ function chromeTexts(){
   const links = [['nav.projects','./#projects'],['nav.gallery','gallery.html'],['nav.about','about.html']]
     .map(([k,h]) => `<a href="${h}"${h === cur ? ' aria-current="page"' : ''}><span>${t(k)}</span></a>`).join('') +
     `<a href="mailto:${EMAIL}" class="nav-contact"><span>${t('nav.contact')}</span></a>`;
-  document.getElementById('nav').innerHTML = links;
+  // шапка как у gionatannese.com: «Oi.Lab» + вкладки; у активной — название антиквой и номер, у остальных только номер
+  document.getElementById('nav').innerHTML = `<a class="nv-home" href="./">Oi.Lab</a><span class="nv-tabs">` +
+    [['nav.projects','./#projects'],['nav.gallery','gallery.html'],['nav.about','about.html']]
+      .map(([k,h], i) => `<a class="nv-tab" href="${h}"${h === cur ? ' aria-current="page"' : ''} title="${t(k)}"><span class="nv-l"><span>${t(k)}</span></span><sup>${i + 1}</sup></a>`).join('') + `</span>`;
   document.querySelector('#sheet nav').innerHTML = links;
   const btn = document.querySelector('.menu-btn');
   btn.firstChild.textContent = t(document.body.classList.contains('menu-open') ? 'close' : 'menu');

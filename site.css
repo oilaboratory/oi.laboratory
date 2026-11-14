@@ -282,3 +282,20 @@ html body :is(.pr-h,.peek-b h3){font-size:var(--fs-h);line-height:1.1}
 /* кнопки «Назад / Дальше» внизу кейса: плашки, название проекта тёмным */
 body .bottom-nav .pill .n{display:inline;color:var(--ink);margin-left:2px}
 body .bottom-nav .pill .d{color:var(--muted)}
+
+/* шапка как у gionatannese.com: «Oi.Lab» гротеском + вкладки в светлых плашках (радиус 4px);
+   у активной — название антиквой 15px и номер-индекс, у остальных — только номер; при переходе плашка плавно раскрывается */
+header nav{align-items:center;gap:14px}
+header nav .nv-home{all:unset;cursor:pointer;font:500 14px/1 var(--sans);color:var(--ink)}
+header nav .nv-tabs{display:flex;gap:4px}
+html body header nav a.nv-tab{all:unset;box-sizing:border-box;display:inline-flex;align-items:flex-start;height:27px;padding:6px 7px;border-radius:4px;background:rgba(237,237,237,.5);
+  color:var(--ink);cursor:pointer;transition:background-color .3s,padding .45s cubic-bezier(.23,1,.32,1)}
+header nav a.nv-tab:hover{background:rgba(225,225,225,.7)}
+header nav a.nv-tab[aria-current]{padding:6px 12px}
+header nav .nv-l{display:inline-grid;grid-template-columns:0fr;overflow:hidden;transition:grid-template-columns .45s cubic-bezier(.23,1,.32,1)}
+header nav .nv-l > span{min-width:0;white-space:nowrap;font:400 15px/1.1 var(--serif);letter-spacing:0!important;opacity:0;transition:opacity .25s}
+header nav a.nv-tab[aria-current] .nv-l{grid-template-columns:1fr}
+header nav a.nv-tab[aria-current] .nv-l > span{opacity:1;padding-right:3px;transition:opacity .3s .15s}
+header nav a.nv-tab sup{font:400 11px/1.4 var(--sans);vertical-align:baseline;position:relative;top:-1px}
+header .logo{visibility:hidden}
+@media (max-width:767px){header .logo{visibility:visible}}
